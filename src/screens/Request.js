@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { SafeAreaView, View, Text,Button, Dimensions, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, Button, Dimensions, StyleSheet, Image, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 
 const Request = () => {
     const [showwhat, setshowwhat] = useState("Experience");
     const [showwhat1, setshowwhat1] = useState("Message");
-
+const bgImage = require("../Assets/img/py-bg.png")
     const showwhatfunc = (data) => {
         setshowwhat(data);
         console.log(data);
-
+      
     };
     const showwhatfunc1 = (data) => {
         setshowwhat1(data);
@@ -22,53 +22,111 @@ const Request = () => {
                     <Text style={styles.header}>Requests</Text>
 
                 </View>
-                <View style={{ width: '40%', alignSelf: 'flex-start' ,marginBottom:20,marginLeft:20}}>
-                            <Button
-                                title="+ New Request"
-                                color="#3B71CA"
-                                // onPress={() => setModalVisible(true)}
-                                 />
-                        </View>
-                       
-                <View style={styles.mainTab}>
-                    {(() => {
-                        if (showwhat1 == "Message") {
-                            return (
-                                <View style={styles.moblieSec}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Message" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Message")}
-                                    >
-                                        <Text style={styles.ButtonText}>Message</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                    disabled={true}
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Proposal")}
-                                    >
-                                        <Text style={styles.ButtonText}>Proposal</Text>
-                                    </TouchableOpacity>
-                                    <View style={{flexDirection:"column",justifyContent:'space-between'}}>
+                <View style={{ width: '40%', alignSelf: 'flex-start', marginBottom: 20, marginLeft: 20 }}>
+                    <Button
+                        title="+ New Request"
+                        color="#3B71CA"
+                    // onPress={() => setModalVisible(true)}
+                    />
+                </View>
+                <ImageBackground source={bgImage} style={styles.bgImg}>
+                    <View style={styles.mainTab}>
+                        {(() => {
+                            if (showwhat1 == "Message") {
+                                return (
+                                    <View style={styles.moblieSec}>
                                         <TouchableOpacity
-                                                                            disabled={true}
-
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Message" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Message")}
+                                        >
+                                            <Text style={styles.ButtonText}>Message</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            disabled={true}
                                             style={[
                                                 styles.mobiletoch,
                                                 {
                                                     backgroundColor:
-                                                        showwhat1 == "Signature" ? "#2F5597" : "lightgray",marginBottom:10,marginLeft:10
+                                                        showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Proposal")}
+                                        >
+                                            <Text style={styles.ButtonText}>Proposal</Text>
+                                        </TouchableOpacity>
+                                        <View style={{ flexDirection: "column", justifyContent: 'space-between' }}>
+                                            <TouchableOpacity
+                                                disabled={true}
+
+                                                style={[
+                                                    styles.mobiletoch,
+                                                    {
+                                                        backgroundColor:
+                                                            showwhat1 == "Signature" ? "#2F5597" : "lightgray", marginBottom: 10, marginLeft: 10
+                                                    },
+                                                ]}
+                                                onPress={() => showwhatfunc1("Signature")}
+                                            >
+                                                <Text style={styles.ButtonText}>Signature Requests</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                disabled={true}
+
+                                                style={[
+                                                    styles.mobiletoch,
+                                                    {
+                                                        backgroundColor:
+                                                            showwhat1 == "Reminders" ? "#2F5597" : "lightgray",
+                                                    },
+                                                ]}
+                                                onPress={() => showwhatfunc1("Reminders")}
+                                            >
+                                                <Text style={styles.ButtonText}>Reminders</Text>
+                                            </TouchableOpacity>
+                                        </View>
+
+                                    </View>
+                                );
+                            } else if (showwhat1 == "Proposal") {
+                                return (
+                                    <View style={styles.moblieSec}>
+
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Message" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Message")}
+                                        >
+                                            <Text style={styles.ButtonText}>Message</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Proposal")}
+                                        >
+                                            <Text style={styles.ButtonText}>Proposal</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Signature" ? "#2F5597" : "lightgray",
                                                 },
                                             ]}
                                             onPress={() => showwhatfunc1("Signature")}
@@ -76,8 +134,114 @@ const Request = () => {
                                             <Text style={styles.ButtonText}>Signature Requests</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
-                                                                            disabled={true}
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Reminders" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Reminders")}
+                                        >
+                                            <Text style={styles.ButtonText}>Reminders</Text>
+                                        </TouchableOpacity>
 
+                                    </View>
+                                );
+                            } else if (showwhat1 == "Signature") {
+                                return (
+                                    <View style={styles.moblieSec}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Message" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Message")}
+                                        >
+                                            <Text style={styles.ButtonText}>Message</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Proposal")}
+                                        >
+                                            <Text style={styles.ButtonText}>Proposal</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Signature" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Signature")}
+                                        >
+                                            <Text style={styles.ButtonText}>Signature Requests</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Reminders" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Reminders")}
+                                        >
+                                            <Text style={styles.ButtonText}>Reminders</Text>
+                                        </TouchableOpacity>
+
+                                    </View>
+                                );
+                            } else {
+                                return (
+                                    <View style={styles.moblieSec}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Message" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Message")}
+                                        >
+                                            <Text style={styles.ButtonText}>Message</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Proposal")}
+                                        >
+                                            <Text style={styles.ButtonText}>Proposal</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat1 == "Signature" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc1("Signature")}
+                                        >
+                                            <Text style={styles.ButtonText}>Signature Requests</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
                                             style={[
                                                 styles.mobiletoch,
                                                 {
@@ -90,293 +254,130 @@ const Request = () => {
                                             <Text style={styles.ButtonText}>Reminders</Text>
                                         </TouchableOpacity>
                                     </View>
+                                );
+                            }
+                        })()}
+                    </View>
 
-                                </View>
-                            );
-                        } else if (showwhat1 == "Proposal") {
-                            return (
-                                <View style={styles.moblieSec}>
+                    <View style={styles.subContainer}>
 
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Message" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Message")}
-                                    >
-                                        <Text style={styles.ButtonText}>Message</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Proposal")}
-                                    >
-                                        <Text style={styles.ButtonText}>Proposal</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Signature" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Signature")}
-                                    >
-                                        <Text style={styles.ButtonText}>Signature Requests</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Reminders" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Reminders")}
-                                    >
-                                        <Text style={styles.ButtonText}>Reminders</Text>
-                                    </TouchableOpacity>
+                        {(() => {
+                            if (showwhat == "Experience") {
+                                return (
+                                    <View style={styles.moblieSec}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat == "Experience" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc("Experience")}
+                                        >
+                                            <Text style={styles.ButtonText}>Incomplete (0)</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat == "My Schools" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc("My Schools")}
+                                        >
+                                            <Text style={styles.ButtonText}>Complete (0)</Text>
+                                        </TouchableOpacity>
 
-                                </View>
-                            );
-                        } else if (showwhat1 == "Signature") {
-                            return (
-                                <View style={styles.moblieSec}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Message" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Message")}
-                                    >
-                                        <Text style={styles.ButtonText}>Message</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Proposal")}
-                                    >
-                                        <Text style={styles.ButtonText}>Proposal</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Signature" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Signature")}
-                                    >
-                                        <Text style={styles.ButtonText}>Signature Requests</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Reminders" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Reminders")}
-                                    >
-                                        <Text style={styles.ButtonText}>Reminders</Text>
-                                    </TouchableOpacity>
+                                    </View>
+                                );
+                            } else if (showwhat == "My Schools") {
+                                return (
+                                    <View style={styles.moblieSec}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat == "Experience" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc("Experience")}
+                                        >
+                                            <Text style={styles.ButtonText}>Incomplete (0)</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat == "My Schools" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc("My Schools")}
+                                        >
+                                            <Text style={styles.ButtonText}>Complete (0)</Text>
+                                        </TouchableOpacity>
 
-                                </View>
-                            );
-                        } else {
-                            return (
-                                <View style={styles.moblieSec}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Message" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Message")}
-                                    >
-                                        <Text style={styles.ButtonText}>Message</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Proposal" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Proposal")}
-                                    >
-                                        <Text style={styles.ButtonText}>Proposal</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Signature" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Signature")}
-                                    >
-                                        <Text style={styles.ButtonText}>Signature Requests</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat1 == "Reminders" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc1("Reminders")}
-                                    >
-                                        <Text style={styles.ButtonText}>Reminders</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            );
-                        }
-                    })()}
-                </View>
+                                    </View>
+                                );
+                            } else {
+                                return (
+                                    <View style={styles.moblieSec}>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.emailtoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat == "Experience" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc("Experience")}
+                                        >
+                                            <Text style={styles.ButtonText}>Incomplete (0)</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={[
+                                                styles.mobiletoch,
+                                                {
+                                                    backgroundColor:
+                                                        showwhat == "My Schools" ? "#2F5597" : "lightgray",
+                                                },
+                                            ]}
+                                            onPress={() => showwhatfunc("My Schools")}
+                                        >
+                                            <Text style={styles.ButtonText}>Complete (0)</Text>
+                                        </TouchableOpacity>
 
-                <View style={styles.subContainer}>
+                                    </View>
+                                );
+                            }
+                        })()}
 
-                    {(() => {
-                        if (showwhat == "Experience") {
-                            return (
-                                <View style={styles.moblieSec}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat == "Experience" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc("Experience")}
-                                    >
-                                        <Text style={styles.ButtonText}>Incomplete (0)</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat == "My Schools" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc("My Schools")}
-                                    >
-                                        <Text style={styles.ButtonText}>Complete (0)</Text>
-                                    </TouchableOpacity>
+                        {(() => {
+                            if (showwhat == "Experience") {
+                                return (
+                                    <ScrollView>
+                                        {/* <View style={styles.subContainer}> */}
+                                        <Text style={styles.subHead}> Results Not Found</Text>
 
-                                </View>
-                            );
-                        } else if (showwhat == "My Schools") {
-                            return (
-                                <View style={styles.moblieSec}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat == "Experience" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc("Experience")}
-                                    >
-                                        <Text style={styles.ButtonText}>Incomplete (0)</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat == "My Schools" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc("My Schools")}
-                                    >
-                                        <Text style={styles.ButtonText}>Complete (0)</Text>
-                                    </TouchableOpacity>
+                                        {/* </View> */}
+                                    </ScrollView>
+                                );
+                            } else {
+                                return (
+                                    <ScrollView>
+                                        {/* <View style={styles.subContainer}> */}
+                                        <Text style={styles.subHead}>0 Results Found</Text>
 
-                                </View>
-                            );
-                        } else {
-                            return (
-                                <View style={styles.moblieSec}>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.emailtoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat == "Experience" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc("Experience")}
-                                    >
-                                        <Text style={styles.ButtonText}>Incomplete (0)</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[
-                                            styles.mobiletoch,
-                                            {
-                                                backgroundColor:
-                                                    showwhat == "My Schools" ? "#2F5597" : "lightgray",
-                                            },
-                                        ]}
-                                        onPress={() => showwhatfunc("My Schools")}
-                                    >
-                                        <Text style={styles.ButtonText}>Complete (0)</Text>
-                                    </TouchableOpacity>
-
-                                </View>
-                            );
-                        }
-                    })()}
-
-                    {(() => {
-                        if (showwhat == "Experience") {
-                            return (
-                                <ScrollView>
-                                    {/* <View style={styles.subContainer}> */}
-                                    <Text style={styles.subHead}> Results Not Found</Text>
-
-                                    {/* </View> */}
-                                </ScrollView>
-                            );
-                        } else {
-                            return (
-                                <ScrollView>
-                                    {/* <View style={styles.subContainer}> */}
-                                    <Text style={styles.subHead}>0 Results Found</Text>
-
-                                    {/* </View> */}
-                                </ScrollView>
-                            );
-                        }
-                    })()}
-                </View>
+                                        {/* </View> */}
+                                    </ScrollView>
+                                );
+                            }
+                        })()}
+                    </View>
+                </ImageBackground>
             </View>
         </SafeAreaView>
     )
@@ -384,11 +385,15 @@ const Request = () => {
 
 export default Request
 const styles = StyleSheet.create({
+    bgImg:{
+        height:480
+    },
     mainTab: {
         backgroundColor: '#fff',
         width: '100%',
         borderRadius: 50,
-        height: 120
+        height: 120,
+        marginTop:20
     },
     header: {
         fontSize: 28,
