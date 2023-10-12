@@ -245,6 +245,11 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {enableScreens} from 'react-native-screens';
 import Splash from '../screens/Splash';
 import Drawer from './Drawer';
+import Request from '../screens/Request';
+import MyInfo from '../screens/MyInfo';
+import Payments from '../screens/Payments';
+import FileCabinet from '../screens/FileCabinet';
+import Manager from '../screens/Manager';
 enableScreens();
 
 const SignStack = createStackNavigator();
@@ -318,6 +323,21 @@ function MyDrawer3({navigation, route}) {
         name="Home"
         component={MainNavigation1}
       />
+         <Drawer3.Screen
+        navigation={navigation}
+        name="Payments"
+        component={Payments}
+      />
+       <Drawer3.Screen
+        navigation={navigation}
+        name="FileCabinet"
+        component={FileCabinet}
+      />
+       <Drawer3.Screen
+        navigation={navigation}
+        name="Manager"
+        component={Manager}
+      />
       {/* <Drawer.Screen name="Home2" component={MainNavigation2} /> */}
 
       {/* <Drawer.Screen name="Home" component={MainNavigation1} /> */}
@@ -330,8 +350,10 @@ const Tab = createMaterialBottomTabNavigator();
 function MainNavigation1() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={ClientInfo} />
+      <Tab.Screen name="Dashboard" component={HomeScreen} />
+      <Tab.Screen name="ClientInfo" component={ClientInfo} />
+      <Tab.Screen name="MyInfo" component={MyInfo} />
+      <Tab.Screen name="Requests" component={Request} />
     </Tab.Navigator>
   );
 }
