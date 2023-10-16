@@ -18,9 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import Icon1 from 'react-native-vector-icons/FontAwesome';
-import Icon2 from 'react-native-vector-icons/MaterialIcons';
+
 const Drawer = () => {
   const navigation = useNavigation();
 
@@ -44,7 +42,6 @@ const Drawer = () => {
           onPress={() => {
             navigation.navigate('Dashboard');
           }}>
-          <Icon2 style={styles.icon} name="home" size={20} color="#fff" />
           <Text style={styles.screenNameText}>Home</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -56,8 +53,6 @@ const Drawer = () => {
           onPress={() => {
             navigation.navigate('ClientInfo');
           }}>
-          <Icon2 style={styles.icon} name="groups" size={20} color="#fff" />
-
           <Text style={styles.screenNameText}>Client Info</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -69,8 +64,6 @@ const Drawer = () => {
           onPress={() => {
             navigation.navigate('Manager');
           }}>
-          <Icon2 style={styles.icon} name="person" size={20} color="#fff" />
-
           <Text style={styles.screenNameText}>Manager</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -82,8 +75,6 @@ const Drawer = () => {
           onPress={() => {
             navigation.navigate('Payments');
           }}>
-          <Icon2 style={styles.icon} name="payment" size={20} color="#fff" />
-
           <Text style={styles.screenNameText}>Payments</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -95,13 +86,6 @@ const Drawer = () => {
           onPress={() => {
             navigation.navigate('FileCabinet');
           }}>
-          <Icon2
-            name="upload-file"
-            style={styles.icon}
-            size={20}
-            color="#fff"
-          />
-
           <Text style={styles.screenNameText}>File Cabinet</Text>
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
@@ -113,13 +97,6 @@ const Drawer = () => {
           onPress={() => {
             navigation.navigate('Requests');
           }}>
-          <Icon2
-            style={styles.icon}
-            name="request-quote"
-            size={20}
-            color="#fff"
-          />
-
           <Text style={styles.screenNameText}>Requests</Text>
         </TouchableOpacity>
         <View style={styles.part}></View>
@@ -225,16 +202,11 @@ const styles = StyleSheet.create({
   },
   screenName: {
     marginVertical: 10,
-    flexDirection: 'row',
   },
   screenNameText: {
     color: '#fff',
-    marginLeft: 10,
+    marginLeft: 30,
     marginVertical: 9,
     fontWeight: '600',
-  },
-  icon: {
-    marginLeft: 20,
-    marginTop: 7,
   },
 });

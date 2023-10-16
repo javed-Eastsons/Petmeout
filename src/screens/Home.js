@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,165 +9,744 @@ import {
   Image,
   Button,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
+import Carousel from 'react-native-reanimated-carousel';
+import Icon1 from 'react-native-vector-icons/MaterialIcons';
+import Icon2 from 'react-native-vector-icons/Fontisto';
+import Icon3 from 'react-native-vector-icons/FontAwesome5';
+
 const HomeScreen = () => {
+  const width = Dimensions.get('window').width;
+  const [showwhat1, setshowwhat1] = useState('Message');
+
+  const showwhatfunc1 = data => {
+    setshowwhat1(data);
+    console.log(data);
+  };
+  const data = [
+    {
+      id: 1,
+      Title: 'Need Payroll?',
+      subHead: 'We Can Help You With Your Company’s Payroll!',
+      footHead: 'Contact Us For More Info!',
+      img: require('../Assets/img/gdb-img1.png'),
+    },
+    {
+      id: 2,
+      Title: 'Bring a friend!',
+      subHead:
+        'Earn $50 In Your Next Order By Referring Friend To Us ByUsing The Code FRIEND50OFF',
+      footHead: 'Call Us To Learn More!',
+      img: require('../Assets/img/gdb-img2.png'),
+    },
+    {
+      id: 3,
+      Title: 'You Still Haven’t File Your Taxes?',
+      subHead: 'Schedule Your Virtual Tax Return Now!',
+      footHead: 'Call Us For More Information!',
+      img: require('../Assets/img/gdb-img3.png'),
+    },
+    {
+      id: 4,
+      Title: 'Incorporations',
+      subHead: 'Create A New Company Today!',
+      footHead: 'Learn The Benefits of Having A US Company',
+      img: require('../Assets/img/gdb-img4.png'),
+    },
+    {
+      id: 5,
+      Title: 'Wanna Move To The USA?',
+      subHead: 'Franchise With Us!',
+      footHead: 'Contact Us For More Info!',
+      img: require('../Assets/img/gdb-img5.png'),
+    },
+    {
+      id: 6,
+      Title: 'Need Bookkeeping?',
+      subHead: 'Add A Bookkeeping Plan To Your Business!',
+      footHead: 'Contact Us TO Book It!',
+      img: require('../Assets/img/gdb-img6.png'),
+    },
+  ];
+  const renderItem = ({item}) => (
+    <TouchableOpacity
+      style={styles.cardSlider}
+      // onPress={toggleModal}
+    >
+      <View style={styles.cardShadow}>
+        <Image source={item.img} style={styles.Slidericons} />
+      </View>
+      <View>
+        <Text style={styles.postText}>{item.Title}</Text>
+      </View>
+      <View style={{padding: 5}}>
+        <Text numberOfLines={3} style={styles.sliderText}>
+          {item.subHead}
+        </Text>
+        <Text style={styles.info}>{item.footHead}</Text>
+        <TouchableOpacity style={styles.btn}>
+          <Icon1
+            style={[
+              styles.icon,
+              {
+                color: '#fff',
+              },
+            ]}
+            name="call"
+            size={20}
+            color="#fff"
+          />
+          <Text style={{color: '#fff', marginLeft: 10}}>987654</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
+  );
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>
-        Thank you for being our client since 2023
-      </Text>
-      <View style={styles.slideContainer}>
-        <ScrollView contentContainerStyle={{padding: 5}} horizontal={true}>
-          <TouchableOpacity
-            style={styles.cardSlider}
-            // onPress={toggleModal}
-          >
-            <View style={styles.cardShadow}>
-              <Image
-                source={require('../Assets/img/gdb-img1.png')}
-                style={styles.Slidericons}
-              />
-            </View>
-            <View>
-              <Text style={styles.postText}>Need Payroll?</Text>
-            </View>
-            <View style={{padding: 5}}>
-              <Text numberOfLines={3} style={styles.sliderText}>
-                We Can Help You With Your Company’s Payroll!
-              </Text>
-              <Text style={styles.info}>Contact Us For More Info!</Text>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={{color: '#fff'}}>987654</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.cardSlider, styles.shadowPropSlider]}
-            // onPress={toggleModal}
-          >
-            <View style={styles.cardShadow}>
-              <Image
-                source={require('../Assets/img/gdb-img2.png')}
-                style={styles.Slidericons}
-              />
-            </View>
-            {/* <Image source={require('../Assets/OurTutors.png')}
-                                style={styles.Slidericons}
-                            /> */}
-            <Text style={styles.postText}>Bring a friend!</Text>
-            <View style={{padding: 5}}>
-              <Text numberOfLines={3} style={styles.sliderText}>
-                Earn $50 In Your Next Order By Referring a{'\n'} Friend To Us By
-                Using The Code FRIEND50OFF
-              </Text>
-              <Text style={styles.info}>Call Us To Learn More!</Text>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={{color: '#fff'}}>987654</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.cardSlider, styles.shadowPropSlider]}
-            // onPress={toggleModal}
-          >
-            <View style={styles.cardShadow}>
-              <Image
-                source={require('../Assets/img/gdb-img3.png')}
-                style={styles.Slidericons}
-              />
-            </View>
-            {/* <Image source={require('../Assets/OurService.png')}
-                                style={styles.Slidericons}
-                            /> */}
-            <Text style={styles.postText}>
-              You Still Haven’t{'\n'} File Your Taxes?
-            </Text>
-            <View style={{padding: 5}}>
-              <Text numberOfLines={3} style={styles.sliderText}>
-                Schedule Your Virtual Tax Return Now!
-              </Text>
-              <Text style={styles.info}>Call Us For More Information!</Text>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={{color: '#fff'}}>987654</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.cardSlider, styles.shadowPropSlider]}
-            // onPress={toggleModal}
-          >
-            <View style={styles.cardShadow}>
-              <Image
-                source={require('../Assets/img/gdb-img4.png')}
-                style={styles.Slidericons}
-              />
-            </View>
-            {/* <Image source={require('../Assets/MyActivities.png')}
-                                style={styles.Slidericons}
-                            /> */}
-            <Text style={styles.postText}>Incorporations</Text>
-            <View style={{padding: 5}}>
-              <Text numberOfLines={3} style={styles.sliderText}>
-                Create A New Company Today!
-              </Text>
-              <Text style={styles.info}>
-                Learn The Benefits of Having A US Company
-              </Text>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={{color: '#fff'}}>987654</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+      <ScrollView>
+        <Text style={styles.heading}>
+          Thank you for being our client since 2023
+        </Text>
 
-          <TouchableOpacity
-            style={[styles.cardSlider, styles.shadowPropSlider]}
-            // onPress={toggleModal}
-          >
-            <View style={styles.cardShadow}>
-              <Image
-                source={require('../Assets/img/gdb-img5.png')}
-                style={styles.Slidericons}
-              />
+        <View style={styles.slideContainer}>
+          <View style={styles.mainTab}>
+            {(() => {
+              if (showwhat1 == 'Message') {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <TouchableOpacity
+                      style={[
+                        styles.emailtoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Message')}>
+                      <Icon3
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="money-check-alt"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Tax
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Proposal')}>
+                      <Icon
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="message1"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Messages
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Signature')}>
+                      <Icon1
+                        style={[
+                          styles.icon,
+                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                        ]}
+                        name="event"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Events
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Reminders')}>
+                      <Icon2
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="holiday-village"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Holidays
+                      </Text>
+                    </TouchableOpacity>
+                    {/* </View> */}
+                  </View>
+                );
+              } else if (showwhat1 == 'Proposal') {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <TouchableOpacity
+                      style={[
+                        styles.emailtoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Message')}>
+                      <Icon3
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="money-check-alt"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Tax
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Proposal')}>
+                      <Icon
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="message1"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Messages
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Signature')}>
+                      <Icon1
+                        style={[
+                          styles.icon,
+                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                        ]}
+                        name="event"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Events
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Reminders')}>
+                      <Icon2
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="holiday-village"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Holidays
+                      </Text>
+                    </TouchableOpacity>
+                    {/* </View> */}
+                  </View>
+                );
+              } else if (showwhat1 == 'Signature') {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <TouchableOpacity
+                      style={[
+                        styles.emailtoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Message')}>
+                      <Icon3
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="money-check-alt"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Tax
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Proposal')}>
+                      <Icon
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="message1"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Messages
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Signature')}>
+                      <Icon1
+                        style={[
+                          styles.icon,
+                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                        ]}
+                        name="event"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Events
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Reminders')}>
+                      <Icon2
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="holiday-village"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Holidays
+                      </Text>
+                    </TouchableOpacity>
+                    {/* </View> */}
+                  </View>
+                );
+              } else {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <TouchableOpacity
+                      style={[
+                        styles.emailtoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Message')}>
+                      <Icon3
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="money-check-alt"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Tax
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Proposal')}>
+                      <Icon
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="message1"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Messages
+                      </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Signature')}>
+                      <Icon1
+                        style={[
+                          styles.icon,
+                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                        ]}
+                        name="event"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Events
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Reminders')}>
+                      <Icon2
+                        style={[
+                          styles.icon,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}
+                        name="holiday-village"
+                        size={20}
+                        color="#fff"
+                      />
+
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        Holidays
+                      </Text>
+                    </TouchableOpacity>
+                    {/* </View> */}
+                  </View>
+                );
+              }
+            })()}
+          </View>
+          {(() => {
+            if (showwhat1 == 'Message') {
+              return (
+                <ScrollView>
+                  {/* <View style={styles.subContainer}> */}
+                  <View style={styles.part}></View>
+
+                  <Text style={styles.subHead}> Message Not Found</Text>
+
+                  {/* </View> */}
+                </ScrollView>
+              );
+            } else if (showwhat1 == 'Proposal') {
+              return (
+                <ScrollView>
+                  <View style={styles.part}></View>
+
+                  {/* <View style={styles.subContainer}> */}
+                  <Text style={styles.subHead}>Proposal Results Found</Text>
+
+                  {/* </View> */}
+                </ScrollView>
+              );
+            } else if (showwhat1 == 'Signature') {
+              return (
+                <ScrollView>
+                  <View style={styles.part}></View>
+
+                  {/* <View style={styles.subContainer}> */}
+                  <Text style={styles.subHead}>Signature Results Found</Text>
+
+                  {/* </View> */}
+                </ScrollView>
+              );
+            } else {
+              return (
+                <ScrollView>
+                  <View style={styles.part}></View>
+
+                  {/* <View style={styles.subContainer}> */}
+                  <Text style={styles.subHead}>Reminders Not Found</Text>
+
+                  {/* </View> */}
+                </ScrollView>
+              );
+            }
+          })()}
+        </View>
+
+        <View style={{flex: 1, marginTop: 20, marginLeft: 20}}>
+          <Carousel
+            loop
+            width={width}
+            height={width}
+            autoPlay={true}
+            data={data}
+            scrollAnimationDuration={3000}
+            onSnapToItem={index => console.log('current index:', index)}
+            renderItem={renderItem}
+          />
+        </View>
+
+        <View style={styles.slideContainer}>
+          <Image
+            source={require('../Assets/profileBlank.png')}
+            style={styles.profileImg}
+          />
+          <Text style={styles.headText}>Prince Eastsons</Text>
+          <Text style={styles.headText1}>Get in Touch !</Text>
+          <ScrollView nestedScrollEnabled={true}>
+            <View style={styles.infoHead}>
+              <Text style={styles.infoHeadText}> Office Information</Text>
             </View>
-            {/* <Image source={require('../Assets/Promotion.png')}
-                                style={styles.Slidericons}
-                            /> */}
-            <Text style={styles.postText}>Wanna Move To The{'\n'} USA? </Text>
-            <View style={{padding: 5}}>
-              <Text numberOfLines={3} style={styles.sliderText}>
-                Franchise With Us!
-              </Text>
-              <Text style={styles.info}>Contact Us For More Info!</Text>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={{color: '#fff'}}>987654</Text>
-              </TouchableOpacity>
+            <Text style={styles.ofcInfotxt1}>
+              {' '}
+              <Icon
+                style={styles.icon}
+                name="phone"
+                size={20}
+                color="#000"
+              />{' '}
+              987654
+            </Text>
+            <Text style={styles.ofcInfotxt}>
+              <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
+              miamidade@taxleaf.com
+            </Text>
+            <View style={styles.infoHead}>
+              <Text style={styles.infoHeadText}> Staff Information</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.cardSlider, styles.shadowPropSlider]}
-            // onPress={toggleModal}
-          >
-            <View style={styles.cardShadow}>
-              <Image
-                source={require('../Assets/img/gdb-img6.png')}
-                style={styles.Slidericons}
-              />
-            </View>
-            {/* <Image source={require('../Assets/Promotion.png')}
-                                style={styles.Slidericons}
-                            /> */}
-            <Text style={styles.postText}>Need Bookkeeping? </Text>
-            <View style={{padding: 5}}>
-              <Text numberOfLines={3} style={styles.sliderText}>
-                Add A Bookkeeping Plan To Your Business!
-              </Text>
-              <Text style={styles.info}>Contact Us TO Book It!</Text>
-              <TouchableOpacity style={styles.btn}>
-                <Text style={{color: '#fff'}}>987654</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
+            <Text style={styles.ofcInfotxt1}>
+              {' '}
+              <Icon
+                style={styles.icon}
+                name="phone"
+                size={20}
+                color="#000"
+              />{' '}
+              987654
+            </Text>
+            <Text style={styles.ofcInfotxt}>
+              <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
+              miamidade@taxleaf.com
+            </Text>
+          </ScrollView>
+        </View>
+        <View style={{height: wp(5)}}></View>
+      </ScrollView>
     </View>
   );
 };
@@ -177,22 +756,34 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    width: '95%',
   },
   heading: {
-    fontSize: 22,
+    fontSize: 16,
+    // maxWidth:'80%',
     color: '#676A6C',
+    // height:40,
     marginTop: 20,
     fontWeight: '600',
+    textAlign: 'center',
+  },
+  part: {
+    borderWidth: 0.5,
+    borderColor: '#A7B1C2',
+    marginTop: 10,
+    width: '90%',
+    alignSelf: 'center',
   },
   slideContainer: {
     backgroundColor: '#fff',
-    marginLeft: 20,
-    height: 420,
+    width: wp(90),
+    justifyContent: 'center',
+    alignSelf: 'center',
+    /// height: 420,
     opacity: 2,
+    paddingBottom: 20,
     borderRadius: 10,
     marginTop: 20,
+    // width:'62%'
   },
   Slidericons: {
     width: '70%',
@@ -205,32 +796,129 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: '#1F3E50',
     fontSize: 20,
-    marginTop: 10,
+    fontWeight: '600',
+    marginTop: 20,
   },
   sliderText: {
-    color: '#9BB33D',
+    color: '#2F4050',
     fontSize: 14,
-    alignSelf: 'center',
+    textAlign: 'center',
     marginTop: 10,
   },
   cardSlider: {
-    width: 300,
-    marginTop: 50,
+    flex: 1,
+    //borderWidth: 1,
+    backgroundColor: '#fff',
+    width: wp(90),
+    justifyContent: 'center',
   },
   info: {
     color: '#1F3E50',
     alignSelf: 'center',
-    fontSize: 15,
+    fontSize: 14,
     marginTop: 10,
   },
   btn: {
-    width: '30%',
+    width: wp(40),
     alignSelf: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
     marginBottom: 30,
     marginTop: 10,
-    backgroundColor: '#94B520',
-    borderRadius: 30,
+    backgroundColor: '#2F4050',
+    borderRadius: 10,
     padding: 10,
     alignItems: 'center',
   },
+  profileImg: {
+    width: 70,
+    borderRadius: 80,
+    height: 70,
+    marginTop: 30,
+    alignSelf: 'center',
+    // marginLeft:100
+  },
+  headText: {
+    textAlign: 'center',
+    // marginLeft:110,
+    color: '#000',
+    marginTop: 10,
+    fontWeight: '600',
+  },
+  headText1: {
+    color: '#1F3E50',
+    marginTop: 30,
+    fontWeight: '600',
+    fontSize: 20,
+    marginLeft: 30,
+  },
+  infoHead: {
+    backgroundColor: '#1F3E50',
+    padding: 7,
+    marginTop: 20,
+    width: '82%',
+    marginLeft: 30,
+    // alignSelf: 'center',
+    marginBottom: 12,
+  },
+  infoHeadText: {
+    color: '#fff',
+    fontSize: 14,
+    padding: 5,
+    fontWeight: '600',
+  },
+  ofcInfotxt: {
+    color: '#1F3E50',
+    marginLeft: 30,
+    fontSize: 14,
+  },
+  ofcInfotxt1: {
+    color: '#1F3E50',
+    marginLeft: 30,
+    justifyContent: 'center',
+    margin: 10,
+  },
+  moblieSec: {
+    // backgroundColor: "lightgrey",
+    // height: 20,
+    width: wp(90),
+    //backgroundColor: 'red',
+    justifyContent: 'space-between',
+    borderRadius: 50,
+    // justifyContent: "center",
+    // alignItems: "center",
+    marginTop: 20,
+    // marginBottom: 30,
+
+    flexDirection: 'row',
+    // alignSelf: "center",
+  },
+  emailtoch: {
+    //  backgroundColor: "lightgray",
+    width: wp(20),
+    height: 45,
+    justifyContent: 'center',
+    borderRadius: 7,
+    //marginRight: 6,
+    marginTop: 10,
+  },
+  ButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 10,
+  },
+  mobiletoch: {
+    // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
+    width: 70,
+    height: 45,
+    marginTop: 10,
+    borderRadius: 7,
+    justifyContent: 'center',
+    marginRight: 5,
+  },
+  subHead: {
+    marginLeft: 30,
+    marginTop: 20,
+  },
+  icon: {alignSelf: 'center'},
 });
