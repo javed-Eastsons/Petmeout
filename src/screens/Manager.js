@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Alert,
   Modal,
@@ -19,11 +19,49 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useDispatch, useSelector} from 'react-redux';
+import {ManagerInfo} from '../Redux/Actions/TaxLeaf';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {Loader} from '../Component/Loader';
 const Manager = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [infoData, setInfoData] = useState({});
+  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const jsonData = MY_INFO.guestInfo;
+  //  console.log(MANAGER_INFO, 'MANAGER_INFOMANAGER_INFOMANAGER_INFOMANAGER_INFO');
+
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    setLoader(true);
+    dispatch(ManagerInfo(jsonData.clientId, jsonData.clientType, navigation));
+
+    setInfoData(MANAGER_INFO);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    setInfoData(MANAGER_INFO);
+  }, []);
+
+  useEffect(() => {
+    // setLoader(true);
+    setInfoData(MANAGER_INFO);
+    // setTimeout(() => {
+    //   setLoader(false);
+    // }, 2000);
+  }, [MANAGER_INFO]);
+
+  console.log(infoData?.managerInfo?.user, 'MANAGER_INFOMANAGER_INFO');
 
   return (
     <SafeAreaView>
+      <Loader flag={loader} />
       <CustomHeader />
       <ScrollView>
         {/* <Text
@@ -52,13 +90,14 @@ const Manager = () => {
                   fontWeight: '700',
                   fontSize: 16,
                 }}>
-                Prince Eastsons
+                {infoData?.managerInfo?.firstName}{' '}
+                {infoData?.managerInfo?.lastName}
               </Text>
             </View>
-            <Text
+            {/* <Text
               style={{textAlign: 'center', color: '#000', marginBottom: 10}}>
               Prince Eastsons
-            </Text>
+            </Text> */}
             <View style={{width: '60%', alignSelf: 'center', marginBottom: 20}}>
               <Button
                 title="+ Submit Your Request"
@@ -70,9 +109,14 @@ const Manager = () => {
           <View>
             <View style={styles.infoSec}>
               <Text style={styles.infoSecText}>
-                Hi! My name is John Smith . I'm your manager at TAXLEAF. This is
-                my contact information. You can reach me through the portal or
-                direct at any time. Thanks and have a great day!
+                Hi! My name is{' '}
+                <Text style={{fontWeight: '800'}}>
+                  {infoData?.managerInfo?.firstName}{' '}
+                  {infoData?.managerInfo?.lastName}
+                </Text>{' '}
+                . I'm your manager at TAXLEAF. This is my contact information.
+                You can reach me through the portal or direct at any time.
+                Thanks and have a great day!
               </Text>
             </View>
           </View>
@@ -113,13 +157,13 @@ const Manager = () => {
               }}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Phone:</Text>{' '}
-                9865478934
+                {infoData?.managerInfo?.cell}
               </Text>
             </View>
             <View style={{height: 40, marginTop: 10, padding: 10}}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Email:</Text>{' '}
-                prince@eastsons.com
+                {infoData?.managerInfo?.user}
               </Text>
             </View>
             <View style={styles.progress}>
@@ -172,13 +216,13 @@ const Manager = () => {
               }}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Name:</Text>{' '}
-                TaxLeaf Miami Dade
+                {infoData?.officeInfo?.name}
               </Text>
             </View>
             <View style={{height: 40, marginTop: 10, padding: 10}}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Email:</Text>{' '}
-                miamidade@taxleaf.com
+                {infoData?.officeInfo?.email}
               </Text>
             </View>
             <View
@@ -190,13 +234,13 @@ const Manager = () => {
               }}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Phone:</Text>{' '}
-                987654
+                {infoData?.officeInfo?.phone}
               </Text>
             </View>
             <View style={{height: 40, marginTop: 10, padding: 10}}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Office:</Text>{' '}
-                123 street ,miami florida 3312
+                {infoData?.officeInfo?.address}
               </Text>
             </View>
             <View style={styles.progress}>

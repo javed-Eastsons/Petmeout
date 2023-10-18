@@ -29,6 +29,10 @@ import Manager from '../screens/Manager';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import CustomHeader from '../Component/CustomHeader';
+import {Color} from '../Style';
+import {Provider} from 'react-redux';
+import store from '../Redux/Store/index';
+import Login from '../screens/Login';
 
 enableScreens();
 
@@ -110,6 +114,11 @@ function MyDrawer3({navigation, route}) {
       />
       <Drawer3.Screen
         navigation={navigation}
+        name="MyInfo"
+        component={MyInfo}
+      />
+      <Drawer3.Screen
+        navigation={navigation}
         name="FileCabinet"
         component={FileCabinet}
       />
@@ -136,7 +145,7 @@ function MyTabBar({state, descriptors, navigation}) {
         borderTopColor: '#E5E5E5',
         borderTopWidth: 1,
         width: wp('110%'),
-        backgroundColor: '#2F4050',
+        backgroundColor: Color.white,
         height: 60,
       }}>
       {state.routes.map((route, index) => {
@@ -158,8 +167,8 @@ function MyTabBar({state, descriptors, navigation}) {
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/home.png'))
-              : (iconNm = require('../Assets/img/icons/home-grey.png'));
+              ? (iconNm = require('../Assets/img/icons/home-green.png'))
+              : (iconNm = require('../Assets/img/icons/home-dark.png'));
           }
         }
 
@@ -169,19 +178,19 @@ function MyTabBar({state, descriptors, navigation}) {
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/group.png'))
-              : (iconNm = require('../Assets/img/icons/group-grey.png'));
+              ? (iconNm = require('../Assets/img/icons/group-green.png'))
+              : (iconNm = require('../Assets/img/icons/group-dark.png'));
           }
         }
 
-        if (label == 'MyInfo') {
-          showlabel = 'Profile';
+        if (label == 'FileCabinet') {
+          showlabel = 'File Cabinet';
           // iconNm = require('../Assets/img/icons/profile-user.png');
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/profile-user.png'))
-              : (iconNm = require('../Assets/img/icons/profile-user-grey.png'));
+              ? (iconNm = require('../Assets/img/icons/files-green.png'))
+              : (iconNm = require('../Assets/img/icons/files-dark.png'));
           }
         }
         if (label == 'Requests') {
@@ -190,8 +199,8 @@ function MyTabBar({state, descriptors, navigation}) {
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/request.png'))
-              : (iconNm = require('../Assets/img/icons/request-grey.png'));
+              ? (iconNm = require('../Assets/img/icons/dots-green.png'))
+              : (iconNm = require('../Assets/img/icons/dots-dark.png'));
           }
         }
         // if (label == "Tab3") {
@@ -282,7 +291,10 @@ function MyTabBar({state, descriptors, navigation}) {
               <Text
                 style={{
                   alignSelf: 'center',
-                  color: isFocused ? '#fff' : '#A7B1C2',
+                  color: isFocused ? Color.geen : Color.darkGreen,
+                  borderBottomWidth: 2,
+                  borderBottomColor: isFocused ? Color.geen : Color.white,
+                  paddingBottom: 5,
                   fontSize: 10,
                   fontWeight: 'bold',
                 }}>
@@ -309,7 +321,7 @@ function MainNavigation1() {
       tabBar={props => <MyTabBar {...props} />}>
       <Tab.Screen
         name="Dashboard"
-        component={HomeScreen}
+        component={HomeScreenStack}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
@@ -322,8 +334,8 @@ function MainNavigation1() {
         }}
       />
       <Tab.Screen
-        name="MyInfo"
-        component={MyInfo}
+        name="FileCabinet"
+        component={FileCabinet}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
@@ -339,19 +351,72 @@ function MainNavigation1() {
   );
 }
 
+const SignStack = createStackNavigator();
+
+function SignInScreen() {
+  return (
+    <SignStack.Navigator
+    //  initialRouteName='AuthCheck'
+    >
+      <Stack.Screen
+        name="SplashScreen"
+        component={Splash}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </SignStack.Navigator>
+  );
+}
+
+const HomeStack = createStackNavigator();
+
+function HomeScreenStack() {
+  return (
+    <HomeStack.Navigator
+    //  initialRouteName='AuthCheck'
+    >
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="MyInfo"
+        component={MyInfo}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
 const Stack = createNativeStackNavigator();
 
 function MainNavigation() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="home" component={MyDrawer3} />
-        {/* <Stack.Screen name="home" component={MyDrawer2} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <Stack.Screen name="home" component={SignInScreen} />
+          <Stack.Screen name="Auth" component={MyDrawer3} />
+          {/* <Stack.Screen name="home" component={MyDrawer2} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 export default MainNavigation;

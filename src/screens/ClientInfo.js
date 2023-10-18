@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,6 +14,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useDispatch, useSelector} from 'react-redux';
+import {clientInfo} from '../Redux/Actions/TaxLeaf';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {Loader} from '../Component/Loader';
 
 const data = [
   {
@@ -70,6 +74,37 @@ const data = [
 
 const ClientInfo = () => {
   const [showwhat, setshowwhat] = useState('Experience');
+
+  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
+  console.log(LOGIN_DATA.staffview.user, 'Login_DataLogin_DataLogin_Data');
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const jsonData = MY_INFO.staffview;
+
+  const [infoData, setInfoData] = useState({});
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    setLoader(true);
+    dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
+    setInfoData(MY_INFO);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    setInfoData(MY_INFO);
+  }, []);
+
+  useEffect(() => {
+    // setLoader(true);
+    setInfoData(MY_INFO);
+    // setTimeout(() => {
+    //   setLoader(false);
+    // }, 2000);
+  }, [MY_INFO]);
+
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
@@ -169,7 +204,7 @@ const ClientInfo = () => {
           flexDirection: 'row',
           height: wp(10),
         }}>
-        <View
+        {/* <View
           style={{
             width: wp(15),
 
@@ -184,10 +219,10 @@ const ClientInfo = () => {
               //alignSelf: 'center',
             }}
           />
-        </View>
+        </View> */}
         <View
           style={{
-            width: wp(30),
+            width: wp(20),
 
             alignItems: 'center',
           }}>
@@ -195,24 +230,33 @@ const ClientInfo = () => {
         </View>
         <View
           style={{
-            width: wp(30),
+            width: wp(25),
 
             alignItems: 'center',
           }}>
-          <Text style={{color: '#fff', fontSize: 12}}>Client Name</Text>
+          <Text style={{color: '#fff', fontSize: 12}}> Client Name</Text>
         </View>
         <View
           style={{
-            width: wp(15),
+            width: wp(25),
 
             alignItems: 'center',
           }}>
-          <Text style={{color: '#fff', fontSize: 12}}>View</Text>
+          <Text style={{color: '#fff', fontSize: 12}}> Type</Text>
+        </View>
+
+        <View
+          style={{
+            width: wp(20),
+
+            alignItems: 'center',
+          }}>
+          <Text style={{color: '#fff', fontSize: 12}}>Client</Text>
         </View>
       </View>
 
       <FlatList
-        data={data}
+        data={infoData.associateList}
         // numColumns={5}
         keyExtractor={(item, index) => index}
         renderItem={({item, index}) => (
@@ -229,7 +273,7 @@ const ClientInfo = () => {
               flexDirection: 'row',
               height: wp(15),
             }}>
-            <View
+            {/* <View
               style={{
                 width: wp(15),
 
@@ -244,34 +288,47 @@ const ClientInfo = () => {
                   //alignSelf: 'center',
                 }}
               />
-            </View>
+            </View> */}
             <View
               style={{
-                width: wp(30),
+                width: wp(20),
 
                 alignItems: 'center',
               }}>
               <Text style={{color: '#2F4050', fontSize: 12}}>
-                {item.clintID}
+                {item.mainClientId}
               </Text>
             </View>
             <View
               style={{
-                width: wp(30),
+                width: wp(25),
 
                 alignItems: 'center',
               }}>
               <Text style={{color: '#2F4050', fontSize: 12}}>
-                {item.clintName}
+                {item.mainClientType}
               </Text>
             </View>
             <View
               style={{
-                width: wp(15),
+                width: wp(25),
 
                 alignItems: 'center',
               }}>
-              <Image
+              <Text style={{color: '#2F4050', fontSize: 12}}>
+                {item.subClientType}
+              </Text>
+            </View>
+            <View
+              style={{
+                width: wp(20),
+
+                alignItems: 'center',
+              }}>
+              <Text style={{color: '#2F4050', fontSize: 12}}>
+                {item.associationType}
+              </Text>
+              {/* <Image
                 source={item.viewicon}
                 style={{
                   width: 20,
@@ -279,7 +336,7 @@ const ClientInfo = () => {
                   borderRadius: 50,
                   //alignSelf: 'center',
                 }}
-              />
+              /> */}
             </View>
           </View>
         )}

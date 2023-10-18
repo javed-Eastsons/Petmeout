@@ -98,7 +98,7 @@ const FileCabinet = () => {
   };
   return (
     <SafeAreaView>
-      <CustomHeader />
+      {/* <CustomHeader /> */}
       <ScrollView style={{opacity: modalVisible == true ? 0.2 : null}}>
         {/* <Text style={styles.header}>
           File{' '}

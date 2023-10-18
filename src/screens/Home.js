@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,15 +14,27 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {Color} from '../Style';
+import {useDispatch, useSelector} from 'react-redux';
+import {clientInfo} from '../Redux/Actions/TaxLeaf';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {Loader} from '../Component/Loader';
 
 import Carousel from 'react-native-reanimated-carousel';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
   const [showwhat1, setshowwhat1] = useState('Message');
+  const [infoData, setInfoData] = useState({});
+  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const jsonData = MY_INFO.staffview;
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -73,6 +85,31 @@ const HomeScreen = () => {
       img: require('../Assets/img/gdb-img6.png'),
     },
   ];
+
+  const [loader, setLoader] = useState(false);
+  useEffect(() => {
+    setLoader(true);
+    dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
+    setInfoData(MY_INFO);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    setInfoData(MY_INFO);
+  }, []);
+
+  useEffect(() => {
+    // setLoader(true);
+    setInfoData(MY_INFO);
+    // setTimeout(() => {
+    //   setLoader(false);
+    // }, 2000);
+  }, [MY_INFO]);
+
+  console.log(infoData, 'infoDatainfoDatainfoDatainfoDatainfoDatainfoData');
+
   const renderItem = ({item}) => (
     <TouchableOpacity
       style={styles.cardSlider}
@@ -108,6 +145,7 @@ const HomeScreen = () => {
   );
   return (
     <View style={styles.container}>
+      <Loader flag={loader} />
       <ScrollView>
         <Text style={styles.heading}>
           Thank you for being our client since 2023
@@ -125,7 +163,7 @@ const HomeScreen = () => {
                         styles.emailtoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
+                            showwhat1 == 'Message' ? '#9db436' : '#fff',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Message')}>
@@ -137,7 +175,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -145,7 +183,10 @@ const HomeScreen = () => {
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.white
+                                : Color.darkGreen,
                           },
                         ]}>
                         Tax
@@ -164,7 +205,10 @@ const HomeScreen = () => {
                         style={[
                           styles.icon,
                           {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Proposal'
+                                ? Color.white
+                                : Color.darkGreen,
                           },
                         ]}
                         name="message1"
@@ -176,7 +220,10 @@ const HomeScreen = () => {
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Proposal'
+                                ? Color.white
+                                : Color.darkGreen,
                           },
                         ]}>
                         Messages
@@ -195,7 +242,12 @@ const HomeScreen = () => {
                       <Icon1
                         style={[
                           styles.icon,
-                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                          {
+                            color:
+                              showwhat1 == 'Signature'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
                         ]}
                         name="event"
                         size={20}
@@ -206,7 +258,10 @@ const HomeScreen = () => {
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Signature'
+                                ? Color.white
+                                : Color.darkGreen,
                           },
                         ]}>
                         Events
@@ -225,7 +280,10 @@ const HomeScreen = () => {
                         style={[
                           styles.icon,
                           {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Reminders'
+                                ? Color.white
+                                : Color.darkGreen,
                           },
                         ]}
                         name="holiday-village"
@@ -237,7 +295,10 @@ const HomeScreen = () => {
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Reminders'
+                                ? Color.white
+                                : Color.darkGreen,
                           },
                         ]}>
                         Holidays
@@ -267,7 +328,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -298,7 +359,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="message1"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -328,7 +389,7 @@ const HomeScreen = () => {
                           {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
                         ]}
                         name="event"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -359,7 +420,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="holiday-village"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -397,7 +458,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -428,7 +489,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="message1"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -458,7 +519,7 @@ const HomeScreen = () => {
                           {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
                         ]}
                         name="event"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -489,7 +550,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="holiday-village"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -527,7 +588,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -558,7 +619,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="message1"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -588,7 +649,7 @@ const HomeScreen = () => {
                           {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
                         ]}
                         name="event"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -619,7 +680,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="holiday-village"
-                        size={20}
+                        size={15}
                         color="#fff"
                       />
 
@@ -760,7 +821,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 16,
     // maxWidth:'80%',
-    color: '#676A6C',
+    color: Color.darkGreen,
     // height:40,
     marginTop: 20,
     fontWeight: '600',
@@ -800,7 +861,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sliderText: {
-    color: '#2F4050',
+    color: Color.geen,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 10,
@@ -825,7 +886,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 30,
     marginTop: 10,
-    backgroundColor: '#2F4050',
+    backgroundColor: Color.geen,
     borderRadius: 10,
     padding: 10,
     alignItems: 'center',
@@ -881,9 +942,11 @@ const styles = StyleSheet.create({
   moblieSec: {
     // backgroundColor: "lightgrey",
     // height: 20,
-    width: wp(90),
+    width: wp(85),
+    // backgroundColor: 'red',
     //backgroundColor: 'red',
     justifyContent: 'space-between',
+    alignSelf: 'center',
     borderRadius: 50,
     // justifyContent: "center",
     // alignItems: "center",
@@ -895,24 +958,26 @@ const styles = StyleSheet.create({
   },
   emailtoch: {
     //  backgroundColor: "lightgray",
-    width: wp(20),
-    height: 45,
+    width: wp(12),
+    height: wp(12),
     justifyContent: 'center',
-    borderRadius: 7,
+    borderRadius: 50,
     //marginRight: 6,
     marginTop: 10,
   },
   ButtonText: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 10,
+    fontSize: 9,
   },
   mobiletoch: {
     // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
-    width: 70,
-    height: 45,
+    // width: 70,
+    // height: 45,
+    width: wp(12),
+    height: wp(12),
     marginTop: 10,
-    borderRadius: 7,
+    borderRadius: 50,
     justifyContent: 'center',
     marginRight: 5,
   },
