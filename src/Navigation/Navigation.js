@@ -117,11 +117,11 @@ function MyDrawer3({navigation, route}) {
         name="MyInfo"
         component={MyInfo}
       />
-      <Drawer3.Screen
+      {/* <Drawer3.Screen
         navigation={navigation}
         name="FileCabinet"
         component={FileCabinet}
-      />
+      /> */}
       <Drawer3.Screen
         navigation={navigation}
         name="Manager"
@@ -144,7 +144,8 @@ function MyTabBar({state, descriptors, navigation}) {
         alignSelf: 'center',
         borderTopColor: '#E5E5E5',
         borderTopWidth: 1,
-        width: wp('110%'),
+        width: wp(112),
+        //   justifyContent: 'space-between',
         backgroundColor: Color.white,
         height: 60,
       }}>
@@ -326,6 +327,7 @@ function MainNavigation1() {
           header: () => <CustomHeader />, // Include the custom header
         }}
       />
+
       <Tab.Screen
         name="ClientInfo"
         component={ClientInfo}

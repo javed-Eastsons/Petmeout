@@ -18,6 +18,7 @@ import {
 import {DataTable} from 'react-native-paper';
 import {Dropdown} from 'react-native-element-dropdown';
 import CustomHeader from '../Component/CustomHeader';
+import CustomBottomTab from '../Component/CustomBottomTab';
 let iconNm = require('../Assets/img/icons/msg.png');
 let usericon = require('../Assets/img/icons/user-icon.png');
 const FileCabinet = () => {
@@ -97,9 +98,9 @@ const FileCabinet = () => {
     setSelectedData(item);
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       {/* <CustomHeader /> */}
-      <ScrollView style={{opacity: modalVisible == true ? 0.2 : null}}>
+      <View style={{opacity: modalVisible == true ? 0.2 : null}}>
         {/* <Text style={styles.header}>
           File{' '}
           <Text style={{backgroundColor: '#9DB436', padding: 2}}>Cabinet</Text>
@@ -176,6 +177,7 @@ const FileCabinet = () => {
             {data.map(item => {
               return (
                 <DataTable.Row
+                  key={item.id}
                   onPress={() => handleRow(item)}
                   style={{
                     backgroundColor:
@@ -240,7 +242,8 @@ const FileCabinet = () => {
             </View>
           </View>
         ) : null}
-      </ScrollView>
+      </View>
+      {/* <CustomBottomTab /> */}
       <Modal
         animationType="slide"
         transparent={true}

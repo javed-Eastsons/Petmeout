@@ -23,6 +23,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ManagerInfo} from '../Redux/Actions/TaxLeaf';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Loader} from '../Component/Loader';
+import CustomBottomTab from '../Component/CustomBottomTab';
+
 const Manager = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [infoData, setInfoData] = useState({});
@@ -32,12 +34,12 @@ const Manager = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const jsonData = MY_INFO.guestInfo;
-  //  console.log(MANAGER_INFO, 'MANAGER_INFOMANAGER_INFOMANAGER_INFOMANAGER_INFO');
+  console.log(LOGIN_DATA, 'LOGIN_DATALOGIN_DATALOGIN_DATALOGIN_DATA', MY_INFO);
 
   const [loader, setLoader] = useState(false);
   useEffect(() => {
     setLoader(true);
-    dispatch(ManagerInfo(jsonData.clientId, jsonData.clientType, navigation));
+    dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
 
     setInfoData(MANAGER_INFO);
     setTimeout(() => {
@@ -60,10 +62,10 @@ const Manager = () => {
   console.log(infoData?.managerInfo?.user, 'MANAGER_INFOMANAGER_INFO');
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <Loader flag={loader} />
       <CustomHeader />
-      <ScrollView>
+      <ScrollView style={{height: hp(80)}}>
         {/* <Text
           style={{fontSize: 16, color: '#000', marginTop: 10, marginLeft: 20}}>
           Client Manager Profile
@@ -267,6 +269,7 @@ const Manager = () => {
         </View>
         <View style={{height: wp(15)}}></View>
       </ScrollView>
+      <CustomBottomTab />
       <Modal
         ///    animationType="slide"
         // animationType="fade"

@@ -15,9 +15,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import {clientInfo} from '../Redux/Actions/TaxLeaf';
+import {clientInfo, ClientInfoList} from '../Redux/Actions/TaxLeaf';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Loader} from '../Component/Loader';
+import {Color} from '../Style';
 
 const data = [
   {
@@ -76,34 +77,59 @@ const ClientInfo = () => {
   const [showwhat, setshowwhat] = useState('Experience');
 
   const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {CLIENT_LIST} = useSelector(state => state.TaxLeafReducer);
   const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
   console.log(LOGIN_DATA.staffview.user, 'Login_DataLogin_DataLogin_Data');
+  // console.log(MY_INFO.guestInfo, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
+  // console.log(MY_INFO.guestInfo, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
+  console.log(CLIENT_LIST, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const jsonData = MY_INFO.staffview;
-
+  const jsonData = MY_INFO?.guestInfo;
+  //const ClinetCount = MY_INFO?.guestInfo;
+  let countIndividuals = 0;
+  let countBusiness = 0;
+  CLIENT_LIST.forEach(item => {
+    if (
+      item.subClientInfo &&
+      item.subClientInfo.subClientType === 'individual'
+    ) {
+      countIndividuals++;
+    } else if (
+      item.subClientInfo &&
+      item.subClientInfo.subClientType === 'Business'
+    ) {
+      countBusiness++;
+    }
+  });
+  // });
   const [infoData, setInfoData] = useState({});
   const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     setLoader(true);
     dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
-    setInfoData(MY_INFO);
+
+    setInfoData(CLIENT_LIST);
     setTimeout(() => {
       setLoader(false);
     }, 2000);
   }, []);
 
   useEffect(() => {
-    setInfoData(MY_INFO);
+    dispatch(
+      ClientInfoList(jsonData?.clientId, jsonData?.clientType, navigation),
+    );
+    setInfoData(CLIENT_LIST);
   }, []);
 
   useEffect(() => {
     // setLoader(true);
-    setInfoData(MY_INFO);
+    setInfoData(CLIENT_LIST);
     // setTimeout(() => {
     //   setLoader(false);
     // }, 2000);
-  }, [MY_INFO]);
+  }, [MY_INFO, CLIENT_LIST]);
 
   const showwhatfunc = data => {
     setshowwhat(data);
@@ -119,6 +145,7 @@ const ClientInfo = () => {
   };
   return (
     <View style={[styles.main]}>
+      <Loader flag={loader} />
       {/* <Text
         style={{fontSize: 28, color: '#000', marginTop: 10, marginLeft: 20}}>
         Clients
@@ -134,13 +161,15 @@ const ClientInfo = () => {
           style={{
             width: wp(30),
             height: 50,
-
+            borderWidth: 1,
+            borderRadius: 10,
+            borderColor: Color.geen,
             justifyContent: 'center',
-            backgroundColor: '#2F4050',
+            backgroundColor: Color.white,
             alignItems: 'center',
           }}>
           <Text style={[styles.head]}>
-            Total Clients
+            Total Clients {infoData.length}
             {/* <View style={[styles.headNum]}>
               <Text style={[styles.textNum]}>3</Text>
             </View> */}
@@ -153,11 +182,15 @@ const ClientInfo = () => {
             marginLeft: 10,
             marginRight: 10,
             justifyContent: 'center',
-            backgroundColor: '#2F4050',
+            borderWidth: 1,
+            borderRadius: 10,
+            borderColor: Color.geen,
+            justifyContent: 'center',
+            backgroundColor: Color.white,
             alignItems: 'center',
           }}>
           <Text style={[styles.head]}>
-            Business
+            Business {countBusiness}
             {/* <View style={[styles.headNum]}>
               <Text style={[styles.textNum]}>3</Text>
             </View> */}
@@ -168,11 +201,15 @@ const ClientInfo = () => {
             width: wp(30),
             height: 50,
             justifyContent: 'center',
-            backgroundColor: '#2F4050',
+            borderWidth: 1,
+            borderRadius: 10,
+            borderColor: Color.geen,
+            justifyContent: 'center',
+            backgroundColor: Color.white,
             alignItems: 'center',
           }}>
           <Text style={[styles.head]}>
-            Individual
+            Individual {countIndividuals}
             {/* <View style={[styles.headNum]}>
               <Text style={[styles.textNum]}>3</Text>
             </View> */}
@@ -196,7 +233,7 @@ const ClientInfo = () => {
       <View
         style={{
           width: wp(90),
-          backgroundColor: '#2F4050',
+          backgroundColor: Color.geen,
           alignItems: 'center',
           alignSelf: 'center',
           elevation: 10,
@@ -256,7 +293,7 @@ const ClientInfo = () => {
       </View>
 
       <FlatList
-        data={infoData.associateList}
+        data={infoData}
         // numColumns={5}
         keyExtractor={(item, index) => index}
         renderItem={({item, index}) => (
@@ -292,11 +329,14 @@ const ClientInfo = () => {
             <View
               style={{
                 width: wp(20),
-
-                alignItems: 'center',
+                paddingLeft: 10,
+                //  backgroundColor: 'red',
+                //   alignItems: 'center',
               }}>
-              <Text style={{color: '#2F4050', fontSize: 12}}>
-                {item.mainClientId}
+              <Text
+                numberOfLines={1}
+                style={{color: Color.darkGreen, fontSize: 10}}>
+                {item?.subClientInfo?.subClientPracticeId}
               </Text>
             </View>
             <View
@@ -305,38 +345,41 @@ const ClientInfo = () => {
 
                 alignItems: 'center',
               }}>
-              <Text style={{color: '#2F4050', fontSize: 12}}>
-                {item.mainClientType}
+              <Text style={{color: Color.darkGreen, fontSize: 10}}>
+                {item?.subClientInfo?.subClientName}
               </Text>
             </View>
+
             <View
               style={{
                 width: wp(25),
 
                 alignItems: 'center',
               }}>
-              <Text style={{color: '#2F4050', fontSize: 12}}>
-                {item.subClientType}
+              <Text style={{color: Color.darkGreen, fontSize: 10}}>
+                {item?.subClientInfo?.subClientType}
               </Text>
             </View>
+
             <View
               style={{
                 width: wp(20),
 
                 alignItems: 'center',
               }}>
-              <Text style={{color: '#2F4050', fontSize: 12}}>
+              {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
-              </Text>
-              {/* <Image
-                source={item.viewicon}
+              </Text> */}
+              <Image
+                source={require('../Assets/img/icons/view.png')}
                 style={{
                   width: 20,
                   height: 20,
+                  alignSelf: 'center',
                   borderRadius: 50,
                   //alignSelf: 'center',
                 }}
-              /> */}
+              />
             </View>
           </View>
         )}
@@ -609,7 +652,7 @@ const styles = StyleSheet.create({
   },
   head: {
     fontSize: 14,
-    color: '#fff',
+    color: Color.geen,
   },
   headNum: {
     backgroundColor: 'skyblue',

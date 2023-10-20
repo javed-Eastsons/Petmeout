@@ -19,6 +19,8 @@ import {clientInfo} from '../Redux/Actions/TaxLeaf';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Loader} from '../Component/Loader';
 import CustomHeader from '../Component/CustomHeader';
+import {Color} from '../Style';
+import CustomBottomTab from '../Component/CustomBottomTab';
 
 const MyInfo = () => {
   const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
@@ -55,9 +57,9 @@ const MyInfo = () => {
   // console.log(infoData, 'infoDatainfoDatainfoDatainfoDatainfoDatainfoData');
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Loader flag={loader} />
-      {/* <CustomHeader /> */}
+      <CustomHeader />
       <ScrollView>
         {/* <Text
         style={{fontSize: 16, color: '#000', marginTop: 20, marginLeft: 20}}>
@@ -92,8 +94,7 @@ const MyInfo = () => {
                 fontWeight: '700',
                 fontSize: 16,
               }}>
-              {jsonData?.firstName}
-              {jsonData?.lastName}
+              {jsonData?.firstName} {''} {jsonData?.lastName}
               {/* Prince Eastsons */}
             </Text>
           </View>
@@ -117,7 +118,7 @@ const MyInfo = () => {
                 paddingLeft: 10,
                 alignSelf: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#2F4050',
+                backgroundColor: Color.geen,
               }}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600', color: '#fff'}}>
@@ -125,10 +126,12 @@ const MyInfo = () => {
                 </Text>
               </Text>
             </View>
+
             <View style={styles.contentView}>
               <Text style={styles.subHead}>Date Of Birth:</Text>
               <Text style={styles.LIstText2}> </Text>
             </View>
+
             <View style={styles.contentView}>
               <Text style={styles.subHead}>Office:</Text>
 
@@ -283,7 +286,10 @@ const MyInfo = () => {
          
         </View> */}
         </View>
+
+        <View style={{height: wp(10)}}></View>
       </ScrollView>
+      <CustomBottomTab />
     </View>
   );
 };
@@ -292,7 +298,7 @@ export default MyInfo;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    flex: 1,
   },
   tableHeader: {
     backgroundColor: '#DCDCDC',
@@ -304,6 +310,7 @@ const styles = StyleSheet.create({
     width: 150,
     fontSize: 15,
     fontWeight: '600',
+    color: Color.darkGreen,
     // backgroundColor: 'red',
   },
   contentView: {

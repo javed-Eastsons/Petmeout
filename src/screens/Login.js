@@ -43,7 +43,6 @@ const Login = () => {
               style={{
                 marginBottom: 20,
                 width: wp(90),
-
                 alignSelf: 'center',
               }}>
               <Image

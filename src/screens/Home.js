@@ -16,7 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Color} from '../Style';
 import {useDispatch, useSelector} from 'react-redux';
-import {clientInfo} from '../Redux/Actions/TaxLeaf';
+import {clientInfo, ManagerInfo} from '../Redux/Actions/TaxLeaf';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Loader} from '../Component/Loader';
 
@@ -31,10 +31,11 @@ const HomeScreen = () => {
   const [showwhat1, setshowwhat1] = useState('Message');
   const [infoData, setInfoData] = useState({});
   const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
   const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const jsonData = MY_INFO.staffview;
+  const jsonData = MY_INFO.guestInfo;
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -90,25 +91,27 @@ const HomeScreen = () => {
   useEffect(() => {
     setLoader(true);
     dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
-    setInfoData(MY_INFO);
+    dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+
+    setInfoData(MANAGER_INFO);
     setTimeout(() => {
       setLoader(false);
     }, 2000);
   }, []);
 
   useEffect(() => {
-    setInfoData(MY_INFO);
+    setInfoData(MANAGER_INFO);
   }, []);
 
   useEffect(() => {
     // setLoader(true);
-    setInfoData(MY_INFO);
+    setInfoData(MANAGER_INFO);
     // setTimeout(() => {
     //   setLoader(false);
     // }, 2000);
-  }, [MY_INFO]);
+  }, [MY_INFO, MANAGER_INFO]);
 
-  console.log(infoData, 'infoDatainfoDatainfoDatainfoDatainfoDatainfoData');
+  console.log(infoData, 'MANAGER_INFOMANAGER_INFOMANAGER_INFOMANAGER_INFO');
 
   const renderItem = ({item}) => (
     <TouchableOpacity
@@ -767,7 +770,10 @@ const HomeScreen = () => {
             source={require('../Assets/profileBlank.png')}
             style={styles.profileImg}
           />
-          <Text style={styles.headText}>Prince Eastsons</Text>
+          <Text style={styles.headText}>
+            {MANAGER_INFO?.managerInfo?.firstName}{' '}
+            {MANAGER_INFO?.managerInfo?.lastName}
+          </Text>
           <Text style={styles.headText1}>Get in Touch !</Text>
           <ScrollView nestedScrollEnabled={true}>
             <View style={styles.infoHead}>
@@ -781,11 +787,11 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               />{' '}
-              987654
+              {MANAGER_INFO?.officeInfo?.phone}
             </Text>
             <Text style={styles.ofcInfotxt}>
               <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
-              miamidade@taxleaf.com
+              {MANAGER_INFO?.officeInfo?.email}
             </Text>
             <View style={styles.infoHead}>
               <Text style={styles.infoHeadText}> Staff Information</Text>
@@ -798,11 +804,11 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               />{' '}
-              987654
+              {MANAGER_INFO?.managerInfo?.phone}
             </Text>
             <Text style={styles.ofcInfotxt}>
               <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
-              miamidade@taxleaf.com
+              {MANAGER_INFO?.managerInfo?.user}
             </Text>
           </ScrollView>
         </View>
@@ -902,19 +908,19 @@ const styles = StyleSheet.create({
   headText: {
     textAlign: 'center',
     // marginLeft:110,
-    color: '#000',
+    color: Color.darkGreen,
     marginTop: 10,
     fontWeight: '600',
   },
   headText1: {
-    color: '#1F3E50',
+    color: Color.darkGreen,
     marginTop: 30,
     fontWeight: '600',
     fontSize: 20,
     marginLeft: 30,
   },
   infoHead: {
-    backgroundColor: '#1F3E50',
+    backgroundColor: Color.geen,
     padding: 7,
     marginTop: 20,
     width: '82%',
@@ -929,7 +935,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   ofcInfotxt: {
-    color: '#1F3E50',
+    color: Color.darkGreen,
     marginLeft: 30,
     fontSize: 14,
   },

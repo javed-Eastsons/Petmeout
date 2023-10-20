@@ -16,6 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import CustomHeader from '../Component/CustomHeader';
+import CustomBottomTab from '../Component/CustomBottomTab';
 
 const data = [
   {
@@ -76,9 +77,9 @@ const Payments = () => {
     console.log(data);
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <CustomHeader />
-      <View>
+      <View style={{height: hp(80)}}>
         {/* <View style={styles.headerView}>
           <Text style={styles.header}>Plan Invoices</Text>
         </View> */}
@@ -441,6 +442,7 @@ const Payments = () => {
           }
         })()}
       </View>
+      <CustomBottomTab />
     </SafeAreaView>
   );
 };

@@ -17,26 +17,35 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
+
 const Drawer = () => {
   const navigation = useNavigation();
+  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const jsonData = MY_INFO.staffview;
+  const jsonData1 = MY_INFO.officeInfo;
 
   return (
     <View style={styles.container}>
       <View style={styles.headImg}>
         <Image source={require('../Assets/img/logo.png')} style={styles.logo} />
       </View>
+
       <View style={{textAlign: 'center'}}>
         <Image
           source={require('../Assets/profileBlank.png')}
           style={styles.profileImg}
         />
-        <Text style={styles.headText}>Prince Eastsons</Text>
-        <Text style={styles.headText}>TL MDADE</Text>
+        <Text style={styles.headText}>
+          {jsonData?.firstName} {jsonData?.lastName}
+        </Text>
+        <Text style={styles.headText}>{jsonData1?.officeId}</Text>
       </View>
+
       <View style={{marginTop: 50}}>
         <View style={styles.part}></View>
         <TouchableOpacity
@@ -49,6 +58,7 @@ const Drawer = () => {
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
       </View>
+
       <View>
         <View style={styles.part}></View>
         <TouchableOpacity
@@ -62,8 +72,10 @@ const Drawer = () => {
         </TouchableOpacity>
         {/* <View style={styles.part}></View> */}
       </View>
+
       <View>
         <View style={styles.part}></View>
+
         <TouchableOpacity
           style={styles.screenName}
           onPress={() => {
@@ -73,10 +85,12 @@ const Drawer = () => {
 
           <Text style={styles.screenNameText}>Manager</Text>
         </TouchableOpacity>
+
         {/* <View style={styles.part}></View> */}
       </View>
       <View>
         <View style={styles.part}></View>
+
         <TouchableOpacity
           style={styles.screenName}
           onPress={() => {
@@ -86,6 +100,7 @@ const Drawer = () => {
 
           <Text style={styles.screenNameText}>Payments</Text>
         </TouchableOpacity>
+
         {/* <View style={styles.part}></View> */}
       </View>
       <View>
