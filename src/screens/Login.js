@@ -139,17 +139,20 @@ const styles = StyleSheet.create({
     color: '#676A6C',
     marginVertical: 30,
   },
+
   footerImg: {
     position: 'absolute',
     bottom: 0,
     width: '100%',
     height: 140,
   },
+
   footerText: {
     textAlign: 'center',
     marginTop: 20,
     color: '#676A6C',
   },
+
   formContainer: {
     backgroundColor: '#2F4050',
     width: wp(90),
@@ -201,6 +204,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+
   button: {
     borderRadius: 5,
     padding: 10,
