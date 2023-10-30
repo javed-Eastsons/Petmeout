@@ -35,7 +35,7 @@ const Drawer = () => {
         <Image source={require('../Assets/img/logo.png')} style={styles.logo} />
       </View>
 
-      <View style={{textAlign: 'center'}}>
+      {/* <View style={{textAlign: 'center'}}>
         <Image
           source={require('../Assets/profileBlank.png')}
           style={styles.profileImg}
@@ -44,9 +44,9 @@ const Drawer = () => {
           {jsonData?.firstName} {jsonData?.lastName}
         </Text>
         <Text style={styles.headText}>{jsonData1?.officeId}</Text>
-      </View>
+      </View> */}
 
-      <View style={{marginTop: 50}}>
+      <View style={{marginTop: 0}}>
         <View style={styles.part}></View>
         <TouchableOpacity
           style={styles.screenName}
@@ -136,6 +136,24 @@ const Drawer = () => {
           />
 
           <Text style={styles.screenNameText}>Requests</Text>
+        </TouchableOpacity>
+        <View style={styles.part}></View>
+      </View>
+      <View>
+        <View style={styles.part}></View>
+        <TouchableOpacity
+          style={styles.screenName}
+          onPress={() => {
+            navigation.navigate('ContactUs');
+          }}>
+          <Icon2
+            style={styles.icon}
+            name="request-quote"
+            size={20}
+            color="#fff"
+          />
+
+          <Text style={styles.screenNameText}>Contact</Text>
         </TouchableOpacity>
         <View style={styles.part}></View>
       </View>

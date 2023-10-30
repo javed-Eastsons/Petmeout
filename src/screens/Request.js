@@ -15,6 +15,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 let iconm = require('../Assets/img/icons/msg.png');
 let iconmw = require('../Assets/img/icons/msg-white.png');
 let iconP = require('../Assets/img/icons/agreement.png');
@@ -26,6 +27,8 @@ const Request = () => {
   const [showwhat, setshowwhat] = useState('Experience');
   const [showwhat1, setshowwhat1] = useState('Message');
   const bgImage = require('../Assets/img/py-bg.png');
+
+  const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
@@ -49,6 +52,7 @@ const Request = () => {
             marginLeft: 20,
           }}>
           <TouchableOpacity
+            onPress={() => navigation.navigate('CreateNewAction')}
             // onPress={() => setModalVisible(true)}
             style={{
               flexDirection: 'row',

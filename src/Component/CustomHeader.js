@@ -18,8 +18,8 @@ const CustomHeader = () => {
       style={{
         backgroundColor: Color.white,
         // backgroundColor: '',
-        borderWidth: 0.8,
-        borderBottomColor: Color.geen,
+        borderBottomWidth: 1,
+        borderBottomColor: 'orange',
         justifyContent: 'center',
         padding: 15,
       }}>

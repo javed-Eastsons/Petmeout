@@ -24,6 +24,7 @@ import {ManagerInfo} from '../Redux/Actions/TaxLeaf';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Loader} from '../Component/Loader';
 import CustomBottomTab from '../Component/CustomBottomTab';
+import {Color} from '../Style';
 
 const Manager = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -142,7 +143,7 @@ const Manager = () => {
                 paddingLeft: 10,
                 alignSelf: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#2F4050',
+                backgroundColor: Color.darkGreen,
               }}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600', color: '#fff'}}>
@@ -200,7 +201,7 @@ const Manager = () => {
                 paddingLeft: 10,
                 alignSelf: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#2F4050',
+                backgroundColor: Color.darkGreen,
               }}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600', color: '#fff'}}>
@@ -221,6 +222,7 @@ const Manager = () => {
                 {infoData?.officeInfo?.name}
               </Text>
             </View>
+
             <View style={{height: 40, marginTop: 10, padding: 10}}>
               <Text style={styles.LIstText2}>
                 <Text style={{fontSize: 15, fontWeight: '600'}}>Email:</Text>{' '}

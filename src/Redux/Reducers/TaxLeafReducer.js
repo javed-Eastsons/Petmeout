@@ -1,10 +1,17 @@
-import {LOGIN_DATA, MY_INFO, MANAGER_INFO, CLIENT_LIST} from '../Actions/types';
+import {
+  LOGIN_DATA,
+  MY_INFO,
+  MANAGER_INFO,
+  CLIENT_LIST,
+  CLIENT_DETAIL,
+} from '../Actions/types';
 
 const initialstate = {
   LOGIN_DATA: {},
   MY_INFO: {},
   MANAGER_INFO: {},
   CLIENT_LIST: {},
+  CLIENT_DETAIL: {},
 };
 
 const TaxLeafReducer = (state = initialstate, action) => {
@@ -21,6 +28,8 @@ const TaxLeafReducer = (state = initialstate, action) => {
       return {...state, MANAGER_INFO: action.payload};
     case CLIENT_LIST:
       return {...state, CLIENT_LIST: action.payload};
+    case CLIENT_DETAIL:
+      return {...state, CLIENT_DETAIL: action.payload};
   }
 
   return state;

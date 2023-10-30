@@ -24,6 +24,8 @@ import Drawer from './Drawer';
 import Request from '../screens/Request';
 import MyInfo from '../screens/MyInfo';
 import Payments from '../screens/Payments';
+import ClientDetails from '../screens/ClientDetails';
+import CreateNewAction from '../screens/CreateNewAction';
 import FileCabinet from '../screens/FileCabinet';
 import Manager from '../screens/Manager';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -33,6 +35,7 @@ import {Color} from '../Style';
 import {Provider} from 'react-redux';
 import store from '../Redux/Store/index';
 import Login from '../screens/Login';
+import ContactUs from '../screens/ContactUs';
 
 enableScreens();
 
@@ -187,7 +190,6 @@ function MyTabBar({state, descriptors, navigation}) {
         if (label == 'FileCabinet') {
           showlabel = 'File Cabinet';
           // iconNm = require('../Assets/img/icons/profile-user.png');
-
           {
             isFocused
               ? (iconNm = require('../Assets/img/icons/files-green.png'))
@@ -195,7 +197,7 @@ function MyTabBar({state, descriptors, navigation}) {
           }
         }
         if (label == 'Requests') {
-          showlabel = 'Request';
+          showlabel = 'Requests';
           // iconNm = require('../Assets/img/icons/profile-user.png');
 
           {
@@ -330,7 +332,7 @@ function MainNavigation1() {
 
       <Tab.Screen
         name="ClientInfo"
-        component={ClientInfo}
+        component={ClientScreenStack}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
@@ -344,7 +346,7 @@ function MainNavigation1() {
       />
       <Tab.Screen
         name="Requests"
-        component={Request}
+        component={RequestScreenStack}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
@@ -400,6 +402,63 @@ function HomeScreenStack() {
         }}
       />
     </HomeStack.Navigator>
+  );
+}
+
+const ClientStack = createStackNavigator();
+
+function ClientScreenStack() {
+  return (
+    <ClientStack.Navigator
+    //  initialRouteName='AuthCheck'
+    >
+      <Stack.Screen
+        name="ClientHome"
+        component={ClientInfo}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ClientDetails"
+        component={ClientDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </ClientStack.Navigator>
+  );
+}
+
+const RequestStack = createStackNavigator();
+
+function RequestScreenStack() {
+  return (
+    <RequestStack.Navigator
+    //  initialRouteName='AuthCheck'
+    >
+      <Stack.Screen
+        name="Request"
+        component={Request}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateNewAction"
+        component={CreateNewAction}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ContactUs"
+        component={ContactUs}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </RequestStack.Navigator>
   );
 }
 

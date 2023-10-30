@@ -25,17 +25,23 @@ import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {dashboardlist} from '../Redux/Actions/Dashboard';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
   const [showwhat1, setshowwhat1] = useState('Message');
   const [infoData, setInfoData] = useState({});
+  const [dashboardList, setDashboardList] = useState([]);
+  const [dashboardMessageList, setDashboardMessageList] = useState([]);
   const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {DASHBOARD_LIST} = useSelector(state => state.DashboardReducer);
+  const {DASHBOARD_MESSAGE_LIST} = useSelector(state => state.DashboardReducer);
   const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
   const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const jsonData = MY_INFO.guestInfo;
+  const officeInfo = MY_INFO.officeInfo;
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -92,8 +98,18 @@ const HomeScreen = () => {
     setLoader(true);
     dispatch(clientInfo(LOGIN_DATA.staffview.user, navigation));
     dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+    dispatch(
+      dashboardlist(
+        jsonData?.clientId,
+        jsonData?.clientType,
+        officeInfo?.id,
+        navigation,
+      ),
+    );
 
     setInfoData(MANAGER_INFO);
+    setDashboardList(DASHBOARD_LIST);
+    setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
     setTimeout(() => {
       setLoader(false);
     }, 2000);
@@ -101,17 +117,36 @@ const HomeScreen = () => {
 
   useEffect(() => {
     setInfoData(MANAGER_INFO);
+    setDashboardList(DASHBOARD_LIST);
+    setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
   }, []);
 
   useEffect(() => {
     // setLoader(true);
     setInfoData(MANAGER_INFO);
+    setDashboardList(DASHBOARD_LIST);
+    setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
     // setTimeout(() => {
     //   setLoader(false);
     // }, 2000);
-  }, [MY_INFO, MANAGER_INFO]);
+  }, [MY_INFO, MANAGER_INFO, DASHBOARD_LIST, DASHBOARD_MESSAGE_LIST]);
 
-  console.log(infoData, 'MANAGER_INFOMANAGER_INFOMANAGER_INFOMANAGER_INFO');
+  console.log(
+    dashboardList,
+    'newsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelist',
+  );
+
+  const desiredNewsType = 'Holidays ';
+  const TaxNewsType = 'Tax Deadlines';
+  const filteredList =
+    dashboardList &&
+    dashboardList.filter(item => item.newsType === desiredNewsType);
+
+  const TaxfilteredList =
+    dashboardList &&
+    dashboardList.filter(item => item.newsType === TaxNewsType);
+
+  // console.log(filteredList, 'filteredListfilteredListfilteredListfilteredList');
 
   const renderItem = ({item}) => (
     <TouchableOpacity
@@ -166,7 +201,7 @@ const HomeScreen = () => {
                         styles.emailtoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Message' ? '#9db436' : '#fff',
+                            showwhat1 == 'Message' ? Color.geen : '#fff',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Message')}>
@@ -194,6 +229,18 @@ const HomeScreen = () => {
                         ]}>
                         Tax
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (1)
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
@@ -230,6 +277,18 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Messages
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Proposal'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (4)
                       </Text>
                     </TouchableOpacity>
 
@@ -269,6 +328,18 @@ const HomeScreen = () => {
                         ]}>
                         Events
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Signature'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (0)
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
@@ -305,6 +376,18 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Holidays
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Reminders'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (1)
                       </Text>
                     </TouchableOpacity>
                     {/* </View> */}
@@ -331,7 +414,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -344,13 +427,22 @@ const HomeScreen = () => {
                         ]}>
                         Tax
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (1)
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
                         styles.mobiletoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
+                            showwhat1 == 'Proposal' ? Color.geen : '#fff',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Proposal')}>
@@ -375,6 +467,18 @@ const HomeScreen = () => {
                         ]}>
                         Messages
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Proposal'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (4)
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -392,7 +496,7 @@ const HomeScreen = () => {
                           {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
                         ]}
                         name="event"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -404,6 +508,15 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Events
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (0)
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -423,7 +536,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="holiday-village"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -435,6 +548,15 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Holidays
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (1)
                       </Text>
                     </TouchableOpacity>
                     {/* </View> */}
@@ -461,7 +583,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -473,6 +595,15 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Tax
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (1)
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -492,7 +623,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="message1"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -505,6 +636,15 @@ const HomeScreen = () => {
                         ]}>
                         Messages
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (4)
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -512,7 +652,7 @@ const HomeScreen = () => {
                         styles.mobiletoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
+                            showwhat1 == 'Signature' ? Color.geen : '#fff',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Signature')}>
@@ -535,6 +675,18 @@ const HomeScreen = () => {
                         ]}>
                         Events
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Signature'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (0)
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
@@ -553,7 +705,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="holiday-village"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -565,6 +717,15 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Holidays
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (1)
                       </Text>
                     </TouchableOpacity>
                     {/* </View> */}
@@ -591,7 +752,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="money-check-alt"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -603,6 +764,15 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Tax
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (1)
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -622,7 +792,7 @@ const HomeScreen = () => {
                           },
                         ]}
                         name="message1"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -634,6 +804,15 @@ const HomeScreen = () => {
                           },
                         ]}>
                         Messages
+                      </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (4)
                       </Text>
                     </TouchableOpacity>
 
@@ -652,7 +831,7 @@ const HomeScreen = () => {
                           {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
                         ]}
                         name="event"
-                        size={15}
+                        size={20}
                         color="#fff"
                       />
 
@@ -665,13 +844,22 @@ const HomeScreen = () => {
                         ]}>
                         Events
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                          },
+                        ]}>
+                        (0)
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
                         styles.mobiletoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
+                            showwhat1 == 'Reminders' ? Color.geen : '#fff',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Reminders')}>
@@ -696,6 +884,18 @@ const HomeScreen = () => {
                         ]}>
                         Holidays
                       </Text>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Reminders'
+                                ? Color.white
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        (1)
+                      </Text>
                     </TouchableOpacity>
                     {/* </View> */}
                   </View>
@@ -709,8 +909,37 @@ const HomeScreen = () => {
                 <ScrollView>
                   {/* <View style={styles.subContainer}> */}
                   <View style={styles.part}></View>
+                  {TaxfilteredList &&
+                    TaxfilteredList.map(item => (
+                      <View key={item.id} style={{padding: 20}}>
+                        <Text
+                          style={{
+                            backgroundColor: '#23c6c8',
+                            fontSize: 12,
+                            padding: 3,
+                          }}>
+                          {item.subject}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: '700',
+                            padding: 3,
+                          }}>
+                          Message:
+                          <Text
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 'normal',
+                              padding: 3,
+                            }}>
+                            {item.message}
+                          </Text>
+                        </Text>
+                      </View>
+                    ))}
 
-                  <Text style={styles.subHead}> Message Not Found</Text>
+                  {/* <Text style={styles.subHead}> Message Not Found</Text> */}
 
                   {/* </View> */}
                 </ScrollView>
@@ -720,8 +949,46 @@ const HomeScreen = () => {
                 <ScrollView>
                   <View style={styles.part}></View>
 
+                  {dashboardMessageList &&
+                    dashboardMessageList.map(item => (
+                      <View
+                        key={item.id}
+                        style={{
+                          paddingLeft: 20,
+                          //paddingBottom: 10,
+                          paddingTop: 10,
+                        }}>
+                        <Text
+                          style={{
+                            backgroundColor: '#23c6c8',
+                            fontSize: 12,
+                            width: wp(15),
+                            padding: 3,
+                            textAlign: 'center',
+                          }}>
+                          Action
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: '700',
+                            padding: 3,
+                          }}>
+                          Notification:
+                          <Text
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 'normal',
+                              padding: 3,
+                            }}>
+                            You have created new action #{item.id}
+                          </Text>
+                        </Text>
+                      </View>
+                    ))}
+
                   {/* <View style={styles.subContainer}> */}
-                  <Text style={styles.subHead}>Proposal Results Found</Text>
+                  {/* <Text style={styles.subHead}>Proposal Results Found</Text> */}
 
                   {/* </View> */}
                 </ScrollView>
@@ -732,21 +999,48 @@ const HomeScreen = () => {
                   <View style={styles.part}></View>
 
                   {/* <View style={styles.subContainer}> */}
-                  <Text style={styles.subHead}>Signature Results Found</Text>
+                  <Text style={styles.subHead}>Events not found</Text>
 
                   {/* </View> */}
                 </ScrollView>
               );
             } else {
               return (
-                <ScrollView>
+                <View style={{height: 200}}>
                   <View style={styles.part}></View>
-
+                  {filteredList &&
+                    filteredList.map(item => (
+                      <View key={item.id} style={{height: 200, padding: 20}}>
+                        <Text
+                          style={{
+                            backgroundColor: '#23c6c8',
+                            fontSize: 12,
+                            padding: 3,
+                          }}>
+                          {item.subject}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            fontWeight: '700',
+                            padding: 3,
+                          }}>
+                          Message:
+                          <Text
+                            style={{
+                              fontSize: 10,
+                              fontWeight: 'normal',
+                              padding: 3,
+                            }}>
+                            {item.message}
+                          </Text>
+                        </Text>
+                      </View>
+                    ))}
                   {/* <View style={styles.subContainer}> */}
-                  <Text style={styles.subHead}>Reminders Not Found</Text>
-
+                  {/* <Text style={styles.subHead}>Reminders Not Found1</Text> */}
                   {/* </View> */}
-                </ScrollView>
+                </View>
               );
             }
           })()}
@@ -964,12 +1258,13 @@ const styles = StyleSheet.create({
   },
   emailtoch: {
     //  backgroundColor: "lightgray",
-    width: wp(12),
-    height: wp(12),
-    justifyContent: 'center',
+    width: wp(13),
+    height: wp(13),
+    paddingTop: 5,
+    //  justifyContent: 'center',
     borderRadius: 50,
     //marginRight: 6,
-    marginTop: 10,
+    //marginTop: 10,
   },
   ButtonText: {
     color: '#fff',
@@ -980,11 +1275,12 @@ const styles = StyleSheet.create({
     // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
     // width: 70,
     // height: 45,
-    width: wp(12),
-    height: wp(12),
-    marginTop: 10,
+    width: wp(13),
+    height: wp(13),
+    //marginTop: 10,
+    paddingTop: 5,
     borderRadius: 50,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     marginRight: 5,
   },
   subHead: {

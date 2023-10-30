@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   View,
@@ -14,9 +14,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import CustomHeader from '../Component/CustomHeader';
 import CustomBottomTab from '../Component/CustomBottomTab';
+import {GetPaymentList} from '../Redux/Actions/PaymentAction';
+import {Loader} from '../Component/Loader';
+import {Color} from '../Style';
 
 const data = [
   {
@@ -72,12 +76,50 @@ const data = [
 ];
 const Payments = () => {
   const [showwhat, setshowwhat] = useState('Experience');
+  const [infoData, setInfoData] = useState([]);
+  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
+  const {GET_PAYMENT_LIST} = useSelector(state => state.PaymentReducer);
+  const dispatch = useDispatch();
+  const [loader, setLoader] = useState(false);
+  const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
   };
+  const jsonData = MY_INFO.guestInfo;
+
+  useEffect(() => {
+    setLoader(true);
+    dispatch(
+      GetPaymentList(jsonData?.clientId, jsonData?.clientType, navigation),
+    );
+
+    setInfoData(GET_PAYMENT_LIST);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    setInfoData(GET_PAYMENT_LIST);
+  }, [GET_PAYMENT_LIST]);
+
+  useEffect(() => {
+    // setLoader(true);
+    setInfoData(GET_PAYMENT_LIST);
+    // setTimeout(() => {
+    //   setLoader(false);
+    // }, 2000);
+  }, [GET_PAYMENT_LIST]);
+
+  console.log(
+    infoData.length,
+    'GET_PAYMENT_LISTGET_PAYMENT_LISTGET_PAYMENT_LIST',
+  );
+
   return (
     <SafeAreaView style={{flex: 1}}>
+      <Loader flag={loader} />
       <CustomHeader />
       <View style={{height: hp(80)}}>
         {/* <View style={styles.headerView}>
@@ -92,18 +134,20 @@ const Payments = () => {
                     styles.emailtoch,
                     {
                       backgroundColor:
-                        showwhat == 'Experience' ? '#2F4050' : 'lightgray',
+                        showwhat == 'Experience' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('Experience')}>
-                  <Text style={styles.ButtonText}>Pending (0)</Text>
+                  <Text style={styles.ButtonText}>
+                    Pending ({infoData.length})
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
                     styles.mobiletoch,
                     {
                       backgroundColor:
-                        showwhat == 'My Schools' ? '#2F5597' : 'lightgray',
+                        showwhat == 'My Schools' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('My Schools')}>
@@ -114,7 +158,7 @@ const Payments = () => {
                     styles.emailtoch,
                     {
                       backgroundColor:
-                        showwhat == 'Reviews' ? '#2F5597' : 'lightgray',
+                        showwhat == 'Reviews' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('Reviews')}>
@@ -130,7 +174,7 @@ const Payments = () => {
                     styles.emailtoch,
                     {
                       backgroundColor:
-                        showwhat == 'Experience' ? '#2F5597' : 'lightgray',
+                        showwhat == 'Experience' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('Experience')}>
@@ -141,7 +185,7 @@ const Payments = () => {
                     styles.mobiletoch,
                     {
                       backgroundColor:
-                        showwhat == 'My Schools' ? '#2F4050' : 'lightgray',
+                        showwhat == 'My Schools' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('My Schools')}>
@@ -152,7 +196,7 @@ const Payments = () => {
                     styles.emailtoch,
                     {
                       backgroundColor:
-                        showwhat == 'Reviews' ? '#2F5597' : 'lightgray',
+                        showwhat == 'Reviews' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('Reviews')}>
@@ -168,7 +212,7 @@ const Payments = () => {
                     styles.emailtoch,
                     {
                       backgroundColor:
-                        showwhat == 'Experience' ? '#2F5597' : 'lightgray',
+                        showwhat == 'Experience' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('Experience')}>
@@ -179,7 +223,7 @@ const Payments = () => {
                     styles.mobiletoch,
                     {
                       backgroundColor:
-                        showwhat == 'My Schools' ? '#2F5597' : 'lightgray',
+                        showwhat == 'My Schools' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('My Schools')}>
@@ -190,7 +234,7 @@ const Payments = () => {
                     styles.emailtoch,
                     {
                       backgroundColor:
-                        showwhat == 'Reviews' ? '#2F4050' : 'lightgray',
+                        showwhat == 'Reviews' ? Color.geen : 'lightgray',
                     },
                   ]}
                   onPress={() => showwhatfunc('Reviews')}>
@@ -205,9 +249,98 @@ const Payments = () => {
           if (showwhat == 'Experience') {
             return (
               <View style={styles.subContainer}>
-                <Text style={styles.subHead}>Pending Invoices (0)</Text>
+                <Text style={styles.subHead}>
+                  Pending Invoices ({infoData.length})
+                </Text>
+                <View
+                  style={{
+                    width: wp(90),
+                    backgroundColor: '#fff',
+
+                    alignItems: 'center',
+                    alignSelf: 'center',
+                    elevation: 10,
+
+                    marginBottom: 10,
+                    flexDirection: 'row',
+                    height: wp(15),
+                  }}>
+                  {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.img}
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+                  <View
+                    style={{
+                      width: wp(20),
+
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                      Order Id
+                    </Text>
+                  </View>
+
+                  {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.viewicon}
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+                  <View
+                    style={{
+                      width: wp(20),
+
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                      Client ID
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: wp(20),
+
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                      Office ID
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: wp(20),
+
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                      Tracking
+                    </Text>
+                  </View>
+                </View>
                 <FlatList
-                  data={data}
+                  data={infoData}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
                   renderItem={({item, index}) => (
@@ -224,7 +357,7 @@ const Payments = () => {
                         flexDirection: 'row',
                         height: wp(15),
                       }}>
-                      <View
+                      {/* <View
                         style={{
                           width: wp(15),
 
@@ -239,28 +372,18 @@ const Payments = () => {
                             //alignSelf: 'center',
                           }}
                         />
-                      </View>
+                      </View> */}
                       <View
                         style={{
-                          width: wp(30),
-
+                          width: wp(20),
                           alignItems: 'center',
                         }}>
                         <Text style={{color: '#2F4050', fontSize: 12}}>
-                          {item.clintID}
+                          #{item?.collectionInfo?.invoiceId}
                         </Text>
                       </View>
-                      <View
-                        style={{
-                          width: wp(30),
 
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{color: '#2F4050', fontSize: 12}}>
-                          {item.clintName}
-                        </Text>
-                      </View>
-                      <View
+                      {/* <View
                         style={{
                           width: wp(15),
 
@@ -275,6 +398,82 @@ const Payments = () => {
                             //alignSelf: 'center',
                           }}
                         />
+                      </View> */}
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{color: '#2F4050', fontSize: 10}}>
+                          {item?.collectionInfo?.clientId}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{color: '#2F4050', fontSize: 10}}>
+                          {item?.collectionInfo?.officeId}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        {item?.collectionInfo?.status == 1 ? (
+                          <Text
+                            style={{
+                              color: Color.white,
+                              fontSize: 8,
+                              backgroundColor: '#1c84c6',
+                              padding: 5,
+                              textAlign: 'center',
+                              width: wp(15),
+                            }}>
+                            Not Started
+                          </Text>
+                        ) : item?.collectionInfo?.status == 2 ? (
+                          <Text
+                            style={{
+                              color: Color.white,
+                              fontSize: 8,
+                              backgroundColor: '#1c84c6',
+                              padding: 5,
+                              textAlign: 'center',
+                              width: wp(15),
+                            }}>
+                            Started
+                          </Text>
+                        ) : item?.collectionInfo?.status == 3 ? (
+                          <Text
+                            style={{
+                              color: Color.white,
+                              fontSize: 8,
+                              backgroundColor: '#1c84c6',
+                              padding: 5,
+                              textAlign: 'center',
+                              width: wp(15),
+                            }}>
+                            Complete
+                          </Text>
+                        ) : (
+                          <Text
+                            style={{
+                              color: Color.white,
+                              fontSize: 8,
+                              backgroundColor: '#1c84c6',
+                              padding: 5,
+                              textAlign: 'center',
+                              width: wp(15),
+                            }}>
+                            Cancelled
+                          </Text>
+                        )}
                       </View>
                     </View>
                   )}
@@ -285,7 +484,8 @@ const Payments = () => {
             return (
               <View style={styles.subContainer}>
                 <Text style={styles.subHead}>Paid Invoices (0)</Text>
-                <FlatList
+                <Text style={{textAlign: 'center'}}>No Data Found</Text>
+                {/* <FlatList
                   data={data}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
@@ -357,14 +557,15 @@ const Payments = () => {
                       </View>
                     </View>
                   )}
-                />
+                /> */}
               </View>
             );
           } else {
             return (
               <View style={styles.subContainer}>
                 <Text style={styles.subHead}>Plan</Text>
-                <FlatList
+                <Text style={{textAlign: 'center'}}>No Data Found</Text>
+                {/* <FlatList
                   data={data}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
@@ -436,7 +637,7 @@ const Payments = () => {
                       </View>
                     </View>
                   )}
-                />
+                /> */}
               </View>
             );
           }
@@ -537,7 +738,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     padding: 10,
     marginBottom: 20,
-    backgroundColor: '#2F4050',
+    backgroundColor: Color.geen,
     //  textAlign:'center'
   },
 });

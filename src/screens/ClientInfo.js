@@ -15,7 +15,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import {clientInfo, ClientInfoList} from '../Redux/Actions/TaxLeaf';
+import {
+  clientInfo,
+  ClientInfoList,
+  client_Detail,
+} from '../Redux/Actions/TaxLeaf';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Loader} from '../Component/Loader';
 import {Color} from '../Style';
@@ -89,20 +93,7 @@ const ClientInfo = () => {
   //const ClinetCount = MY_INFO?.guestInfo;
   let countIndividuals = 0;
   let countBusiness = 0;
-  CLIENT_LIST.forEach(item => {
-    if (
-      item.subClientInfo &&
-      item.subClientInfo.subClientType === 'individual'
-    ) {
-      countIndividuals++;
-    } else if (
-      item.subClientInfo &&
-      item.subClientInfo.subClientType === 'Business'
-    ) {
-      countBusiness++;
-    }
-  });
-  // });
+
   const [infoData, setInfoData] = useState({});
   const [loader, setLoader] = useState(false);
 
@@ -131,6 +122,22 @@ const ClientInfo = () => {
     // }, 2000);
   }, [MY_INFO, CLIENT_LIST]);
 
+  console.log(infoData, 'infoDatainfoDatainfoDatainfoData');
+
+  // infoData.forEach(item => {
+  //   if (
+  //     item.subClientInfo &&
+  //     item.subClientInfo.subClientType === 'individual'
+  //   ) {
+  //     countIndividuals++;
+  //   } else if (
+  //     item.subClientInfo &&
+  //     item.subClientInfo.subClientType === 'Business'
+  //   ) {
+  //     countBusiness++;
+  //   }
+  // });
+
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
@@ -143,6 +150,20 @@ const ClientInfo = () => {
     //     setshowwhat('scan')
     // }
   };
+
+  const GetClientDetail = item => {
+    navigation.navigate('ClientDetails', {
+      clientdetail: item,
+    });
+
+    dispatch(
+      client_Detail(
+        item?.subClientInfo.subClientId,
+        item?.subClientInfo.subClientType,
+      ),
+    );
+  };
+
   return (
     <View style={[styles.main]}>
       <Loader flag={loader} />
@@ -370,16 +391,18 @@ const ClientInfo = () => {
               {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
               </Text> */}
-              <Image
-                source={require('../Assets/img/icons/view.png')}
-                style={{
-                  width: 20,
-                  height: 20,
-                  alignSelf: 'center',
-                  borderRadius: 50,
-                  //alignSelf: 'center',
-                }}
-              />
+              <TouchableOpacity onPress={() => GetClientDetail(item)}>
+                <Image
+                  source={require('../Assets/img/icons/view.png')}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    alignSelf: 'center',
+                    borderRadius: 50,
+                    //alignSelf: 'center',
+                  }}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         )}
