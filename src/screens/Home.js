@@ -29,7 +29,7 @@ import {dashboardlist} from '../Redux/Actions/Dashboard';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
-  const [showwhat1, setshowwhat1] = useState('Message');
+  const [showwhat1, setshowwhat1] = useState('');
   const [infoData, setInfoData] = useState({});
   const [dashboardList, setDashboardList] = useState([]);
   const [dashboardMessageList, setDashboardMessageList] = useState([]);
@@ -47,6 +47,8 @@ const HomeScreen = () => {
     setshowwhat1(data);
     console.log(data);
   };
+  console.log(showwhat1, 'showWhat');
+
   const data = [
     {
       id: 1,
@@ -154,7 +156,14 @@ const HomeScreen = () => {
       // onPress={toggleModal}
     >
       <View style={styles.cardShadow}>
-        <Image source={item.img} style={styles.Slidericons} />
+        <Image
+          source={item.img}
+          style={
+            item.id == 1 || item.id == 2
+              ? styles.Slidericons1
+              : styles.Slidericons
+          }
+        />
       </View>
       <View>
         <Text style={styles.postText}>{item.Title}</Text>
@@ -204,7 +213,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Message' ? Color.geen : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Message')}>
+                      onPress={() =>
+                        showwhat1 == 'Message'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Message')
+                      }>
                       <Icon3
                         style={[
                           styles.icon,
@@ -250,7 +263,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Proposal')}>
+                      onPress={() =>
+                        showwhat1 == 'Proposal'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Proposal')
+                      }>
                       <Icon
                         style={[
                           styles.icon,
@@ -300,7 +317,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Signature' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Signature')}>
+                      onPress={() =>
+                        showwhat1 == 'Signature'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Signature')
+                      }>
                       <Icon1
                         style={[
                           styles.icon,
@@ -349,7 +370,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Reminders')}>
+                      onPress={() =>
+                        showwhat1 == 'Reminders'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Reminders')
+                      }>
                       <Icon2
                         style={[
                           styles.icon,
@@ -405,7 +430,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Message' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Message')}>
+                      onPress={() =>
+                        showwhat1 == 'Message'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Message')
+                      }>
                       <Icon3
                         style={[
                           styles.icon,
@@ -417,7 +446,6 @@ const HomeScreen = () => {
                         size={20}
                         color="#fff"
                       />
-
                       <Text
                         style={[
                           styles.ButtonText,
@@ -445,7 +473,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Proposal' ? Color.geen : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Proposal')}>
+                      onPress={() =>
+                        showwhat1 == 'Proposal'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Proposal')
+                      }>
                       <Icon
                         style={[
                           styles.icon,
@@ -489,7 +521,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Signature' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Signature')}>
+                      onPress={() =>
+                        showwhat1 == 'Signature'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Signature')
+                      }>
                       <Icon1
                         style={[
                           styles.icon,
@@ -527,7 +563,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Reminders')}>
+                      onPress={() =>
+                        showwhat1 == 'Reminders'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Reminders')
+                      }>
                       <Icon2
                         style={[
                           styles.icon,
@@ -574,7 +614,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Message' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Message')}>
+                      onPress={() =>
+                        showwhat1 == 'Message'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Message')
+                      }>
                       <Icon3
                         style={[
                           styles.icon,
@@ -614,7 +658,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Proposal')}>
+                      onPress={() =>
+                        showwhat1 == 'Proposal'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Proposal')
+                      }>
                       <Icon
                         style={[
                           styles.icon,
@@ -655,7 +703,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Signature' ? Color.geen : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Signature')}>
+                      onPress={() =>
+                        showwhat1 == 'Signature'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Signature')
+                      }>
                       <Icon1
                         style={[
                           styles.icon,
@@ -696,7 +748,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Reminders')}>
+                      onPress={() =>
+                        showwhat1 == 'Reminders'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Reminders')
+                      }>
                       <Icon2
                         style={[
                           styles.icon,
@@ -743,7 +799,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Message' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Message')}>
+                      onPress={() =>
+                        showwhat1 == 'Message'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Message')
+                      }>
                       <Icon3
                         style={[
                           styles.icon,
@@ -824,7 +884,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Signature' ? '#2F4050' : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Signature')}>
+                      onPress={() =>
+                        showwhat1 == 'Signature'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Signature')
+                      }>
                       <Icon1
                         style={[
                           styles.icon,
@@ -862,7 +926,11 @@ const HomeScreen = () => {
                             showwhat1 == 'Reminders' ? Color.geen : '#fff',
                         },
                       ]}
-                      onPress={() => showwhatfunc1('Reminders')}>
+                      onPress={() =>
+                        showwhat1 == 'Reminders'
+                          ? setshowwhat1('')
+                          : showwhatfunc1('Reminders')
+                      }>
                       <Icon2
                         style={[
                           styles.icon,
@@ -908,139 +976,147 @@ const HomeScreen = () => {
               return (
                 <ScrollView>
                   {/* <View style={styles.subContainer}> */}
-                  <View style={styles.part}></View>
-                  {TaxfilteredList &&
-                    TaxfilteredList.map(item => (
-                      <View key={item.id} style={{padding: 20}}>
-                        <Text
-                          style={{
-                            backgroundColor: '#23c6c8',
-                            fontSize: 12,
-                            padding: 3,
-                          }}>
-                          {item.subject}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            fontWeight: '700',
-                            padding: 3,
-                          }}>
-                          Message:
+                  <TouchableOpacity onPress={() => setshowwhat1('')}>
+                    <View style={styles.part}></View>
+                    {TaxfilteredList &&
+                      TaxfilteredList.map(item => (
+                        <View key={item.id} style={{padding: 20}}>
                           <Text
                             style={{
-                              fontSize: 10,
-                              fontWeight: 'normal',
+                              backgroundColor: '#23c6c8',
+                              fontSize: 12,
                               padding: 3,
                             }}>
-                            {item.message}
+                            {item.subject}
                           </Text>
-                        </Text>
-                      </View>
-                    ))}
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: '700',
+                              padding: 3,
+                            }}>
+                            Message:
+                            <Text
+                              style={{
+                                fontSize: 10,
+                                fontWeight: 'normal',
+                                padding: 3,
+                              }}>
+                              {item.message}
+                            </Text>
+                          </Text>
+                        </View>
+                      ))}
 
-                  {/* <Text style={styles.subHead}> Message Not Found</Text> */}
+                    {/* <Text style={styles.subHead}> Message Not Found</Text> */}
 
-                  {/* </View> */}
+                    {/* </View> */}
+                  </TouchableOpacity>
                 </ScrollView>
               );
             } else if (showwhat1 == 'Proposal') {
               return (
                 <ScrollView>
-                  <View style={styles.part}></View>
+                  <TouchableOpacity onPress={() => setshowwhat1('')}>
+                    <View style={styles.part}></View>
 
-                  {dashboardMessageList &&
-                    dashboardMessageList.map(item => (
-                      <View
-                        key={item.id}
-                        style={{
-                          paddingLeft: 20,
-                          //paddingBottom: 10,
-                          paddingTop: 10,
-                        }}>
-                        <Text
+                    {dashboardMessageList &&
+                      dashboardMessageList.map(item => (
+                        <View
+                          key={item.id}
                           style={{
-                            backgroundColor: '#23c6c8',
-                            fontSize: 12,
-                            width: wp(15),
-                            padding: 3,
-                            textAlign: 'center',
+                            paddingLeft: 20,
+                            //paddingBottom: 10,
+                            paddingTop: 10,
                           }}>
-                          Action
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            fontWeight: '700',
-                            padding: 3,
-                          }}>
-                          Notification:
                           <Text
                             style={{
-                              fontSize: 10,
-                              fontWeight: 'normal',
+                              backgroundColor: '#23c6c8',
+                              fontSize: 12,
+                              width: wp(15),
+                              padding: 3,
+                              textAlign: 'center',
+                            }}>
+                            Action
+                          </Text>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: '700',
                               padding: 3,
                             }}>
-                            You have created new action #{item.id}
+                            Notification:
+                            <Text
+                              style={{
+                                fontSize: 10,
+                                fontWeight: 'normal',
+                                padding: 3,
+                              }}>
+                              You have created new action #{item.id}
+                            </Text>
                           </Text>
-                        </Text>
-                      </View>
-                    ))}
+                        </View>
+                      ))}
 
-                  {/* <View style={styles.subContainer}> */}
-                  {/* <Text style={styles.subHead}>Proposal Results Found</Text> */}
+                    {/* <View style={styles.subContainer}> */}
+                    {/* <Text style={styles.subHead}>Proposal Results Found</Text> */}
 
-                  {/* </View> */}
+                    {/* </View> */}
+                  </TouchableOpacity>
                 </ScrollView>
               );
             } else if (showwhat1 == 'Signature') {
               return (
                 <ScrollView>
-                  <View style={styles.part}></View>
+                  <TouchableOpacity onPress={() => setshowwhat1('')}>
+                    <View style={styles.part}></View>
 
-                  {/* <View style={styles.subContainer}> */}
-                  <Text style={styles.subHead}>Events not found</Text>
+                    {/* <View style={styles.subContainer}> */}
+                    <Text style={styles.subHead}>Events not found</Text>
 
-                  {/* </View> */}
+                    {/* </View> */}
+                  </TouchableOpacity>
                 </ScrollView>
               );
-            } else {
+            } else if (showwhat1 == 'Reminders') {
               return (
-                <View style={{height: 200}}>
-                  <View style={styles.part}></View>
-                  {filteredList &&
-                    filteredList.map(item => (
-                      <View key={item.id} style={{height: 200, padding: 20}}>
-                        <Text
-                          style={{
-                            backgroundColor: '#23c6c8',
-                            fontSize: 12,
-                            padding: 3,
-                          }}>
-                          {item.subject}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            fontWeight: '700',
-                            padding: 3,
-                          }}>
-                          Message:
+                <TouchableOpacity onPress={() => setshowwhat1('')}>
+                  <View style={{height: 200}}>
+                    <View style={styles.part}></View>
+                    {filteredList &&
+                      filteredList.map(item => (
+                        <View key={item.id} style={{height: 200, padding: 20}}>
                           <Text
                             style={{
-                              fontSize: 10,
-                              fontWeight: 'normal',
+                              backgroundColor: '#23c6c8',
+                              fontSize: 12,
                               padding: 3,
                             }}>
-                            {item.message}
+                            {item.subject}
                           </Text>
-                        </Text>
-                      </View>
-                    ))}
-                  {/* <View style={styles.subContainer}> */}
-                  {/* <Text style={styles.subHead}>Reminders Not Found1</Text> */}
-                  {/* </View> */}
-                </View>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              fontWeight: '700',
+                              padding: 3,
+                            }}>
+                            Message:
+                            <Text
+                              style={{
+                                fontSize: 10,
+                                fontWeight: 'normal',
+                                padding: 3,
+                              }}>
+                              {item.message}
+                            </Text>
+                          </Text>
+                        </View>
+                      ))}
+                    {/* <View style={styles.subContainer}> */}
+                    {/* <Text style={styles.subHead}>Reminders Not Found1</Text> */}
+                    {/* </View> */}
+                  </View>
+                </TouchableOpacity>
               );
             }
           })()}
@@ -1147,9 +1223,18 @@ const styles = StyleSheet.create({
     // width:'62%'
   },
   Slidericons: {
-    width: '70%',
-    height: 150,
+    width: '80%',
+    height: 160,
+    resizeMode: 'contain',
+
     // marginTop: 10,
+    // marginLeft: 20,
+    alignSelf: 'center',
+  },
+  Slidericons1: {
+    width: '60%',
+    height: 140,
+    resizeMode: 'contain',
     // marginLeft: 20,
     alignSelf: 'center',
   },
@@ -1288,4 +1373,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   icon: {alignSelf: 'center'},
+  cardShadow: {
+    // backgroundColor: 'red',
+    // height: 300,
+    paddingTop: 20,
+  },
 });

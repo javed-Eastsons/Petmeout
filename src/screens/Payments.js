@@ -21,6 +21,8 @@ import CustomBottomTab from '../Component/CustomBottomTab';
 import {GetPaymentList} from '../Redux/Actions/PaymentAction';
 import {Loader} from '../Component/Loader';
 import {Color} from '../Style';
+import Accordion from 'react-native-collapsible/Accordion';
+import * as Animatable from 'react-native-animatable';
 
 const data = [
   {
@@ -81,6 +83,7 @@ const Payments = () => {
   const {GET_PAYMENT_LIST} = useSelector(state => state.PaymentReducer);
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
+  const [activeSections, setActiveSection] = useState([]);
   const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
@@ -99,7 +102,7 @@ const Payments = () => {
       setLoader(false);
     }, 2000);
   }, []);
-
+  console.log(infoData, 'infoData');
   useEffect(() => {
     setInfoData(GET_PAYMENT_LIST);
   }, [GET_PAYMENT_LIST]);
@@ -116,6 +119,343 @@ const Payments = () => {
     infoData.length,
     'GET_PAYMENT_LISTGET_PAYMENT_LISTGET_PAYMENT_LIST',
   );
+  const SECTIONS = [
+    {
+      title: 'First',
+      content: 'Lorem ipsum...',
+    },
+    {
+      title: 'Second',
+      content: 'Lorem ipsum...',
+    },
+  ];
+  const renderSectionTitle = section => {
+    return (
+      <View style={styles.content}>
+        <Text>{section.content}</Text>
+      </View>
+    );
+  };
+
+  const renderHeader = item => {
+    return (
+      <View
+        style={{
+          width: wp(90),
+          backgroundColor: '#fff',
+
+          alignItems: 'center',
+          alignSelf: 'center',
+          elevation: 10,
+
+          marginBottom: 10,
+          flexDirection: 'row',
+          height: wp(15),
+        }}>
+        {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.img}
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+        <View
+          style={{
+            width: wp(20),
+            alignItems: 'center',
+          }}>
+          <Text style={{color: '#2F4050', fontSize: 12}}>
+            #{item?.collectionInfo?.invoiceId}
+          </Text>
+        </View>
+
+        {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.viewicon}
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+        <View
+          style={{
+            width: wp(20),
+
+            alignItems: 'center',
+          }}>
+          <Text style={{color: '#2F4050', fontSize: 10}}>
+            {item?.collectionInfo?.clientId}
+          </Text>
+        </View>
+        <View
+          style={{
+            width: wp(20),
+
+            alignItems: 'center',
+          }}>
+          <Text style={{color: '#2F4050', fontSize: 10}}>
+            {item?.collectionInfo?.officeId}
+          </Text>
+        </View>
+        <View
+          style={{
+            width: wp(20),
+
+            alignItems: 'center',
+          }}>
+          {item?.collectionInfo?.status == 1 ? (
+            <Text
+              style={{
+                color: Color.white,
+                fontSize: 8,
+                backgroundColor: '#1c84c6',
+                padding: 5,
+                textAlign: 'center',
+                width: wp(15),
+              }}>
+              Not Started
+            </Text>
+          ) : item?.collectionInfo?.status == 2 ? (
+            <Text
+              style={{
+                color: Color.white,
+                fontSize: 8,
+                backgroundColor: '#1c84c6',
+                padding: 5,
+                textAlign: 'center',
+                width: wp(15),
+              }}>
+              Started
+            </Text>
+          ) : item?.collectionInfo?.status == 3 ? (
+            <Text
+              style={{
+                color: Color.white,
+                fontSize: 8,
+                backgroundColor: '#1c84c6',
+                padding: 5,
+                textAlign: 'center',
+                width: wp(15),
+              }}>
+              Complete
+            </Text>
+          ) : (
+            <Text
+              style={{
+                color: Color.white,
+                fontSize: 8,
+                backgroundColor: '#1c84c6',
+                padding: 5,
+                textAlign: 'center',
+                width: wp(15),
+              }}>
+              Cancelled
+            </Text>
+          )}
+        </View>
+      </View>
+    );
+  };
+
+  const renderContent = (section, _, isActive) => {
+    return (
+      <>
+        <Animatable.View
+          duration={400}
+          style={[
+            styles.content,
+            isActive ? styles.active : styles.inactive,
+            {
+              width: wp(95),
+              alignSelf: 'center',
+              backgroundColor: '#fff',
+
+              opacity: 10,
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 10,
+              elevation: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            },
+          ]}
+          transition="backgroundColor">
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+              marginTop: 4,
+              paddingTop: 3,
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              fontWeight: '700',
+              justifyContent: 'center',
+            }}>
+            Category
+          </Animatable.Text>
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+              marginTop: 4,
+              paddingTop: 3,
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              fontWeight: '700',
+              justifyContent: 'center',
+            }}>
+            Service Name
+          </Animatable.Text>
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+              marginTop: 4,
+              paddingTop: 3,
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              fontWeight: '700',
+              justifyContent: 'center',
+            }}>
+            Retail Price
+          </Animatable.Text>
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+              marginTop: 4,
+              paddingTop: 3,
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              fontWeight: '700',
+              justifyContent: 'center',
+            }}>
+            Quantity
+          </Animatable.Text>
+        </Animatable.View>
+        <Animatable.View
+          duration={400}
+          style={[
+            styles.content,
+            isActive ? styles.active : styles.inactive,
+            {
+              width: wp(95),
+              alignSelf: 'center',
+              backgroundColor: '#fff',
+
+              opacity: 10,
+              paddingLeft: 10,
+              paddingRight: 10,
+              paddingBottom: 10,
+              elevation: 10,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            },
+          ]}
+          transition="backgroundColor">
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              justifyContent: 'center',
+            }}>
+            Category
+          </Animatable.Text>
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              justifyContent: 'center',
+            }}>
+            {section?.serviceListModel?.serviceInfo?.description}
+          </Animatable.Text>
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              justifyContent: 'center',
+            }}>
+            Retail Price
+          </Animatable.Text>
+          <Animatable.Text
+            animation={isActive ? 'bounceIn' : undefined}
+            style={{
+              color: '#000',
+              textAlign: 'center',
+
+              // backgroundColor: '#2F5597',
+              borderTopLeftRadius: 10,
+              borderTopRightRadius: 10,
+              height: wp(7),
+              fontSize: 12,
+              justifyContent: 'center',
+            }}>
+            Quantity
+          </Animatable.Text>
+        </Animatable.View>
+      </>
+    );
+  };
+  const setSections = sections => {
+    //setting up a active section state
+    console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
+    console.log(sections, 'PPPPPPPPPPPPPPPPPPPP');
+    setActiveSection(sections.includes(undefined) ? [] : sections);
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -339,144 +679,18 @@ const Payments = () => {
                     </Text>
                   </View>
                 </View>
-                <FlatList
-                  data={infoData}
-                  // numColumns={5}
-                  keyExtractor={(item, index) => index}
-                  renderItem={({item, index}) => (
-                    <View
-                      style={{
-                        width: wp(90),
-                        backgroundColor: '#fff',
-
-                        alignItems: 'center',
-                        alignSelf: 'center',
-                        elevation: 10,
-
-                        marginBottom: 10,
-                        flexDirection: 'row',
-                        height: wp(15),
-                      }}>
-                      {/* <View
-                        style={{
-                          width: wp(15),
-
-                          alignItems: 'center',
-                        }}>
-                        <Image
-                          source={item.img}
-                          style={{
-                            width: 30,
-                            height: 30,
-                            borderRadius: 50,
-                            //alignSelf: 'center',
-                          }}
-                        />
-                      </View> */}
-                      <View
-                        style={{
-                          width: wp(20),
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{color: '#2F4050', fontSize: 12}}>
-                          #{item?.collectionInfo?.invoiceId}
-                        </Text>
-                      </View>
-
-                      {/* <View
-                        style={{
-                          width: wp(15),
-
-                          alignItems: 'center',
-                        }}>
-                        <Image
-                          source={item.viewicon}
-                          style={{
-                            width: 20,
-                            height: 20,
-                            borderRadius: 50,
-                            //alignSelf: 'center',
-                          }}
-                        />
-                      </View> */}
-                      <View
-                        style={{
-                          width: wp(20),
-
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{color: '#2F4050', fontSize: 10}}>
-                          {item?.collectionInfo?.clientId}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: wp(20),
-
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{color: '#2F4050', fontSize: 10}}>
-                          {item?.collectionInfo?.officeId}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: wp(20),
-
-                          alignItems: 'center',
-                        }}>
-                        {item?.collectionInfo?.status == 1 ? (
-                          <Text
-                            style={{
-                              color: Color.white,
-                              fontSize: 8,
-                              backgroundColor: '#1c84c6',
-                              padding: 5,
-                              textAlign: 'center',
-                              width: wp(15),
-                            }}>
-                            Not Started
-                          </Text>
-                        ) : item?.collectionInfo?.status == 2 ? (
-                          <Text
-                            style={{
-                              color: Color.white,
-                              fontSize: 8,
-                              backgroundColor: '#1c84c6',
-                              padding: 5,
-                              textAlign: 'center',
-                              width: wp(15),
-                            }}>
-                            Started
-                          </Text>
-                        ) : item?.collectionInfo?.status == 3 ? (
-                          <Text
-                            style={{
-                              color: Color.white,
-                              fontSize: 8,
-                              backgroundColor: '#1c84c6',
-                              padding: 5,
-                              textAlign: 'center',
-                              width: wp(15),
-                            }}>
-                            Complete
-                          </Text>
-                        ) : (
-                          <Text
-                            style={{
-                              color: Color.white,
-                              fontSize: 8,
-                              backgroundColor: '#1c84c6',
-                              padding: 5,
-                              textAlign: 'center',
-                              width: wp(15),
-                            }}>
-                            Cancelled
-                          </Text>
-                        )}
-                      </View>
-                    </View>
-                  )}
+                <Accordion
+                  activeSections={activeSections}
+                  sections={infoData}
+                  //title and content of accordion
+                  touchableComponent={TouchableOpacity}
+                  renderHeader={renderHeader}
+                  renderContent={renderContent}
+                  //Header Component(View) to render
+                  //Content Component(View) to render
+                  duration={400}
+                  //Duration for Collapse and expand
+                  onChange={setSections}
                 />
               </View>
             );

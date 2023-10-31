@@ -10,6 +10,7 @@ import {
   Button,
   TextInput,
   ImageBackground,
+  Linking,
 } from 'react-native';
 
 import {
@@ -308,7 +309,14 @@ const ClientDetails = ({route}) => {
             <Text style={styles.headingClient}>Contact Information</Text>
             <View style={styles.contentView}>
               <Text style={styles.subHead}>Email:</Text>
-              <Text style={styles.LIstText2}>
+              <Text
+                style={styles.LIstText2}
+                onPress={() =>
+                  Linking.openURL(
+                    `mailto:${ClientData.officeInfo.email}?subject=SendMail&body=Description`,
+                  )
+                }
+                title={ClientData.officeInfo.email}>
                 {' '}
                 {ClientData.officeInfo.email}
               </Text>
@@ -316,11 +324,16 @@ const ClientDetails = ({route}) => {
             <View style={styles.contentView}>
               <Text style={styles.subHead}>Phone Number:</Text>
 
-              <Text style={styles.LIstText2}>
+              <Text
+                style={styles.LIstText2}
+                onPress={() =>
+                  Linking.openURL(`tel:${ClientData.officeInfo.phone}`)
+                }>
                 {' '}
                 {ClientData.officeInfo.phone}
               </Text>
             </View>
+
             <View style={styles.contentView}>
               <Text style={styles.subHead}>Address:</Text>
 
