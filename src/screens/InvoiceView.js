@@ -120,19 +120,19 @@ export default InvoiceView = ({ route }) => {
                     <Text style={styles.subtitle}>INVOICE FROM:</Text>
                     <View style={styles.customerInfo}>
                         {/* <Text style={styles.label}>Name:</Text> */}
-                        <Text style={styles.text}>{officeInfo.name}</Text>
+                        <Text style={styles.text}>{officeInfo?.name}</Text>
                     </View>
                     <View style={styles.customerInfo}>
                         {/* <Text style={styles.label}>Name:</Text> */}
-                        <Text style={styles.text}>{managerInfo.firstName + ' ' + managerInfo.lastName}</Text>
+                        <Text style={styles.text}>{managerInfo?.firstName + ' ' + managerInfo?.lastName}</Text>
                     </View>
                     <View style={styles.customerInfo}>
                         {/* <Text style={styles.label}>Email:</Text> */}
-                        <Text style={styles.text}>{officeInfo.phone}</Text>
+                        <Text style={styles.text}>{officeInfo?.phone}</Text>
                     </View>
                     <View style={styles.customerInfo}>
                         {/* <Text style={styles.label}>Address:</Text> */}
-                        <Text style={styles.text}>{officeInfo.address}, {officeInfo.city}, {officeInfo.zip}</Text>
+                        <Text style={styles.text}>{officeInfo?.address}, {officeInfo?.city}, {officeInfo?.zip}</Text>
                     </View>
                 </View>
                 <View style={styles.divider} />
