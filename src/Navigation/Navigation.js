@@ -36,6 +36,8 @@ import {Provider} from 'react-redux';
 import store from '../Redux/Store/index';
 import Login from '../screens/Login';
 import ContactUs from '../screens/ContactUs';
+import ViewOrder from '../screens/ViewOrder';
+import InvoiceView from '../screens/InvoiceView';
 
 enableScreens();
 
@@ -113,7 +115,8 @@ function MyDrawer3({navigation, route}) {
       <Drawer3.Screen
         navigation={navigation}
         name="Payments"
-        component={Payments}
+        component={PaymentScreenStack}
+        
       />
       <Drawer3.Screen
         navigation={navigation}
@@ -376,6 +379,8 @@ function SignInScreen() {
           headerShown: false,
         }}
       />
+      
+       
     </SignStack.Navigator>
   );
 }
@@ -426,6 +431,8 @@ function ClientScreenStack() {
           headerShown: false,
         }}
       />
+      
+    
     </ClientStack.Navigator>
   );
 }
@@ -458,9 +465,43 @@ function RequestScreenStack() {
           headerShown: false,
         }}
       />
+     
     </RequestStack.Navigator>
   );
 }
+const PaymentStack = createStackNavigator();
+
+function PaymentScreenStack() {
+  return (
+    <PaymentStack.Navigator
+    //  initialRouteName='AuthCheck'
+    >
+       <Stack.Screen
+        name="Payments"
+        component={Payments}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="InvoiceView"
+        component={InvoiceView}
+        options={{
+          header: () => <CustomHeader />, // Include the custom header
+        }}
+      />
+      <Stack.Screen
+        name="ViewOrder"
+        component={ViewOrder}
+        options={{
+          header: () => <CustomHeader />, // Include the custom header
+        }}
+      />
+     
+    </PaymentStack.Navigator>
+  );
+}
+
 
 const Stack = createNativeStackNavigator();
 

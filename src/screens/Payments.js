@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -9,20 +9,22 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import CustomHeader from '../Component/CustomHeader';
 import CustomBottomTab from '../Component/CustomBottomTab';
-import {GetPaymentList} from '../Redux/Actions/PaymentAction';
-import {Loader} from '../Component/Loader';
-import {Color} from '../Style';
+import { GetPaymentList, GetDetailsbyOrderId } from '../Redux/Actions/PaymentAction';
+import { Loader } from '../Component/Loader';
+import { Color } from '../Style';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const data = [
   {
@@ -79,17 +81,21 @@ const data = [
 const Payments = () => {
   const [showwhat, setshowwhat] = useState('Experience');
   const [infoData, setInfoData] = useState([]);
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {GET_PAYMENT_LIST} = useSelector(state => state.PaymentReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { GET_PAYMENT_LIST } = useSelector(state => state.PaymentReducer);
   const dispatch = useDispatch();
   const [loader, setLoader] = useState(false);
   const [activeSections, setActiveSection] = useState([]);
+  const { GET_ORDER_DETAILS } = useSelector(state => state.PaymentReducer);
+  const serviceListModel = GET_ORDER_DETAILS[0]?.serviceListModel[0]
+
   const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
   };
   const jsonData = MY_INFO.guestInfo;
+  console.log(GET_ORDER_DETAILS, 'orderInfoPAymentScreen')
 
   useEffect(() => {
     setLoader(true);
@@ -115,6 +121,18 @@ const Payments = () => {
     // }, 2000);
   }, [GET_PAYMENT_LIST]);
 
+  const getorderbyId = (orderId) => {
+    // Alert.alert('hii')
+    console.log(orderId,'orderIDDDD')
+    // setLoader(true);
+
+    dispatch(
+      GetDetailsbyOrderId(jsonData?.clientId, jsonData?.clientType, orderId, navigation),
+    );
+  //   setTimeout(() => {
+  //     setLoader(false);
+  // }, 2000);
+  }
   console.log(
     infoData.length,
     'GET_PAYMENT_LISTGET_PAYMENT_LISTGET_PAYMENT_LIST',
@@ -139,20 +157,101 @@ const Payments = () => {
 
   const renderHeader = item => {
     return (
-      <View
-        style={{
-          width: wp(90),
-          backgroundColor: '#fff',
+      <>
 
-          alignItems: 'center',
-          alignSelf: 'center',
-          elevation: 10,
 
-          marginBottom: 10,
-          flexDirection: 'row',
-          height: wp(15),
-        }}>
-        {/* <View
+        <View
+          style={{
+            width: wp(90),
+            backgroundColor: '#fff',
+
+            alignItems: 'center',
+            alignSelf: 'center',
+            elevation: 10,
+            marginBottom: 10,
+
+            height: wp(20),
+          }}
+        >
+          <View style={{
+            flexDirection: 'row', justifyContent: "flex-end",
+            width: wp(90),
+            backgroundColor: '#fff',
+            marginBottom: 17
+
+          }}>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('InvoiceView', {
+                  orderId: item?.collectionInfo?.orderId
+                })
+              }}
+              style={{
+                backgroundColor: '#8AB645',
+                padding: 5,
+                textAlign: 'center',
+                width: wp(22),
+                marginLeft: 10,
+                flexDirection: 'row',
+                borderRadius: 3
+              }}
+            >
+              <Icon
+                name="eye"
+                size={15}
+                color="#fff"
+              />
+              <Text style={{
+                color: Color.white,
+                fontSize: 9,
+                marginTop: 2,
+                marginLeft: 4
+
+              }}>
+
+
+                View Invoice
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ViewOrder', {
+                  orderId: item?.collectionInfo?.orderId
+                })
+              }}
+              style={{
+                backgroundColor: '#8AB645',
+                padding: 5,
+                textAlign: 'center',
+                width: wp(20),
+                marginLeft: 10,
+                flexDirection: 'row',
+                borderRadius: 3
+              }}
+            >
+              <Icon
+                name="eye"
+                size={15}
+                color="#fff"
+              />
+              <Text style={{
+                color: Color.white,
+                fontSize: 9,
+                marginTop: 2,
+                marginLeft: 4
+
+              }}>
+
+
+                View Order
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={{ flexDirection: 'row' }}
+          onPress={() => getorderbyId(item?.collectionInfo?.orderId)}
+          >
+            {/* <View
                         style={{
                           width: wp(15),
 
@@ -168,109 +267,97 @@ const Payments = () => {
                           }}
                         />
                       </View> */}
-        <View
-          style={{
-            width: wp(20),
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#2F4050', fontSize: 12}}>
-            #{item?.collectionInfo?.invoiceId}
-          </Text>
-        </View>
-
-        {/* <View
-                        style={{
-                          width: wp(15),
-
-                          alignItems: 'center',
-                        }}>
-                        <Image
-                          source={item.viewicon}
-                          style={{
-                            width: 20,
-                            height: 20,
-                            borderRadius: 50,
-                            //alignSelf: 'center',
-                          }}
-                        />
-                      </View> */}
-        <View
-          style={{
-            width: wp(20),
-
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#2F4050', fontSize: 10}}>
-            {item?.collectionInfo?.clientId}
-          </Text>
-        </View>
-        <View
-          style={{
-            width: wp(20),
-
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#2F4050', fontSize: 10}}>
-            {item?.collectionInfo?.officeId}
-          </Text>
-        </View>
-        <View
-          style={{
-            width: wp(20),
-
-            alignItems: 'center',
-          }}>
-          {item?.collectionInfo?.status == 1 ? (
-            <Text
+            <View
               style={{
-                color: Color.white,
-                fontSize: 8,
-                backgroundColor: '#1c84c6',
-                padding: 5,
-                textAlign: 'center',
-                width: wp(15),
+                width: wp(20),
+                alignItems: 'center',
               }}>
-              Not Started
-            </Text>
-          ) : item?.collectionInfo?.status == 2 ? (
-            <Text
+              <Text style={{ color: '#2F4050', fontSize: 12 }}>
+                #{item?.collectionInfo?.orderId}
+              </Text>
+            </View>
+
+
+            <View
               style={{
-                color: Color.white,
-                fontSize: 8,
-                backgroundColor: '#1c84c6',
-                padding: 5,
-                textAlign: 'center',
-                width: wp(15),
+                width: wp(20),
+
+                alignItems: 'center',
               }}>
-              Started
-            </Text>
-          ) : item?.collectionInfo?.status == 3 ? (
-            <Text
+              <Text style={{ color: '#2F4050', fontSize: 10 }}>
+                {item?.collectionInfo?.clientId}
+              </Text>
+            </View>
+            <View
               style={{
-                color: Color.white,
-                fontSize: 8,
-                backgroundColor: '#1c84c6',
-                padding: 5,
-                textAlign: 'center',
-                width: wp(15),
+                width: wp(20),
+
+                alignItems: 'center',
               }}>
-              Complete
-            </Text>
-          ) : (
-            <Text
+              <Text style={{ color: '#2F4050', fontSize: 10 }}>
+                {item?.collectionInfo?.officeId}
+              </Text>
+            </View>
+            <View
               style={{
-                color: Color.white,
-                fontSize: 8,
-                backgroundColor: '#1c84c6',
-                padding: 5,
-                textAlign: 'center',
-                width: wp(15),
+                width: wp(20),
+
+                alignItems: 'center',
               }}>
-              Cancelled
-            </Text>
-          )}
+              {item?.collectionInfo?.status == 1 ? (
+                <Text
+                  style={{
+                    color: Color.white,
+                    fontSize: 8,
+                    backgroundColor: '#1c84c6',
+                    padding: 5,
+                    textAlign: 'center',
+                    width: wp(15),
+                  }}>
+                  Not Started
+                </Text>
+              ) : item?.collectionInfo?.status == 2 ? (
+                <Text
+                  style={{
+                    color: Color.white,
+                    fontSize: 8,
+                    backgroundColor: '#1c84c6',
+                    padding: 5,
+                    textAlign: 'center',
+                    width: wp(15),
+                  }}>
+                  Started
+                </Text>
+              ) : item?.collectionInfo?.status == 3 ? (
+                <Text
+                  style={{
+                    color: Color.white,
+                    fontSize: 8,
+                    backgroundColor: '#1c84c6',
+                    padding: 5,
+                    textAlign: 'center',
+                    width: wp(15),
+                  }}>
+                  Complete
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    color: Color.white,
+                    fontSize: 8,
+                    backgroundColor: '#1c84c6',
+                    padding: 5,
+                    textAlign: 'center',
+                    width: wp(15),
+                  }}>
+                  Cancelled
+                </Text>
+              )}
+            </View>
+          </TouchableOpacity>
         </View>
-      </View>
+      </>
+
     );
   };
 
@@ -283,15 +370,16 @@ const Payments = () => {
             styles.content,
             isActive ? styles.active : styles.inactive,
             {
-              width: wp(95),
-              alignSelf: 'center',
+              width: wp(90),
               backgroundColor: '#fff',
-
+              alignItems: 'center',
+              alignSelf: 'center',
+              marginBottom: 10,
+              flexDirection: 'row',
+              height: wp(10),
               opacity: 10,
               paddingLeft: 10,
               paddingRight: 10,
-              paddingBottom: 10,
-              elevation: 10,
               flexDirection: 'row',
               justifyContent: 'space-between',
             },
@@ -304,6 +392,7 @@ const Payments = () => {
               textAlign: 'center',
               marginTop: 4,
               paddingTop: 3,
+              width: wp(15),
               // backgroundColor: '#2F5597',
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
@@ -321,6 +410,8 @@ const Payments = () => {
               textAlign: 'center',
               marginTop: 4,
               paddingTop: 3,
+              width: wp(25),
+
               // backgroundColor: '#2F5597',
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
@@ -338,6 +429,8 @@ const Payments = () => {
               textAlign: 'center',
               marginTop: 4,
               paddingTop: 3,
+              width: wp(20),
+
               // backgroundColor: '#2F5597',
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
@@ -355,6 +448,8 @@ const Payments = () => {
               textAlign: 'center',
               marginTop: 4,
               paddingTop: 3,
+              width: wp(15),
+
               // backgroundColor: '#2F5597',
               borderTopLeftRadius: 10,
               borderTopRightRadius: 10,
@@ -366,87 +461,104 @@ const Payments = () => {
             Quantity
           </Animatable.Text>
         </Animatable.View>
-        <Animatable.View
-          duration={400}
-          style={[
-            styles.content,
-            isActive ? styles.active : styles.inactive,
-            {
-              width: wp(95),
-              alignSelf: 'center',
-              backgroundColor: '#fff',
+        <FlatList
+          data={GET_ORDER_DETAILS[0]?.serviceListModel}
+          keyExtractor={item => item.id}
+          renderItem={({ item, index }) => (
+            <Animatable.View
+              duration={400}
+              style={[
+                styles.content,
+                isActive ? styles.active : styles.inactive,
+                {
+                  width: wp(90),
+                  backgroundColor: '#fff',
+                  alignItems: 'center',
+                  marginBottom: 10,
+                  flexDirection: 'row',
+                  height: wp(15),
 
-              opacity: 10,
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 10,
-              elevation: 10,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            },
-          ]}
-          transition="backgroundColor">
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              justifyContent: 'center',
-            }}>
-            Category
-          </Animatable.Text>
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              justifyContent: 'center',
-            }}>
-            {section?.serviceListModel?.serviceInfo?.description}
-          </Animatable.Text>
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
+                  alignSelf: 'center',
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              justifyContent: 'center',
-            }}>
-            Retail Price
-          </Animatable.Text>
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
+                  opacity: 10,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingBottom: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                },
+              ]}
+              transition="backgroundColor">
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#000',
+                  textAlign: 'center',
+                  width: wp(15),
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              justifyContent: 'center',
-            }}>
-            Quantity
-          </Animatable.Text>
-        </Animatable.View>
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  justifyContent: 'center',
+                }}>
+                {item?.serviceInfo?.category?.name}
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#000',
+                  textAlign: 'center',
+                  width: wp(25),
+
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  justifyContent: 'center',
+                }}>
+                {item?.serviceInfo?.description}
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#000',
+                  textAlign: 'center',
+                  width: wp(20),
+
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  justifyContent: 'center',
+                }}>
+                ${item?.reqInfo?.retailPrice}
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#000',
+                  textAlign: 'center',
+                  width: wp(15),
+
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  justifyContent: 'center',
+                }}>
+                {item?.reqInfo?.quantity}
+              </Animatable.Text>
+            </Animatable.View>
+          )}
+        />
+
       </>
     );
   };
@@ -458,10 +570,10 @@ const Payments = () => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Loader flag={loader} />
       <CustomHeader />
-      <View style={{height: hp(80)}}>
+      <View style={{ height: hp(80) }}>
         {/* <View style={styles.headerView}>
           <Text style={styles.header}>Plan Invoices</Text>
         </View> */}
@@ -592,6 +704,7 @@ const Payments = () => {
                 <Text style={styles.subHead}>
                   Pending Invoices ({infoData.length})
                 </Text>
+
                 <View
                   style={{
                     width: wp(90),
@@ -627,7 +740,7 @@ const Payments = () => {
 
                       alignItems: 'center',
                     }}>
-                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
                       Order Id
                     </Text>
                   </View>
@@ -654,7 +767,7 @@ const Payments = () => {
 
                       alignItems: 'center',
                     }}>
-                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
                       Client ID
                     </Text>
                   </View>
@@ -664,7 +777,7 @@ const Payments = () => {
 
                       alignItems: 'center',
                     }}>
-                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
                       Office ID
                     </Text>
                   </View>
@@ -674,31 +787,33 @@ const Payments = () => {
 
                       alignItems: 'center',
                     }}>
-                    <Text style={{color: Color.darkGreen, fontSize: 12}}>
+                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
                       Tracking
                     </Text>
                   </View>
                 </View>
-                <Accordion
-                  activeSections={activeSections}
-                  sections={infoData}
-                  //title and content of accordion
-                  touchableComponent={TouchableOpacity}
-                  renderHeader={renderHeader}
-                  renderContent={renderContent}
-                  //Header Component(View) to render
-                  //Content Component(View) to render
-                  duration={400}
-                  //Duration for Collapse and expand
-                  onChange={setSections}
-                />
+                
+                  <Accordion
+                    activeSections={activeSections}
+                    sections={infoData}
+                    //title and content of accordion
+                    touchableComponent={TouchableOpacity}
+                    renderHeader={renderHeader}
+                    renderContent={renderContent}
+                    //Header Component(View) to render
+                    //Content Component(View) to render
+                    duration={400}
+                    //Duration for Collapse and expand
+                    onChange={setSections}
+                  />
+
               </View>
             );
           } else if (showwhat == 'My Schools') {
             return (
               <View style={styles.subContainer}>
                 <Text style={styles.subHead}>Paid Invoices (0)</Text>
-                <Text style={{textAlign: 'center'}}>No Data Found</Text>
+                <Text style={{ textAlign: 'center' }}>No Data Found</Text>
                 {/* <FlatList
                   data={data}
                   // numColumns={5}
@@ -778,7 +893,7 @@ const Payments = () => {
             return (
               <View style={styles.subContainer}>
                 <Text style={styles.subHead}>Plan</Text>
-                <Text style={{textAlign: 'center'}}>No Data Found</Text>
+                <Text style={{ textAlign: 'center' }}>No Data Found</Text>
                 {/* <FlatList
                   data={data}
                   // numColumns={5}
@@ -955,4 +1070,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.geen,
     //  textAlign:'center'
   },
+  icon: {
+    marginRight: 3
+  }
 });
