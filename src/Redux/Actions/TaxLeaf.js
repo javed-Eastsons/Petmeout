@@ -4,12 +4,13 @@ import {
   MANAGER_INFO,
   CLIENT_LIST,
   CLIENT_DETAIL,
+  REQUEST_INFO
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
-import {Alert} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logistical} from '../../utils';
+import { Alert } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { logistical } from '../../utils';
 
 export const LoginUser = (email, navigation) => dispatch => {
   // dispatch({
@@ -259,3 +260,94 @@ export const ClientInfoList =
       }
     });
   };
+
+
+export const RequestInfoList = (client, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+
+  return new Promise(async (resolve, reject) => {
+    let data = {
+      GuestInfo: {
+        client: client,
+      },
+    };
+    console.log(data, 'requestPayload')
+    const response = await logistical.post('/Staff/GetAllRequest', data);
+    console.log(response, 'GetAllRequestInfo');
+
+    if (response) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      dispatch({
+        type: REQUEST_INFO,
+        payload: response,
+      });
+
+      //   Alert.alert(response.response[0])
+      resolve(response);
+
+      // Alert.alert(response.massage);
+      // navigation.navigate('ClientInfo');
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+      Alert.alert('No data found');
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};
+
+export const RequestSubmit = (data, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+
+  return new Promise(async (resolve, reject) => {
+    
+    console.log(data, 'submitrequestPayload')
+    const response = await logistical.post('/Staff/SubmitRequest', data);
+    console.log(response, 'SubmitlRequestInforesponse');
+
+    if (response) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      // dispatch({
+      //   type: REQUEST_INFO,
+      //   payload: response,
+      // });
+
+      //   Alert.alert(response.response[0])
+      resolve(response);
+
+      Alert.alert('Submit Request Sent');
+      setTimeout(() => {
+        navigation.goBack();
+      }, 2000);
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+      Alert.alert('No data found');
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};

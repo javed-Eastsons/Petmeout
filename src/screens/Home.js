@@ -48,7 +48,7 @@ const HomeScreen = () => {
     console.log(data);
   };
   console.log(showwhat1, 'showWhat');
-
+console.log(dashboardMessageList.length,'messageList')
   const data = [
     {
       id: 1,
@@ -122,6 +122,20 @@ const HomeScreen = () => {
     setDashboardList(DASHBOARD_LIST);
     setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
   }, []);
+  useEffect(() => {
+    setInfoData(MANAGER_INFO);
+    setDashboardList(DASHBOARD_LIST);
+    setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
+    dispatch(
+      dashboardlist(
+        jsonData?.clientId,
+        jsonData?.clientType,
+        officeInfo?.id,
+        navigation,
+      ),
+    );
+  }, [showwhat1]);
+
 
   useEffect(() => {
     // setLoader(true);
@@ -148,7 +162,7 @@ const HomeScreen = () => {
     dashboardList &&
     dashboardList.filter(item => item.newsType === TaxNewsType);
 
-  // console.log(filteredList, 'filteredListfilteredListfilteredListfilteredList');
+  console.log(TaxfilteredList, 'TaxfilteredListt');
 
   const renderItem = ({item}) => (
     <TouchableOpacity
@@ -305,7 +319,7 @@ const HomeScreen = () => {
                                 : Color.darkGreen,
                           },
                         ]}>
-                        (4)
+                        ({dashboardMessageList.length})
                       </Text>
                     </TouchableOpacity>
 
@@ -509,7 +523,7 @@ const HomeScreen = () => {
                                 : Color.darkGreen,
                           },
                         ]}>
-                        (4)
+                        ({dashboardMessageList.length})
                       </Text>
                     </TouchableOpacity>
 
@@ -691,7 +705,7 @@ const HomeScreen = () => {
                             color: showwhat1 == 'Proposal' ? '#fff' : '#000',
                           },
                         ]}>
-                        (4)
+                        ({dashboardMessageList.length})
                       </Text>
                     </TouchableOpacity>
 
@@ -872,7 +886,7 @@ const HomeScreen = () => {
                             color: showwhat1 == 'Proposal' ? '#fff' : '#000',
                           },
                         ]}>
-                        (4)
+                        ({dashboardMessageList.length})
                       </Text>
                     </TouchableOpacity>
 

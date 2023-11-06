@@ -4,6 +4,7 @@ import {
   MANAGER_INFO,
   CLIENT_LIST,
   CLIENT_DETAIL,
+  REQUEST_INFO
 } from '../Actions/types';
 
 const initialstate = {
@@ -12,13 +13,14 @@ const initialstate = {
   MANAGER_INFO: {},
   CLIENT_LIST: {},
   CLIENT_DETAIL: {},
+  REQUEST_INFO:{}
 };
 
 const TaxLeafReducer = (state = initialstate, action) => {
-  // console.log(
-  //   'action.payloadaction.payloadaction.payloadaction.payload',
-  //   action.payload,
-  // );
+  console.log(
+    'action.payloadaction.payloadaction.payloadaction.payload',
+    action.payload,
+  );
   switch (action.type) {
     case LOGIN_DATA:
       return {...state, LOGIN_DATA: action.payload};
@@ -30,6 +32,12 @@ const TaxLeafReducer = (state = initialstate, action) => {
       return {...state, CLIENT_LIST: action.payload};
     case CLIENT_DETAIL:
       return {...state, CLIENT_DETAIL: action.payload};
+      case REQUEST_INFO:
+         console.log(
+    'REQUEST_INFOaction.payload',
+    action.payload,
+  );
+      return {...state, REQUEST_INFO: action.payload};
   }
 
   return state;

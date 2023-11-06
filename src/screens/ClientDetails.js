@@ -362,7 +362,7 @@ const ClientDetails = ({route}) => {
                 {ClientData.partnerInfo.lastName}
               </Text>
             </View>
-            <View style={styles.contentView}>
+            <TouchableOpacity style={styles.contentView} onPress={() => navigation.navigate('Manager')}>
               <Text style={styles.subHead}>Client Manager:</Text>
 
               <Text style={styles.LIstText2}>
@@ -370,7 +370,7 @@ const ClientDetails = ({route}) => {
                 {ClientData.managerInfo.firstName}{' '}
                 {ClientData.managerInfo.lastName}
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </ImageBackground>
       </ScrollView>

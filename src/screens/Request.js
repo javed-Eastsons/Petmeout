@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -9,13 +9,14 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  FlatList,
   ImageBackground,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 let iconm = require('../Assets/img/icons/msg.png');
 let iconmw = require('../Assets/img/icons/msg-white.png');
 let iconP = require('../Assets/img/icons/agreement.png');
@@ -23,12 +24,24 @@ let iconS = require('../Assets/img/icons/proposal.png');
 let iconR = require('../Assets/img/icons/reminder.png');
 let iconC = require('../Assets/img/icons/checklist.png');
 let iconE = require('../Assets/img/icons/error.png');
+import { Color } from '../Style';
+import { RequestInfoList } from '../Redux/Actions/TaxLeaf';
+import { Loader } from '../Component/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 const Request = () => {
   const [showwhat, setshowwhat] = useState('Experience');
   const [showwhat1, setshowwhat1] = useState('Message');
   const bgImage = require('../Assets/img/py-bg.png');
-
+  const [requestInfoData, setRequestInfoData] = useState({});
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [loader, setLoader] = useState(false);
+  const { REQUEST_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+
+  const jsonData = MY_INFO.guestInfo;
+
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
@@ -37,8 +50,21 @@ const Request = () => {
     setshowwhat1(data);
     console.log(data);
   };
+  console.log(REQUEST_INFO,'REQUEST_INFO')
+  useEffect(() => {
+    setLoader(true);
+    dispatch(RequestInfoList(jsonData?.client, navigation));
+
+    setRequestInfoData(REQUEST_INFO?.requestInfoListModel);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }, []);
+  console.log(requestInfoData, 'requestInfoData')
   return (
     <SafeAreaView>
+      <Loader flag={loader} />
+
       <View>
         {/* <View style={styles.headerView}>
           <Text style={styles.header}>Requests</Text>
@@ -576,7 +602,7 @@ const Request = () => {
                       },
                     ]}
                     onPress={() => showwhatfunc('Experience')}>
-                    <Text style={styles.ButtonText}>Incomplete (0)</Text>
+                    <Text style={styles.ButtonText}>Incomplete ({requestInfoData.length})</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -597,12 +623,248 @@ const Request = () => {
           {(() => {
             if (showwhat == 'Experience') {
               return (
+                <>
+                 <View
+                      style={{
+                        width: wp(90),
+                        backgroundColor: '#fff',
+
+                        alignItems: 'center',
+                        alignSelf: 'center',
+                        elevation: 10,
+
+                        marginBottom: 10,
+                        flexDirection: 'row',
+                        height: wp(15),
+                      }}>
+                      {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.img}
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                          Action Id
+                        </Text>
+                      </View>
+
+                      {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.viewicon}
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                          Created By
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                          Assigned To
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: wp(20),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                          Client ID
+                        </Text>
+                      </View>
+                    </View>
                 <ScrollView>
                   {/* <View style={styles.subContainer}> */}
-                  <Text style={styles.subHead}> Results Not Found</Text>
+                  <View style={styles.subContainer}>
+                    {/* <Text style={styles.subHead}>
+                      Pending Invoices
+                      ({infoData.length})
+                    </Text> */}
+                   
+                    <FlatList
+                      data={REQUEST_INFO?.requestInfoListModel}
+                      // numColumns={5}
+                      keyExtractor={(item, index) => index}
+                      renderItem={({ item, index }) => (
+                        <View
+                          style={{
+                            width: wp(90),
+                            backgroundColor: '#fff',
 
+                            alignItems: 'center',
+                            alignSelf: 'center',
+                            elevation: 10,
+
+                            marginBottom: 10,
+                            flexDirection: 'row',
+                            height: wp(15),
+                          }}>
+                          {/* <View
+                                style={{
+                                  width: wp(15),
+
+                                  alignItems: 'center',
+                                }}>
+                                <Image
+                                  source={item.img}
+                                  style={{
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 50,
+                                    //alignSelf: 'center',
+                                  }}
+                                />
+                              </View> */}
+                          <View
+                            style={{
+                              width: wp(20),
+                              alignItems: 'center',
+                            }}>
+                            <Text style={{ color: '#2F4050', fontSize: 12 }}>
+                              {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
+                            </Text>
+                          </View>
+
+                          {/* <View
+                        style={{
+                          width: wp(15),
+
+                          alignItems: 'center',
+                        }}>
+                        <Image
+                          source={item.viewicon}
+                          style={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: 50,
+                            //alignSelf: 'center',
+                          }}
+                        />
+                      </View> */}
+                          <View
+                            style={{
+                              width: wp(20),
+
+                              alignItems: 'center',
+                            }}>
+                            <Text style={{ color: '#2F4050', fontSize: 10 }}>
+                              {
+                                moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              width: wp(20),
+
+                              alignItems: 'center',
+                            }}>
+                            <Text
+                              style={{
+                                color: Color.white,
+                                fontSize: 9,
+                                backgroundColor: '#1c84c6',
+                                padding: 6,
+                                textAlign: 'center',
+                                width: wp(15),
+                              }}>
+                              {item?.actionModel?.assignWhom}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              width: wp(20),
+
+                              alignItems: 'center',
+                            }}>
+                            {/* {item?.collectionInfo?.status == 1 ? (
+                              <Text
+                                style={{
+                                  color: Color.white,
+                                  fontSize: 8,
+                                  backgroundColor: '#1c84c6',
+                                  padding: 5,
+                                  textAlign: 'center',
+                                  width: wp(15),
+                                }}>
+                                Not Started
+                              </Text>
+                            ) : item?.collectionInfo?.status == 2 ? (
+                              <Text
+                                style={{
+                                  color: Color.white,
+                                  fontSize: 8,
+                                  backgroundColor: '#1c84c6',
+                                  padding: 5,
+                                  textAlign: 'center',
+                                  width: wp(15),
+                                }}>
+                                Started
+                              </Text>
+                            ) : item?.collectionInfo?.status == 3 ? (
+                              <Text
+                                style={{
+                                  color: Color.white,
+                                  fontSize: 8,
+                                  backgroundColor: '#1c84c6',
+                                  padding: 5,
+                                  textAlign: 'center',
+                                  width: wp(15),
+                                }}>
+                                Complete
+                              </Text>
+                            ) : ( */}
+
+                            <Text style={{ color: '#2F4050', fontSize: 10 }}>
+
+                              {item?.actionModel?.clientId}
+                            </Text>
+                            {/* )} */}
+                          </View>
+                        </View>
+                      )}
+                    />
+                  </View>
                   {/* </View> */}
                 </ScrollView>
+                </>
               );
             } else {
               return (
@@ -747,12 +1009,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   subContainer: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     width: wp(95),
     alignSelf: 'center',
-    marginTop: 20,
+    // marginTop: 20,
     alignItems: 'center',
-    height: 250,
+    height: 380,
     //borderRadius: 20,
   },
   subHead: {

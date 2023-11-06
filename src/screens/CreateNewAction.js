@@ -1,4 +1,4 @@
-import React, {useState, useMemo} from 'react';
+import React, { useState, useMemo ,useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,35 +14,47 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import Editor from './editor';
+import { RequestSubmit } from '../Redux/Actions/TaxLeaf';
+import { Color } from '../Style';
+import { Loader } from '../Component/Loader';
 
 const CreateNewAction = () => {
   const width = Dimensions.get('window').width;
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const [showwhat1, setshowwhat1] = useState('Message');
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [selectedId, setSelectedId] = useState();
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [actionSubject, setActionSubject] = useState();
+  const [actionMessage, setActionMessage] = useState();
+  const [notes, setNotes] = useState();
+  const [loader, setLoader] = useState(false);
 
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
 
   const staffview = MY_INFO.staffview;
   const officeInfo = MY_INFO.officeInfo;
   const managerInfo = MANAGER_INFO.managerInfo;
   const partnerInfo = MANAGER_INFO.partnerInfo;
+  const jsonData = MY_INFO.guestInfo;
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -52,20 +64,21 @@ const CreateNewAction = () => {
   const showDatePicker = () => {
     setDatePicker(true);
   };
+  console.log(selectedId, 'selectedIdRadio')
+  console.log(notes, 'notes')
+  console.log(actionSubject, 'actionSubject')
+  console.log(value, 'valueIMP')
+  console.log(date, 'date')
 
   const onDateSelected = (event, value) => {
     setDate(value);
     setDatePicker(false);
   };
   const data1 = [
-    {label: 'Item 1', value: '1'},
-    {label: 'Item 2', value: '2'},
-    {label: 'Item 3', value: '3'},
-    {label: 'Item 4', value: '4'},
-    {label: 'Item 5', value: '5'},
-    {label: 'Item 6', value: '6'},
-    {label: 'Item 7', value: '7'},
-    {label: 'Item 8', value: '8'},
+    { label: 'Urgent', value: '1' },
+    { label: 'Important', value: '2' },
+    { label: 'Regular', value: '3' },
+
   ];
   const radioButtons = useMemo(
     () => [
@@ -92,13 +105,38 @@ const CreateNewAction = () => {
     ],
     [],
   );
+ const onSubmit =() => {
+    let data = {
+      // moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')
+      actionModel: {
+        // createdOffice: 17,
+        assignTo: selectedId,
+        clientId: jsonData?.client,
+        subject: actionSubject,
+        message: notes,
+        priority: value,
+        // status: 0,
+        // addedByUser: 910,
+        dueDate: moment(date).format('YYYY-MM-DD'),
+        // isCreatedFromAction: "n",
+        // clientIdForGuest: "128110",
+        assignWhom: selectedId == 1 ? 'Manager' : 'Partner'
+      },
+      
+    };
+    dispatch(RequestSubmit(data, navigation));
+
+ 
+  };
   return (
     <View style={styles.container}>
+            <Loader flag={loader} />
+
       <ScrollView>
         <Text style={styles.heading}>Create New Action</Text>
 
         <View style={styles.slideContainerFrom}>
-          <Text style={{textAlign: 'center', fontSize: 18, marginTop: 10}}>
+          <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>
             From
           </Text>
           <View style={styles.part}></View>
@@ -153,7 +191,7 @@ const CreateNewAction = () => {
           /> */}
         </View>
         <View style={styles.slideContainerTo}>
-          <Text style={{textAlign: 'center', fontSize: 18, marginTop: 10}}>
+          <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>
             To
           </Text>
           <View style={styles.part}></View>
@@ -172,7 +210,7 @@ const CreateNewAction = () => {
           </View>
         </View>
 
-        <View style={{width: '95%', alignSelf: 'center'}}>
+        <View style={{ width: '95%', alignSelf: 'center' }}>
           <Text
             style={{
               alignSelf: 'flex-start',
@@ -184,12 +222,13 @@ const CreateNewAction = () => {
             Action Subject *
           </Text>
           <TextInput
+            onChangeText={(text) => setActionSubject(text)}
             // placeholder='First Name'
             style={[styles.input]}
           />
         </View>
         <View style={styles.slideContainerEdit}>
-          <Text style={{alignSelf: 'flex-start', padding: 5, color: '#000'}}>
+          <Text style={{ alignSelf: 'flex-start', padding: 5, color: '#000' }}>
             Action Message *
           </Text>
           <Editor />
@@ -203,10 +242,10 @@ const CreateNewAction = () => {
                 color: '#000',
                 marginLeft: 12,
               }}>
-              My Office *
+              Priority *
             </Text>
             <Dropdown
-              style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+              style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               iconStyle={styles.iconStyle}
@@ -222,14 +261,14 @@ const CreateNewAction = () => {
                 setValue(item.value);
                 setIsFocus(false);
               }}
-              //   renderLeftIcon={() => (
-              //     <AntDesign
-              //       style={styles.icon}
-              //       color={isFocus ? 'blue' : 'black'}
-              //       name="Safety"
-              //       size={20}
-              //     />
-              //   )}
+            //   renderLeftIcon={() => (
+            //     <AntDesign
+            //       style={styles.icon}
+            //       color={isFocus ? 'blue' : 'black'}
+            //       name="Safety"
+            //       size={20}
+            //     />
+            //   )}
             />
             <Text
               style={{
@@ -244,11 +283,11 @@ const CreateNewAction = () => {
               style={styles.btn}
               onPress={() => setDatePicker(true)}>
               {date ? (
-                <Text style={{color: '#fff', fontSize: 15}}>
+                <Text style={{ color: '#fff', fontSize: 15 }}>
                   {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
                 </Text>
               ) : (
-                <Text style={{color: '#fff', fontSize: 15}}>Select</Text>
+                <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
               )}
             </TouchableOpacity>
 
@@ -259,7 +298,7 @@ const CreateNewAction = () => {
                 display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                 //   is24Hour={false}
                 onChange={onDateSelected}
-                //   style={styles.datePicker}
+              //   style={styles.datePicker}
               />
             )}
 
@@ -275,6 +314,7 @@ const CreateNewAction = () => {
             <TextInput
               multiline={true}
               numberOfLines={6}
+              onChangeText={(text) => setNotes(text )}
               style={styles.textArea}
             />
           </View>
@@ -287,7 +327,7 @@ const CreateNewAction = () => {
           }}>
           <TouchableOpacity
             style={styles.btnPrev}
-            // onPress={() => { onPageChange(4) }}
+          // onPress={() => { onPageChange(4) }}
           >
             {/* <Icon
                                                 style={[
@@ -300,10 +340,12 @@ const CreateNewAction = () => {
                                                 size={20}
                                                 color="#fff"
                                             /> */}
-            <Text style={{color: '#fff'}}>Cancel</Text>
+            <Text style={{ color: '#fff' }}>Cancel</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSubmit}>
-            <Text style={{color: '#fff', marginLeft: 10}}>Submit</Text>
+          <TouchableOpacity style={styles.btnSubmit}
+          onPress={()=>{onSubmit()}}
+          >
+            <Text style={{ color: '#fff', marginLeft: 10 }}>Submit</Text>
             {/* 
                                             <Icon
                                                 style={[
@@ -530,7 +572,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginTop: 20,
   },
-  icon: {alignSelf: 'center'},
+  icon: { alignSelf: 'center' },
   dropdown: {
     height: 50,
     borderColor: 'gray',
