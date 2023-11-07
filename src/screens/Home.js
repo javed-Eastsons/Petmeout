@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  ImageBackground,
   Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -94,6 +95,7 @@ console.log(dashboardMessageList.length,'messageList')
       img: require('../Assets/img/gdb-img6.png'),
     },
   ];
+  const bgImage = require('../Assets/img/guest_shape.png');
 
   const [loader, setLoader] = useState(false);
   useEffect(() => {
@@ -206,6 +208,10 @@ console.log(dashboardMessageList.length,'messageList')
   );
   return (
     <View style={styles.container}>
+       <ImageBackground
+          source={bgImage}
+          style={styles.bgImg}
+          resizeMode="cover">
       <Loader flag={loader} />
       <ScrollView>
         <Text style={styles.heading}>
@@ -1198,6 +1204,7 @@ console.log(dashboardMessageList.length,'messageList')
         </View>
         <View style={{height: wp(5)}}></View>
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -1392,4 +1399,7 @@ const styles = StyleSheet.create({
     // height: 300,
     paddingTop: 20,
   },
+  bgImg:{
+    height:hp(85)
+  }
 });

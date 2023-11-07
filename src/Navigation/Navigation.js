@@ -38,6 +38,7 @@ import Login from '../screens/Login';
 import ContactUs from '../screens/ContactUs';
 import ViewOrder from '../screens/ViewOrder';
 import InvoiceView from '../screens/InvoiceView';
+import ViewRequest from '../screens/ViewRequest';
 
 enableScreens();
 
@@ -465,6 +466,13 @@ function RequestScreenStack() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="ViewRequest"
+        component={ViewRequest}
+        options={{
+          headerShown: false,
+        }}
+      />
      
     </RequestStack.Navigator>
   );
@@ -497,6 +505,7 @@ function PaymentScreenStack() {
           header: () => <CustomHeader />, // Include the custom header
         }}
       />
+      
      
     </PaymentStack.Navigator>
   );

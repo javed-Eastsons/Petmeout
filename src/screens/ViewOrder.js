@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, FlatList ,ImageBackground} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {
     widthPercentageToDP as wp,
@@ -16,6 +16,7 @@ const ViewOrder = ({ route }) => {
     const dispatch = useDispatch();
     const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
     const { GET_ORDER_DETAILS } = useSelector(state => state.PaymentReducer);
+    const bgImage = require('../Assets/img/guest_shape.png');
 
     console.log(GET_ORDER_DETAILS, 'orderInfoRedux')
 
@@ -52,7 +53,10 @@ const ViewOrder = ({ route }) => {
     return (
         <View>
             <Loader flag={loader} />
-
+            <ImageBackground
+          source={bgImage}
+          style={styles.bgImg}
+          resizeMode="cover">
             <ScrollView>
                 <TouchableOpacity
                     onPress={() => { navigation.navigate('HomeScreen') }}
@@ -271,6 +275,7 @@ const ViewOrder = ({ route }) => {
                 </View>
 
             </ScrollView>
+            </ImageBackground>
         </View>
     )
 }
@@ -446,5 +451,6 @@ const styles = StyleSheet.create({
         fontWeight: '800',
         marginTop: 10,
         marginLeft: 150
-    }
+    },
+    
 })

@@ -29,10 +29,12 @@ import { RequestInfoList } from '../Redux/Actions/TaxLeaf';
 import { Loader } from '../Component/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import Icon from 'react-native-vector-icons/AntDesign';
+
 const Request = () => {
   const [showwhat, setshowwhat] = useState('Experience');
   const [showwhat1, setshowwhat1] = useState('Message');
-  const bgImage = require('../Assets/img/py-bg.png');
+  const bgImage = require('../Assets/img/guest_shape.png');
   const [requestInfoData, setRequestInfoData] = useState({});
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -50,7 +52,7 @@ const Request = () => {
     setshowwhat1(data);
     console.log(data);
   };
-  console.log(REQUEST_INFO,'REQUEST_INFO')
+  console.log(REQUEST_INFO, 'REQUEST_INFO')
   useEffect(() => {
     setLoader(true);
     dispatch(RequestInfoList(jsonData?.client, navigation));
@@ -69,562 +71,571 @@ const Request = () => {
         {/* <View style={styles.headerView}>
           <Text style={styles.header}>Requests</Text>
         </View> */}
-        <View
-          style={{
-            width: '40%',
-            alignSelf: 'flex-start',
-            marginTop: 10,
-            marginBottom: 20,
-            marginLeft: 20,
-          }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('CreateNewAction')}
-            // onPress={() => setModalVisible(true)}
+        <ImageBackground
+          source={bgImage}
+          style={styles.bgImg}
+          resizeMode="cover">
+          <View
             style={{
-              flexDirection: 'row',
-              width: wp(35),
-              // justifyContent: 'center',
-              borderWidth: 1,
-              borderRadius: 10,
-              marginTop: 20,
-              padding: 5,
+              width: '40%',
+              alignSelf: 'flex-start',
+              marginTop: 10,
+              marginBottom: 20,
+              marginLeft: 20,
             }}>
-            <View
-              style={{
-                width: 35,
-                height: 35,
-                justifyContent: 'center',
-                // borderWidth: 1,
-                borderRadius: 50,
-                borderColor: '#2F4050',
-                // alignSelf: 'center',
-              }}>
-              <Image
-                source={iconm}
-                style={{
-                  width: 20,
-                  height: 20,
 
-                  borderColor: '#fff',
-                  alignSelf: 'center',
-                }}
-              />
-            </View>
-            <Text style={styles.newRText}>New Request</Text>
-          </TouchableOpacity>
-          {/* <Button
+            {/* <Button
             title="+ New Request"
             color="#2F4050"
 
             // onPress={() => setModalVisible(true)}
           /> */}
-        </View>
-        {/* <ImageBackground source={bgImage} 
+          </View>
+          {/* <ImageBackground source={bgImage} 
         //style={styles.bgImg}
         > */}
-        <View style={styles.mainTab}>
-          {(() => {
-            if (showwhat1 == 'Message') {
-              return (
-                // <View style={styles.moblieSec}>
-                <View style={styles.MessageContainer}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      width: wp(40),
-                      justifyContent: 'flex-start',
-                      marginBottom: 20,
-                    }}>
+          <View style={styles.mainTab}>
+            {(() => {
+              if (showwhat1 == 'Message') {
+                return (
+                  // <View style={styles.moblieSec}>
+                  <View style={styles.MessageContainer}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        width: wp(40),
+                        justifyContent: 'flex-start',
+                        marginBottom: 20,
+                      }}>
+                      <TouchableOpacity
+                        style={[
+                          styles.emailtoch,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Message' ? '#2F4050' : 'lightgray',
+                          },
+                        ]}
+                        onPress={() => showwhatfunc1('Message')}>
+                        <View
+                          style={{
+                            width: 35,
+                            height: 35,
+                            justifyContent: 'center',
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            borderColor: '#fff',
+                            alignSelf: 'center',
+                          }}>
+                          <Image
+                            source={iconmw}
+                            style={{
+                              width: 20,
+                              height: 20,
+
+                              borderColor: '#fff',
+                              alignSelf: 'center',
+                            }}
+                          />
+                        </View>
+
+                        <Text style={styles.DarkButtonText}>Message</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        disabled={true}
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Proposal' ? '#2F5597' : '',
+                          },
+                        ]}
+                        onPress={() => showwhatfunc1('Proposal')}>
+                        <View
+                          style={{
+                            width: 35,
+                            height: 35,
+                            justifyContent: 'center',
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            borderColor: '#2F4050',
+                            alignSelf: 'center',
+                          }}>
+                          <Image
+                            source={iconP}
+                            style={{
+                              width: 20,
+                              height: 20,
+
+                              borderColor: '#fff',
+                              alignSelf: 'center',
+                            }}
+                          />
+                        </View>
+                        <Text style={styles.ButtonText}>Proposal</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        width: wp(40),
+                        justifyContent: 'flex-end',
+                        // backgroundColor: 'yellow',
+                        marginBottom: 20,
+                      }}>
+                      <TouchableOpacity
+                        disabled={true}
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Signature' ? '#2F5597' : '',
+                            marginBottom: 10,
+                            marginRight: wp(3),
+                            //marginLeft: 10,
+                          },
+                        ]}
+                        onPress={() => showwhatfunc1('Signature')}>
+                        <View
+                          style={{
+                            width: 35,
+                            height: 35,
+                            justifyContent: 'center',
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            borderColor: '#2F4050',
+                            alignSelf: 'center',
+                          }}>
+                          <Image
+                            source={iconS}
+                            style={{
+                              width: 20,
+                              height: 20,
+
+                              borderColor: '#fff',
+                              alignSelf: 'center',
+                            }}
+                          />
+                        </View>
+                        <Text style={styles.ButtonText}>Signature</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        disabled={true}
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Reminders' ? '#2F5597' : '',
+                          },
+                        ]}
+                        onPress={() => showwhatfunc1('Reminders')}>
+                        <View
+                          style={{
+                            width: 35,
+                            height: 35,
+                            justifyContent: 'center',
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            borderColor: '#2F4050',
+                            alignSelf: 'center',
+                          }}>
+                          <Image
+                            source={iconR}
+                            style={{
+                              width: 20,
+                              height: 20,
+
+                              borderColor: '#fff',
+                              alignSelf: 'center',
+                            }}
+                          />
+                        </View>
+                        <Text style={styles.ButtonText}>Reminders</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                );
+              } else if (showwhat1 == 'Proposal') {
+                return (
+                  <View style={styles.moblieSec}>
                     <TouchableOpacity
                       style={[
                         styles.emailtoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Message' ? '#2F4050' : 'lightgray',
+                            showwhat1 == 'Message' ? '#2F5597' : 'lightgray',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Message')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#fff',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconmw}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
-
-                      <Text style={styles.DarkButtonText}>Message</Text>
+                      <Text style={styles.ButtonText}>Message</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      disabled={true}
                       style={[
                         styles.mobiletoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Proposal' ? '#2F5597' : '',
+                            showwhat1 == 'Proposal' ? '#2F5597' : 'lightgray',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Proposal')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconP}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
                       <Text style={styles.ButtonText}>Proposal</Text>
                     </TouchableOpacity>
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      width: wp(40),
-                      justifyContent: 'flex-end',
-                      // backgroundColor: 'yellow',
-                      marginBottom: 20,
-                    }}>
                     <TouchableOpacity
-                      disabled={true}
                       style={[
                         styles.mobiletoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Signature' ? '#2F5597' : '',
-                          marginBottom: 10,
-                          marginRight: wp(3),
-                          //marginLeft: 10,
+                            showwhat1 == 'Signature' ? '#2F5597' : 'lightgray',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Signature')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconS}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
-                      <Text style={styles.ButtonText}>Signature</Text>
+                      <Text style={styles.ButtonText}>Signature Requests</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      disabled={true}
                       style={[
                         styles.mobiletoch,
                         {
                           backgroundColor:
-                            showwhat1 == 'Reminders' ? '#2F5597' : '',
+                            showwhat1 == 'Reminders' ? '#2F5597' : 'lightgray',
                         },
                       ]}
                       onPress={() => showwhatfunc1('Reminders')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconR}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
                       <Text style={styles.ButtonText}>Reminders</Text>
                     </TouchableOpacity>
                   </View>
-                </View>
-              );
-            } else if (showwhat1 == 'Proposal') {
-              return (
-                <View style={styles.moblieSec}>
-                  <TouchableOpacity
-                    style={[
-                      styles.emailtoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Message' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Message')}>
-                    <Text style={styles.ButtonText}>Message</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Proposal' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Proposal')}>
-                    <Text style={styles.ButtonText}>Proposal</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Signature' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Signature')}>
-                    <Text style={styles.ButtonText}>Signature Requests</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Reminders' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Reminders')}>
-                    <Text style={styles.ButtonText}>Reminders</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            } else if (showwhat1 == 'Signature') {
-              return (
-                <View style={styles.moblieSec}>
-                  <TouchableOpacity
-                    style={[
-                      styles.emailtoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Message' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Message')}>
-                    <Text style={styles.ButtonText}>Message</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Proposal' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Proposal')}>
-                    <Text style={styles.ButtonText}>Proposal</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Signature' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Signature')}>
-                    <Text style={styles.ButtonText}>Signature Requests</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Reminders' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Reminders')}>
-                    <Text style={styles.ButtonText}>Reminders</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            } else {
-              return (
-                <View style={styles.moblieSec}>
-                  <TouchableOpacity
-                    style={[
-                      styles.emailtoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Message' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Message')}>
-                    <Text style={styles.ButtonText}>Message</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Proposal' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Proposal')}>
-                    <Text style={styles.ButtonText}>Proposal</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Signature' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Signature')}>
-                    <Text style={styles.ButtonText}>Signature Requests</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat1 == 'Reminders' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc1('Reminders')}>
-                    <Text style={styles.ButtonText}>Reminders</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            }
-          })()}
-        </View>
-
-        <View style={styles.subContainer}>
-          {(() => {
-            if (showwhat == 'Experience') {
-              return (
-                <View style={styles.moblieSec}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      width: wp(90),
-                      // justifyContent: 'space-between',
-                      marginBottom: 20,
-                    }}>
+                );
+              } else if (showwhat1 == 'Signature') {
+                return (
+                  <View style={styles.moblieSec}>
                     <TouchableOpacity
                       style={[
                         styles.emailtoch,
-                        // {
-                        //   backgroundColor:
-                        //     showwhat == 'Experience' ? '#2F4050' : 'lightgray',
-                        // },
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Message' ? '#2F5597' : 'lightgray',
+                        },
                       ]}
-                      onPress={() => showwhatfunc('Experience')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconC}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
-                      <Text style={styles.ButtonText}>Incomplete (0)</Text>
+                      onPress={() => showwhatfunc1('Message')}>
+                      <Text style={styles.ButtonText}>Message</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
                         styles.mobiletoch,
-                        // {
-                        //   backgroundColor:
-                        //     showwhat == 'My Schools' ? '#2F5597' : '',
-                        // },
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Proposal' ? '#2F5597' : 'lightgray',
+                        },
                       ]}
-                      onPress={() => showwhatfunc('My Schools')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconE}
-                          style={{
-                            width: 20,
-                            height: 20,
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
-                      <Text style={styles.ButtonText}>Complete (0)</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              );
-            } else if (showwhat == 'My Schools') {
-              return (
-                <View style={styles.moblieSec}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      width: wp(90),
-                      // justifyContent: 'space-between',
-                      marginBottom: 20,
-                    }}>
-                    <TouchableOpacity
-                      style={[
-                        styles.emailtoch,
-                        // {
-                        //   backgroundColor: showwhat == 'My Schools' ? '' : '',
-                        // },
-                      ]}
-                      onPress={() => showwhatfunc('Experience')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconS}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
-                      <Text style={styles.ButtonText}>Incomplete(0)</Text>
+                      onPress={() => showwhatfunc1('Proposal')}>
+                      <Text style={styles.ButtonText}>Proposal</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={[
                         styles.mobiletoch,
-                        // {
-                        //   backgroundColor:
-                        //     showwhat == 'My Schools' ? '#2F4050' : 'lightgray',
-                        //   borderRadius: 10,
-                        // },
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Signature' ? '#2F5597' : 'lightgray',
+                        },
                       ]}
-                      onPress={() => showwhatfunc('My Schools')}>
-                      <View
-                        style={{
-                          width: 35,
-                          height: 35,
-                          justifyContent: 'center',
-                          borderWidth: 1,
-                          borderRadius: 50,
-                          borderColor: '#2F4050',
-                          alignSelf: 'center',
-                        }}>
-                        <Image
-                          source={iconS}
-                          style={{
-                            width: 20,
-                            height: 20,
-
-                            borderColor: '#fff',
-                            alignSelf: 'center',
-                          }}
-                        />
-                      </View>
-
-                      <Text style={styles.ButtonText}>Complete (0)</Text>
+                      onPress={() => showwhatfunc1('Signature')}>
+                      <Text style={styles.ButtonText}>Signature Requests</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Reminders' ? '#2F5597' : 'lightgray',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Reminders')}>
+                      <Text style={styles.ButtonText}>Reminders</Text>
                     </TouchableOpacity>
                   </View>
-                </View>
-              );
-            } else {
-              return (
-                <View style={styles.moblieSec}>
-                  <TouchableOpacity
-                    style={[
-                      styles.emailtoch,
-                      {
-                        backgroundColor:
-                          showwhat == 'Experience' ? '#2F5597' : '',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc('Experience')}>
-                    <Text style={styles.ButtonText}>Incomplete ({requestInfoData.length})</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.mobiletoch,
-                      {
-                        backgroundColor:
-                          showwhat == 'My Schools' ? '#2F5597' : 'lightgray',
-                      },
-                    ]}
-                    onPress={() => showwhatfunc('My Schools')}>
-                    <Text style={styles.ButtonText}>Complete (0)</Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            }
-          })()}
+                );
+              } else {
+                return (
+                  <View style={styles.moblieSec}>
+                    <TouchableOpacity
+                      style={[
+                        styles.emailtoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Message' ? '#2F5597' : 'lightgray',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Message')}>
+                      <Text style={styles.ButtonText}>Message</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Proposal' ? '#2F5597' : 'lightgray',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Proposal')}>
+                      <Text style={styles.ButtonText}>Proposal</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Signature' ? '#2F5597' : 'lightgray',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Signature')}>
+                      <Text style={styles.ButtonText}>Signature Requests</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.mobiletoch,
+                        {
+                          backgroundColor:
+                            showwhat1 == 'Reminders' ? '#2F5597' : 'lightgray',
+                        },
+                      ]}
+                      onPress={() => showwhatfunc1('Reminders')}>
+                      <Text style={styles.ButtonText}>Reminders</Text>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }
+            })()}
+          </View>
 
-          {(() => {
-            if (showwhat == 'Experience') {
-              return (
-                <>
-                 <View
+          <View style={styles.subContainer}>
+            <View style={{flexDirection:'row'}}>
+              <View style={{width:wp(55),height:hp(10)}}>
+              {(() => {
+                if (showwhat == 'Experience') {
+                  return (
+                    <View style={styles.moblieSec}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          width: wp(90),
+                          // justifyContent: 'space-between',
+                          marginBottom: 20,
+                        }}>
+                        <TouchableOpacity
+                          style={[
+                            styles.emailtoch,
+                            // {
+                            //   backgroundColor:
+                            //     showwhat == 'Experience' ? '#2F4050' : 'lightgray',
+                            // },
+                          ]}
+                          onPress={() => showwhatfunc('Experience')}>
+                          <View
+                            style={{
+                              width: 35,
+                              height: 35,
+                              justifyContent: 'center',
+                              borderWidth: 1,
+                              borderRadius: 50,
+                              borderColor: '#2F4050',
+                              alignSelf: 'center',
+                            }}>
+                            <Image
+                              source={iconC}
+                              style={{
+                                width: 20,
+                                height: 20,
+
+                                borderColor: '#fff',
+                                alignSelf: 'center',
+                              }}
+                            />
+                          </View>
+                          <Text style={styles.ButtonText}>Incomplete (0)</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[
+                            styles.mobiletoch,
+                            // {
+                            //   backgroundColor:
+                            //     showwhat == 'My Schools' ? '#2F5597' : '',
+                            // },
+                          ]}
+                          onPress={() => showwhatfunc('My Schools')}>
+                          <View
+                            style={{
+                              width: 35,
+                              height: 35,
+                              justifyContent: 'center',
+                              borderWidth: 1,
+                              borderRadius: 50,
+                              borderColor: '#2F4050',
+                              alignSelf: 'center',
+                            }}>
+                            <Image
+                              source={iconE}
+                              style={{
+                                width: 20,
+                                height: 20,
+                                borderColor: '#fff',
+                                alignSelf: 'center',
+                              }}
+                            />
+                          </View>
+                          <Text style={styles.ButtonText}>Complete (0)</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                } else if (showwhat == 'My Schools') {
+                  return (
+                    <View style={styles.moblieSec}>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          width: wp(90),
+                          // justifyContent: 'space-between',
+                          marginBottom: 20,
+                        }}>
+                        <TouchableOpacity
+                          style={[
+                            styles.emailtoch,
+                            // {
+                            //   backgroundColor: showwhat == 'My Schools' ? '' : '',
+                            // },
+                          ]}
+                          onPress={() => showwhatfunc('Experience')}>
+                          <View
+                            style={{
+                              width: 35,
+                              height: 35,
+                              justifyContent: 'center',
+                              borderWidth: 1,
+                              borderRadius: 50,
+                              borderColor: '#2F4050',
+                              alignSelf: 'center',
+                            }}>
+                            <Image
+                              source={iconS}
+                              style={{
+                                width: 20,
+                                height: 20,
+
+                                borderColor: '#fff',
+                                alignSelf: 'center',
+                              }}
+                            />
+                          </View>
+                          <Text style={styles.ButtonText}>Incomplete(0)</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={[
+                            styles.mobiletoch,
+                            // {
+                            //   backgroundColor:
+                            //     showwhat == 'My Schools' ? '#2F4050' : 'lightgray',
+                            //   borderRadius: 10,
+                            // },
+                          ]}
+                          onPress={() => showwhatfunc('My Schools')}>
+                          <View
+                            style={{
+                              width: 35,
+                              height: 35,
+                              justifyContent: 'center',
+                              borderWidth: 1,
+                              borderRadius: 50,
+                              borderColor: '#2F4050',
+                              alignSelf: 'center',
+                            }}>
+                            <Image
+                              source={iconS}
+                              style={{
+                                width: 20,
+                                height: 20,
+
+                                borderColor: '#fff',
+                                alignSelf: 'center',
+                              }}
+                            />
+                          </View>
+
+                          <Text style={styles.ButtonText}>Complete (0)</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  );
+                } else {
+                  return (
+                    <View style={styles.moblieSec}>
+                      <TouchableOpacity
+                        style={[
+                          styles.emailtoch,
+                          {
+                            backgroundColor:
+                              showwhat == 'Experience' ? '#2F5597' : '',
+                          },
+                        ]}
+                        onPress={() => showwhatfunc('Experience')}>
+                        <Text style={styles.ButtonText}>Incomplete ({requestInfoData.length})</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat == 'My Schools' ? '#2F5597' : 'lightgray',
+                          },
+                        ]}
+                        onPress={() => showwhatfunc('My Schools')}>
+                        <Text style={styles.ButtonText}>Complete (0)</Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                }
+              })()}
+              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('CreateNewAction')}
+                // onPress={() => setModalVisible(true)}
+                style={{
+                  flexDirection: 'row',
+                  width: wp(35),
+                  // justifyContent: 'center',
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  marginTop: 20,
+                  padding: 5,
+                }}>
+                <View
+                  style={{
+                    width: 35,
+                    height: 35,
+                    justifyContent: 'center',
+                    // borderWidth: 1,
+                    borderRadius: 50,
+                    borderColor: '#2F4050',
+                    // alignSelf: 'center',
+                  }}>
+                  <Image
+                    source={iconm}
+                    style={{
+                      width: 20,
+                      height: 20,
+
+                      borderColor: '#fff',
+                      alignSelf: 'center',
+                    }}
+                  />
+                </View>
+                <Text style={styles.newRText}>New Request</Text>
+              </TouchableOpacity>
+            </View>
+
+            {(() => {
+              if (showwhat == 'Experience') {
+                return (
+                  <>
+                    <View
                       style={{
                         width: wp(90),
                         backgroundColor: '#fff',
@@ -692,7 +703,7 @@ const Request = () => {
                       </View>
                       <View
                         style={{
-                          width: wp(20),
+                          width: wp(22),
 
                           alignItems: 'center',
                         }}>
@@ -702,7 +713,7 @@ const Request = () => {
                       </View>
                       <View
                         style={{
-                          width: wp(20),
+                          width: wp(25),
 
                           alignItems: 'center',
                         }}>
@@ -711,175 +722,162 @@ const Request = () => {
                         </Text>
                       </View>
                     </View>
-                <View>
-                  {/* <View style={styles.subContainer}> */}
-                  <View style={styles.subContainer}>
-                    {/* <Text style={styles.subHead}>
+                    <View>
+                      {/* <View style={styles.subContainer}> */}
+                      <View style={styles.subContainer}>
+                        {/* <Text style={styles.subHead}>
                       Pending Invoices
                       ({infoData.length})
                     </Text> */}
-                   
-                    <FlatList
-                    contentContainerStyle={{ paddingBottom: 200 }}
-                      data={REQUEST_INFO?.requestInfoListModel}
-                      // numColumns={5}
-                      keyExtractor={(item, index) => index}
-                      renderItem={({ item, index }) => (
-                        <View
-                          style={{
-                            width: wp(90),
-                            backgroundColor: '#fff',
 
-                            alignItems: 'center',
-                            alignSelf: 'center',
-                            elevation: 10,
-
-                            marginBottom: 10,
-                            flexDirection: 'row',
-                            height: wp(15),
-                          }}>
-                          {/* <View
-                                style={{
-                                  width: wp(15),
-
-                                  alignItems: 'center',
-                                }}>
-                                <Image
-                                  source={item.img}
-                                  style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderRadius: 50,
-                                    //alignSelf: 'center',
-                                  }}
-                                />
-                              </View> */}
-                          <View
-                            style={{
-                              width: wp(20),
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{ color: '#2F4050', fontSize: 12 }}>
-                              {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
-                            </Text>
-                          </View>
-
-                          {/* <View
-                        style={{
-                          width: wp(15),
-
-                          alignItems: 'center',
-                        }}>
-                        <Image
-                          source={item.viewicon}
-                          style={{
-                            width: 20,
-                            height: 20,
-                            borderRadius: 50,
-                            //alignSelf: 'center',
-                          }}
-                        />
-                      </View> */}
-                          <View
-                            style={{
-                              width: wp(20),
-
-                              alignItems: 'center',
-                            }}>
-                            <Text style={{ color: '#2F4050', fontSize: 10 }}>
-                              {
-                                moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              width: wp(20),
-
-                              alignItems: 'center',
-                            }}>
-                            <Text
+                        <FlatList
+                          contentContainerStyle={{ paddingBottom: 200 }}
+                          data={REQUEST_INFO?.requestInfoListModel}
+                          // numColumns={5}
+                          keyExtractor={(item, index) => index}
+                          renderItem={({ item, index }) => (
+                            <View
                               style={{
-                                color: Color.white,
-                                fontSize: 9,
-                                backgroundColor: '#1c84c6',
-                                padding: 6,
-                                textAlign: 'center',
-                                width: wp(15),
+                                width: wp(90),
+                                backgroundColor: '#fff',
+
+                                // alignItems: 'center',
+                                // alignSelf: 'center',
+                                elevation: 10,
+
+                                marginBottom: 10,
+                                flexDirection: 'column',
+                                height: wp(25),
                               }}>
-                              {item?.actionModel?.assignWhom}
-                            </Text>
-                          </View>
-                          <View
-                            style={{
-                              width: wp(20),
+                              <View style={{
+                                flexDirection: 'row', justifyContent: "flex-end",
+                                // width: wp(90),
+                                backgroundColor: '#fff',
+                                marginBottom: 17,
+                                height: hp(3)
 
-                              alignItems: 'center',
-                            }}>
-                            {/* {item?.collectionInfo?.status == 1 ? (
-                              <Text
+                              }}>
+
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    navigation.navigate('ViewRequest', {
+                                      // orderId: item?.collectionInfo?.orderId
+                                    })
+                                  }}
+                                  style={{
+                                    backgroundColor: '#8AB645',
+                                    padding: 5,
+                                    textAlign: 'center',
+                                    width: wp(15),
+                                    marginLeft: 10,
+                                    flexDirection: 'row',
+                                    // borderRadius: 3
+                                  }}
+                                >
+                                  <Icon
+                                    name="eye"
+                                    size={14}
+                                    color="#fff"
+                                  />
+                                  <Text style={{
+                                    color: Color.white,
+                                    fontSize: 10,
+                                    // marginTop: 2,
+                                    marginLeft: 4
+
+                                  }}>
+
+
+                                    View
+                                  </Text>
+                                </TouchableOpacity>
+
+                              </View>
+
+
+
+
+                              <View
                                 style={{
-                                  color: Color.white,
-                                  fontSize: 8,
-                                  backgroundColor: '#1c84c6',
-                                  padding: 5,
-                                  textAlign: 'center',
-                                  width: wp(15),
+                                  width: wp(90),
+                                  flexDirection: 'row'
                                 }}>
-                                Not Started
-                              </Text>
-                            ) : item?.collectionInfo?.status == 2 ? (
-                              <Text
-                                style={{
-                                  color: Color.white,
-                                  fontSize: 8,
-                                  backgroundColor: '#1c84c6',
-                                  padding: 5,
-                                  textAlign: 'center',
-                                  width: wp(15),
-                                }}>
-                                Started
-                              </Text>
-                            ) : item?.collectionInfo?.status == 3 ? (
-                              <Text
-                                style={{
-                                  color: Color.white,
-                                  fontSize: 8,
-                                  backgroundColor: '#1c84c6',
-                                  padding: 5,
-                                  textAlign: 'center',
-                                  width: wp(15),
-                                }}>
-                                Complete
-                              </Text>
-                            ) : ( */}
+                                <View
+                                  style={{
+                                    width: wp(20),
+                                    alignItems: 'center',
+                                  }}>
+                                  <Text style={{ color: '#2F4050', fontSize: 13 }}>
+                                    {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
+                                  </Text>
+                                </View>
 
-                            <Text style={{ color: '#2F4050', fontSize: 10 }}>
 
-                              {item?.actionModel?.clientId}
-                            </Text>
-                            {/* )} */}
-                          </View>
-                        </View>
-                      )}
-                    />
-                  </View>
-                  {/* </View> */}
-                </View>
-                </>
-              );
-            } else {
-              return (
-                <ScrollView>
-                  {/* <View style={styles.subContainer}> */}
-                  <Text style={styles.subHead}>0 Results Found</Text>
+                                <View
+                                  style={{
+                                    width: wp(20),
 
-                  {/* </View> */}
-                </ScrollView>
-              );
-            }
-          })()}
-        </View>
-        {/* </ImageBackground> */}
+                                    alignItems: 'center',
+                                  }}>
+                                  <Text style={{ color: '#2F4050', fontSize: 12 }}>
+                                    {
+                                      moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{
+                                    width: wp(22),
+
+                                    alignItems: 'center',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      color: Color.white,
+                                      fontSize: 9,
+                                      backgroundColor: '#1c84c6',
+                                      padding: 6,
+                                      textAlign: 'center',
+                                      width: wp(15),
+                                    }}>
+                                    {item?.actionModel?.assignWhom}
+                                  </Text>
+                                </View>
+                                <View
+                                  style={{
+                                    width: wp(25),
+
+                                    alignItems: 'center',
+                                  }}>
+
+
+                                  <Text style={{ color: '#2F4050', fontSize: 12 }}>
+
+                                    {item?.actionModel?.clientId}
+                                  </Text>
+                                  {/* )} */}
+                                </View>
+                              </View>
+                            </View>
+                          )}
+                        />
+                      </View>
+                      {/* </View> */}
+                    </View>
+                  </>
+                );
+              } else {
+                return (
+                  <ScrollView>
+                    {/* <View style={styles.subContainer}> */}
+                    <Text style={styles.subHead}>0 Results Found</Text>
+
+                    {/* </View> */}
+                  </ScrollView>
+                );
+              }
+            })()}
+          </View>
+        </ImageBackground>
       </View>
     </SafeAreaView>
   );
@@ -887,9 +885,9 @@ const Request = () => {
 
 export default Request;
 const styles = StyleSheet.create({
-  bgImg: {
-    height: 480,
-  },
+  // bgImg: {
+  //   height: 480,
+  // },
   mainTab: {
     // backgroundColor: '#fff',
     width: wp(100),
@@ -897,7 +895,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     //  borderRadius: 50,
     // height: 120,
-    marginTop: 20,
+    // marginTop: 20,
   },
   header: {
     fontSize: 28,
@@ -1025,4 +1023,7 @@ const styles = StyleSheet.create({
     // marginLeft: 20,
     //  textAlign:'center'
   },
+  bgImg:{
+    height:hp(85)
+  }
 });

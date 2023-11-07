@@ -9,7 +9,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
+  ImageBackground
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -88,6 +89,7 @@ const Payments = () => {
   const [activeSections, setActiveSection] = useState([]);
   const { GET_ORDER_DETAILS } = useSelector(state => state.PaymentReducer);
   const serviceListModel = GET_ORDER_DETAILS[0]?.serviceListModel[0]
+  const bgImage = require('../Assets/img/guest_shape.png');
 
   const navigation = useNavigation();
   const showwhatfunc = data => {
@@ -194,7 +196,7 @@ const Payments = () => {
                 width: wp(22),
                 marginLeft: 10,
                 flexDirection: 'row',
-                borderRadius: 3
+                // borderRadius: 3
               }}
             >
               <Icon
@@ -227,7 +229,7 @@ const Payments = () => {
                 width: wp(20),
                 marginLeft: 10,
                 flexDirection: 'row',
-                borderRadius: 3
+                // borderRadius: 3
               }}
             >
               <Icon
@@ -371,7 +373,7 @@ const Payments = () => {
             isActive ? styles.active : styles.inactive,
             {
               width: wp(90),
-              backgroundColor: '#fff',
+              // backgroundColor: '#fff',
               alignItems: 'center',
               alignSelf: 'center',
               marginBottom: 10,
@@ -574,6 +576,10 @@ const Payments = () => {
       <Loader flag={loader} />
       <CustomHeader />
       <View style={{ height: hp(80) }}>
+        <ImageBackground
+          source={bgImage}
+          style={styles.bgImg}
+          resizeMode="cover">
         {/* <View style={styles.headerView}>
           <Text style={styles.header}>Plan Invoices</Text>
         </View> */}
@@ -971,6 +977,7 @@ const Payments = () => {
             );
           }
         })()}
+      </ImageBackground>
       </View>
       <CustomBottomTab />
     </SafeAreaView>
@@ -1054,7 +1061,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   subContainer: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     width: wp(90),
     alignSelf: 'center',
     marginTop: 20,
@@ -1067,7 +1074,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     padding: 10,
     marginBottom: 20,
-    backgroundColor: Color.geen,
+    backgroundColor: Color.darkGreen,
     //  textAlign:'center'
   },
   icon: {

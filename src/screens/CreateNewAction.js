@@ -1,4 +1,4 @@
-import React, { useState, useMemo ,useEffect} from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,13 @@ import {
   Image,
   Button,
   TextInput,
+  ImageBackground
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 import {
   widthPercentageToDP as wp,
@@ -49,6 +50,7 @@ const CreateNewAction = () => {
 
   const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
   const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
+  const bgImage = require('../Assets/img/guest_shape.png');
 
   const staffview = MY_INFO.staffview;
   const officeInfo = MY_INFO.officeInfo;
@@ -95,9 +97,9 @@ const CreateNewAction = () => {
       {
         id: '2',
         label:
-          partnerInfo.firstName +
+          partnerInfo?.firstName +
           ' ' +
-          partnerInfo.lastName +
+          partnerInfo?.lastName +
           ' ' +
           '(Partner)',
         value: 'option2',
@@ -105,7 +107,7 @@ const CreateNewAction = () => {
     ],
     [],
   );
- const onSubmit =() => {
+  const onSubmit = () => {
     let data = {
       // moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')
       actionModel: {
@@ -122,16 +124,19 @@ const CreateNewAction = () => {
         // clientIdForGuest: "128110",
         assignWhom: selectedId == 1 ? 'Manager' : 'Partner'
       },
-      
+
     };
     dispatch(RequestSubmit(data, navigation));
 
- 
+
   };
   return (
     <View style={styles.container}>
-            <Loader flag={loader} />
-
+      <Loader flag={loader} />
+      <ImageBackground
+          source={bgImage}
+          style={styles.bgImg}
+          resizeMode="cover">
       <ScrollView>
         <Text style={styles.heading}>Create New Action</Text>
 
@@ -314,7 +319,7 @@ const CreateNewAction = () => {
             <TextInput
               multiline={true}
               numberOfLines={6}
-              onChangeText={(text) => setNotes(text )}
+              onChangeText={(text) => setNotes(text)}
               style={styles.textArea}
             />
           </View>
@@ -343,7 +348,7 @@ const CreateNewAction = () => {
             <Text style={{ color: '#fff' }}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btnSubmit}
-          onPress={()=>{onSubmit()}}
+            onPress={() => { onSubmit() }}
           >
             <Text style={{ color: '#fff', marginLeft: 10 }}>Submit</Text>
             {/* 
@@ -361,6 +366,7 @@ const CreateNewAction = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      </ImageBackground>
     </View>
   );
 };

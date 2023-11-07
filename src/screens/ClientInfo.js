@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  ImageBackground
 } from 'react-native';
 import {DataTable} from 'react-native-paper';
 import {
@@ -93,6 +94,7 @@ const ClientInfo = () => {
   //const ClinetCount = MY_INFO?.guestInfo;
   let countIndividuals = 0;
   let countBusiness = 0;
+  const bgImage = require('../Assets/img/guest_shape.png');
 
   const [infoData, setInfoData] = useState({});
   const [loader, setLoader] = useState(false);
@@ -166,6 +168,10 @@ const ClientInfo = () => {
 
   return (
     <View style={[styles.main]}>
+      <ImageBackground
+          source={bgImage}
+          style={styles.bgImg}
+          resizeMode="cover">
       <Loader flag={loader} />
       {/* <Text
         style={{fontSize: 28, color: '#000', marginTop: 10, marginLeft: 20}}>
@@ -658,6 +664,7 @@ const ClientInfo = () => {
       {/* //       );
         // }
     //   })()} */}
+    </ImageBackground>
     </View>
   );
 };
@@ -942,4 +949,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  bgImg:{
+    height:hp(85)
+  }
 });
