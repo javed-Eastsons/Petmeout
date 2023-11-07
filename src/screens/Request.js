@@ -711,7 +711,7 @@ const Request = () => {
                         </Text>
                       </View>
                     </View>
-                <ScrollView>
+                <View>
                   {/* <View style={styles.subContainer}> */}
                   <View style={styles.subContainer}>
                     {/* <Text style={styles.subHead}>
@@ -720,6 +720,7 @@ const Request = () => {
                     </Text> */}
                    
                     <FlatList
+                    contentContainerStyle={{ paddingBottom: 200 }}
                       data={REQUEST_INFO?.requestInfoListModel}
                       // numColumns={5}
                       keyExtractor={(item, index) => index}
@@ -863,7 +864,7 @@ const Request = () => {
                     />
                   </View>
                   {/* </View> */}
-                </ScrollView>
+                </View>
                 </>
               );
             } else {

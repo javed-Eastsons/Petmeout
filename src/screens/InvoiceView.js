@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList, Alert } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -34,13 +34,13 @@ export default InvoiceView = ({ route }) => {
     const serviceList = GET_ORDER_DETAILS[0]?.serviceListModel;
 
     // Calculate the sum of "priceCharged" using reduce
-    const totalPriceCharged = serviceList.reduce((sum, service) => {
+    const totalPriceCharged = serviceList?.reduce((sum, service) => {
         // Access the "priceCharged" property within "reqInfo"
-        const priceCharged = service.reqInfo.priceCharged;
+        const priceCharged = service?.reqInfo?.priceCharged;
         // Add the current priceCharged to the sum
         return sum + priceCharged;
     }, 0); // Initialize sum with 0
-    
+
     console.log("Total Price Charged:", totalPriceCharged);
     const invoiceData = {
         invoiceNumber: '12345',
@@ -109,11 +109,11 @@ export default InvoiceView = ({ route }) => {
                     </View>
                     <View style={styles.customerInfo}>
                         {/* <Text style={styles.label}>Email:</Text> */}
-                        <Text style={styles.text}>{companyClientContactInfo.phone1}</Text>
+                        <Text style={styles.text}>{companyClientContactInfo?.phone1}</Text>
                     </View>
                     <View style={styles.customerInfo}>
                         {/* <Text style={styles.label}>Address:</Text> */}
-                        <Text style={styles.text}>{companyClientContactInfo.address1}, {companyClientContactInfo.city}, {companyClientContactInfo.zip}</Text>
+                        <Text style={styles.text}>{companyClientContactInfo?.address1}, {companyClientContactInfo?.city}, {companyClientContactInfo?.zip}</Text>
                     </View>
                 </View>
                 <View style={styles.customerInfoContainer}>
@@ -158,10 +158,8 @@ export default InvoiceView = ({ route }) => {
                         }]}>Final Price</Text>
 
                     </View>
-                    <FlatList
-                        data={GET_ORDER_DETAILS[0]?.serviceListModel}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item, index }) => (
+                    {
+                        GET_ORDER_DETAILS[0] && GET_ORDER_DETAILS[0]?.serviceListModel.map((item, index) => (
                             <View style={styles.item}>
                                 <Text style={styles.itemName}>{item?.serviceInfo?.description}</Text>
                                 <Text style={styles.itemDetails}>
@@ -173,8 +171,8 @@ export default InvoiceView = ({ route }) => {
                                 <Text style={styles.itemTotal}>${item?.reqInfo?.priceCharged}</Text>
 
                             </View>
-                        )}
-                    />
+                        ))
+                    }
                     {/* {invoiceData.items.map((item) => (
                         <View style={styles.item} key={item.id}>
                             <Text style={styles.itemName}>{item.name}</Text>
@@ -275,12 +273,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     label: {
-        fontSize:18,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     text: {
         marginLeft: 5,
-        marginTop:4
+        marginTop: 4
     },
     divider: {
         borderBottomColor: '#ccc',
@@ -345,7 +343,7 @@ const styles = StyleSheet.create({
     },
     total1: {
         fontSize: 17,
-        marginLeft:7,
-        marginTop:2
+        marginLeft: 7,
+        marginTop: 2
     },
 });

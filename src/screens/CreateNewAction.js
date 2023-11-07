@@ -85,9 +85,9 @@ const CreateNewAction = () => {
       {
         id: '1', // acts as primary key, should be unique and non-empty string
         label:
-          managerInfo.firstName +
+          managerInfo?.firstName +
           ' ' +
-          managerInfo.lastName +
+          managerInfo?.lastName +
           ' ' +
           '(Manager)',
         value: 'option1',
@@ -153,7 +153,7 @@ const CreateNewAction = () => {
             placeholder="First Name"
             style={[styles.input]}
             editable={false}
-            value={staffview.firstName + ' ' + staffview.lastName}
+            value={staffview?.firstName + ' ' + staffview?.lastName}
           />
           <Text
             style={{
@@ -168,7 +168,7 @@ const CreateNewAction = () => {
             placeholder="First Name"
             style={[styles.input]}
             editable={false}
-            value={officeInfo.name}
+            value={officeInfo?.name}
           />
           {/* <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}

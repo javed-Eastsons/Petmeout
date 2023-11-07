@@ -29,15 +29,15 @@ const ViewOrder = ({ route }) => {
     const projectInfo = GET_ORDER_DETAILS[0]?.projectInfo
     const serviceList = GET_ORDER_DETAILS[0]?.serviceListModel;
 
-// Calculate the sum of "priceCharged" using reduce
-const totalPriceCharged = serviceList.reduce((sum, service) => {
-    // Access the "priceCharged" property within "reqInfo"
-    const priceCharged = service.reqInfo.priceCharged;
-    // Add the current priceCharged to the sum
-    return sum + priceCharged;
-}, 0); // Initialize sum with 0
+    // Calculate the sum of "priceCharged" using reduce
+    const totalPriceCharged = serviceList?.reduce((sum, service) => {
+        // Access the "priceCharged" property within "reqInfo"
+        const priceCharged = service?.reqInfo?.priceCharged;
+        // Add the current priceCharged to the sum
+        return sum + priceCharged;
+    }, 0); // Initialize sum with 0
 
-console.log("Total Price Charged:", totalPriceCharged);
+    console.log("Total Price Charged:", totalPriceCharged);
     // GET_ORDER_DETAILS[0]?.serviceListModel.map(item => console.log(item.individualInfo.firstName, 'prec'))
 
     useEffect(() => {
@@ -139,20 +139,21 @@ console.log("Total Price Charged:", totalPriceCharged);
 
                         <View style={styles.contentView}>
                             <Text style={styles.subHead1}>Owners</Text>
-                            <FlatList
-                                data={GET_ORDER_DETAILS[0]?.managerPercentageInfo}
-                                keyExtractor={item => item.id}
-                                renderItem={({ item, index }) => (
-                                    <Text style={styles.LIstText2}>
+                            <View>
 
-                                        <Text style={styles.KeyName1}>Manager</Text>{"\n"}
-                                        Name: {item.individualInfo?.firstName + ' ' + item.individualInfo?.lastName}{"\n"}
-                                        Percentage: {item.percentageInfo.percentage}%{"\n"}
+                                {
+                                    GET_ORDER_DETAILS[0] && GET_ORDER_DETAILS[0]?.managerPercentageInfo.map((item, index) => (
+                                        <Text style={styles.LIstText2}>
 
-                                    </Text>
-                                )}
+                                            <Text style={styles.KeyName1}>Manager</Text>{"\n"}
+                                            Name: {item?.individualInfo?.firstName + ' ' + item?.individualInfo?.lastName}{"\n"}
+                                            Percentage: {item?.percentageInfo.percentage}%{"\n"}
 
-                            />
+                                        </Text>
+                                    ))
+                                }
+                            </View>
+
 
                         </View>
 
@@ -193,63 +194,60 @@ console.log("Total Price Charged:", totalPriceCharged);
                 </View>
                 <View style={styles.slideContainer1} >
                     <Text style={styles.service}>Services</Text>
-                    <FlatList
-                                data={GET_ORDER_DETAILS[0]?.serviceListModel}
-                                keyExtractor={item => item.id}
-                                renderItem={({ item, index }) => (
-                                    <View style={styles.semiContainer}>
-                                    <View style={styles.contentView1}>
-                                        <Text style={styles.subHead}>Category:</Text>
-            
-                                        <Text style={styles.LIstText21}>{item?.serviceInfo?.category?.name}</Text>
-                                    </View>
-                                    <View style={styles.contentView1} >
-                                        <Text style={styles.subHead}>Service:</Text>
-            
-                                        <Text style={styles.LIstText2}>
-                                            {item?.serviceInfo?.description}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.contentView1}>
-                                        <Text style={styles.subHead}>Retail Price:</Text>
-            
-                                        <Text style={styles.LIstText2}>${item?.reqInfo?.retailPrice}</Text>
-                                    </View>
-                                    <View style={styles.contentView1}>
-                                        <Text style={styles.subHead}>Override Price:</Text>
-            
-                                        <Text style={styles.LIstText2}>
-                                            ${item?.reqInfo?.priceCharged}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.contentView1}>
-                                        <Text style={styles.subHead}>Quantity:</Text>
-            
-                                        <Text style={styles.LIstText2}>
-                                            {item?.reqInfo?.quantity}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.contentView1}>
-                                        <Text style={styles.subHead}>Total:</Text>
-            
-                                        <Text style={styles.LIstText2}>
-                                        ${item?.reqInfo?.priceCharged}
-                                        </Text>
-                                    </View>
-                                    <View style={styles.contentViewNotes}>
-                                        <Text style={styles.subHeadNotes}>Notes:</Text>
-            
-                                        <Text style={styles.LIstTextNotes}>
-                                        {item?.notesListInfo[0]?.note1}                            </Text>
-                                    </View>
-                                    {/* <View style={styles.part}></View> */}
-            
-            
-                                </View>
-                                )}
 
-                            />
-                    
+                    {
+                        GET_ORDER_DETAILS[0] && GET_ORDER_DETAILS[0]?.serviceListModel.map((item, index) => (
+                            <View style={styles.semiContainer}>
+                                <View style={styles.contentView1}>
+                                    <Text style={styles.subHead}>Category:</Text>
+
+                                    <Text style={styles.LIstText21}>{item?.serviceInfo?.category?.name}</Text>
+                                </View>
+                                <View style={styles.contentView1} >
+                                    <Text style={styles.subHead}>Service:</Text>
+
+                                    <Text style={styles.LIstText2}>
+                                        {item?.serviceInfo?.description}
+                                    </Text>
+                                </View>
+                                <View style={styles.contentView1}>
+                                    <Text style={styles.subHead}>Retail Price:</Text>
+
+                                    <Text style={styles.LIstText2}>${item?.reqInfo?.retailPrice}</Text>
+                                </View>
+                                <View style={styles.contentView1}>
+                                    <Text style={styles.subHead}>Override Price:</Text>
+
+                                    <Text style={styles.LIstText2}>
+                                        ${item?.reqInfo?.priceCharged}
+                                    </Text>
+                                </View>
+                                <View style={styles.contentView1}>
+                                    <Text style={styles.subHead}>Quantity:</Text>
+
+                                    <Text style={styles.LIstText2}>
+                                        {item?.reqInfo?.quantity}
+                                    </Text>
+                                </View>
+                                <View style={styles.contentView1}>
+                                    <Text style={styles.subHead}>Total:</Text>
+
+                                    <Text style={styles.LIstText2}>
+                                        ${item?.reqInfo?.priceCharged}
+                                    </Text>
+                                </View>
+                                <View style={styles.contentViewNotes}>
+                                    <Text style={styles.subHeadNotes}>Notes:</Text>
+
+                                    <Text style={styles.LIstTextNotes}>
+                                        {item?.notesListInfo[0]?.note1}                            </Text>
+                                </View>
+                                {/* <View style={styles.part}></View> */}
+
+
+                            </View>
+                        ))}
+
                     <View style={styles.semiContainer}>
                         <Text style={styles.service1}>Invoice Notes</Text>
                         <View style={styles.part}></View>
@@ -260,15 +258,15 @@ console.log("Total Price Charged:", totalPriceCharged);
                     </View>
                     {
                         projectInfo?.projectId ?
-                        <View style={[styles.semiContainer, { flexDirection: 'row' }]}>
-                        <Text style={styles.service3}>Associated Project Id:</Text>
-                        <Text style={{ marginTop: 12, marginLeft: 16, fontSize: 15 }}>{projectInfo?.projectId}</Text>
+                            <View style={[styles.semiContainer, { flexDirection: 'row' }]}>
+                                <Text style={styles.service3}>Associated Project Id:</Text>
+                                <Text style={{ marginTop: 12, marginLeft: 16, fontSize: 15 }}>{projectInfo?.projectId}</Text>
 
 
 
-                    </View>:null
+                            </View> : null
                     }
-                    
+
                     <Text style={styles.price}>Total Price: ${totalPriceCharged}</Text>
                 </View>
 
