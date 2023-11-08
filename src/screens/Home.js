@@ -208,10 +208,10 @@ console.log(dashboardMessageList.length,'messageList')
   );
   return (
     <View style={styles.container}>
-       <ImageBackground
+       {/* <ImageBackground
           source={bgImage}
           style={styles.bgImg}
-          resizeMode="cover">
+          resizeMode="cover"> */}
       <Loader flag={loader} />
       <ScrollView>
         <Text style={styles.heading}>
@@ -1204,7 +1204,7 @@ console.log(dashboardMessageList.length,'messageList')
         </View>
         <View style={{height: wp(5)}}></View>
       </ScrollView>
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </View>
   );
 };

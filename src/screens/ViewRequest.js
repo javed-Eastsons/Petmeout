@@ -1,25 +1,114 @@
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ImageBackground } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { Color } from '../Style';
+import { useDispatch, useSelector } from 'react-redux';
+import { Loader } from '../Component/Loader';
+import { RequestInfoById } from '../Redux/Actions/TaxLeaf';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
-const ViewRequest = () => {
+const ViewRequest = ({ route }) => {
+    const dispatch = useDispatch();
+    const [loader, setLoader] = useState(false);
+    const navigation = useNavigation();
+    const actionId = route.params.actionId;
+    const { REQUEST_INFO_BY_ID } = useSelector(state => state.TaxLeafReducer);
+    console.log(REQUEST_INFO_BY_ID, 'REQUEST_INFO_BY_ID')
     const bgImage = require('../Assets/img/guest_shape.png');
+    useEffect(() => {
+        setLoader(true);
+        dispatch(RequestInfoById(actionId, navigation));
 
+        setTimeout(() => {
+            setLoader(false);
+        }, 2000);
+    }, [actionId]);
     return (
         <>
+            <Loader flag={loader} />
+            <View style={{ marginLeft: 25, marginBottom: 20 }}>
+                <Text style={{ color: 'gray', fontSize: 16 }}>Action Id <Text style={{ color: '#000', fontSize: 18, fontWeight: '600' }}>#{REQUEST_INFO_BY_ID?.actionModel?.id}</Text></Text>
+            </View>
+            <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('CreateNewAction')}
+                    style={{
+                        backgroundColor: '#1C84C6',
+                        padding: 5,
+                        textAlign: 'center',
+                        width: wp(32),
+                        marginLeft: 60,
+                        flexDirection: 'row',
+                        borderRadius: 3,
+                        height: hp(5),
+                        // justifyContent: 'center'
+                    }}
+                >
+                    {/* <Icon
+                                  name="eye"
+                                  size={14}
+                                  color="#fff"
+                                /> */}
+                    <Text style={{
+                        color: Color.white,
+                        fontSize: 11,
+                        marginTop: 4,
+                        marginLeft: 4,
+                        // fontWeight: '700'
+
+                    }}>
+
+
+                        + Ceate New Action
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.goBack();
+                    }}
+                    style={{
+                        backgroundColor: '#1C84C6',
+                        padding: 5,
+                        textAlign: 'center',
+                        width: wp(32),
+                        flexDirection: 'row',
+                        borderRadius: 3,
+                        height: hp(5),
+                        marginLeft: 10,
+                        justifyContent: 'center'
+                    }}
+                >
+                    {/* <Icon
+                                  name="eye"
+                                  size={14}
+                                  color="#fff"
+                                /> */}
+                    <Text style={{
+                        color: Color.white,
+                        fontSize: 11,
+                        marginTop: 4,
+                        marginLeft: 4,
+                        // fontWeight: '700'
+
+                    }}>
+
+
+                        Action Dashboard
+                    </Text>
+                </TouchableOpacity>
+            </View>
             <View style={styles.header}>
-                <Text style={{ color: '#000', fontSize: 15, fontWeight: '600' }}>Client ID: MREALESTATE</Text>
+                <Text style={{ color: '#000', fontSize: 15, fontWeight: '600' }}>Client ID: {REQUEST_INFO_BY_ID?.actionModel?.clientId}</Text>
             </View>
             <ImageBackground
                 source={bgImage}
                 style={styles.bgImg}
                 resizeMode="cover">
                 <View style={styles.container}>
-                    <ScrollView style={{marginBottom:38}}>
+                    <ScrollView style={{ marginBottom: 140 }}>
 
 
                         <View style={styles.slideContainerClient}>
@@ -108,12 +197,12 @@ const ViewRequest = () => {
                             </View>
                             <View style={{ marginLeft: 20, marginBottom: 20, marginTop: 20 }}>
                                 <Text style={{ fontSize: 18, color: '#000', marginBottom: 10 }}>Subject:</Text>
-                                <Text>Third Test</Text>
+                                <Text>{REQUEST_INFO_BY_ID?.actionModel?.subject}</Text>
 
                             </View>
                             <View style={{ marginLeft: 20 }}>
                                 <Text style={{ fontSize: 18, color: '#000', marginBottom: 10 }}>Message:</Text>
-                                <Text>This Is Third Test</Text>
+                                <Text>{REQUEST_INFO_BY_ID?.actionModel?.message}</Text>
 
                             </View>
 
@@ -186,14 +275,23 @@ const ViewRequest = () => {
                                         <Text style={{
                                             color: Color.white,
                                             fontSize: 15,
-                                            // marginTop: 2,
+                                            marginTop: 2,
                                             marginLeft: 4,
                                             // fontWeight: '700'
 
-                                        }}>
+                                        }}> 
+                                            {
+                                            REQUEST_INFO_BY_ID?.actionModel?.priority === 1 ?
+                                            'Urgent' 
+                                            :
+                                            REQUEST_INFO_BY_ID?.actionModel?.priority === 2 ?
+                                            'Important'
+                                            :
+                                            REQUEST_INFO_BY_ID?.actionModel?.priority === 3 ?
+                                            'Regular'
+                                            : null
+                                            }
 
-
-                                            Urgent
                                         </Text>
                                     </TouchableOpacity>
                                 </View>

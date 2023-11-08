@@ -761,7 +761,7 @@ const Request = () => {
                                 <TouchableOpacity
                                   onPress={() => {
                                     navigation.navigate('ViewRequest', {
-                                      // orderId: item?.collectionInfo?.orderId
+                                      actionId: item?.actionModel?.id
                                     })
                                   }}
                                   style={{

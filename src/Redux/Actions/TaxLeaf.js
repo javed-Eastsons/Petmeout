@@ -4,7 +4,8 @@ import {
   MANAGER_INFO,
   CLIENT_LIST,
   CLIENT_DETAIL,
-  REQUEST_INFO
+  REQUEST_INFO,
+  REQUEST_INFO_BY_ID
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
@@ -315,7 +316,7 @@ export const RequestSubmit = (data, navigation) => dispatch => {
   // });
 
   return new Promise(async (resolve, reject) => {
-    
+
     console.log(data, 'submitrequestPayload')
     const response = await logistical.post('/Staff/SubmitRequest', data);
     console.log(response, 'SubmitlRequestInforesponse');
@@ -335,6 +336,52 @@ export const RequestSubmit = (data, navigation) => dispatch => {
       setTimeout(() => {
         navigation.goBack();
       }, 2000);
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+      Alert.alert('No data found');
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};
+
+export const RequestInfoById = (id, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+
+  return new Promise(async (resolve, reject) => {
+    let data = {
+      ActionModel: {
+        Id: id
+      }
+    };
+    console.log(data, 'requestIdPayload')
+    const response = await logistical.post('/Staff/GetRequestById', data);
+    console.log(response, 'GetRequestById');
+
+    if (response) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      dispatch({
+        type: REQUEST_INFO_BY_ID,
+        payload: response,
+      });
+
+      //   Alert.alert(response.response[0])
+      resolve(response);
+
+      // Alert.alert(response.massage);
+      // navigation.navigate('ClientInfo');
 
       // dispatch({
       //   type: 'LOADING',

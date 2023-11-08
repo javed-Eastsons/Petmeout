@@ -4,7 +4,8 @@ import {
   MANAGER_INFO,
   CLIENT_LIST,
   CLIENT_DETAIL,
-  REQUEST_INFO
+  REQUEST_INFO,
+  REQUEST_INFO_BY_ID
 } from '../Actions/types';
 
 const initialstate = {
@@ -13,7 +14,8 @@ const initialstate = {
   MANAGER_INFO: {},
   CLIENT_LIST: {},
   CLIENT_DETAIL: {},
-  REQUEST_INFO:{}
+  REQUEST_INFO: {},
+  REQUEST_INFO_BY_ID: {},
 };
 
 const TaxLeafReducer = (state = initialstate, action) => {
@@ -23,21 +25,24 @@ const TaxLeafReducer = (state = initialstate, action) => {
   );
   switch (action.type) {
     case LOGIN_DATA:
-      return {...state, LOGIN_DATA: action.payload};
+      return { ...state, LOGIN_DATA: action.payload };
     case MY_INFO:
-      return {...state, MY_INFO: action.payload};
+      return { ...state, MY_INFO: action.payload };
     case MANAGER_INFO:
-      return {...state, MANAGER_INFO: action.payload};
+      return { ...state, MANAGER_INFO: action.payload };
     case CLIENT_LIST:
-      return {...state, CLIENT_LIST: action.payload};
+      return { ...state, CLIENT_LIST: action.payload };
     case CLIENT_DETAIL:
-      return {...state, CLIENT_DETAIL: action.payload};
-      case REQUEST_INFO:
-         console.log(
-    'REQUEST_INFOaction.payload',
-    action.payload,
-  );
-      return {...state, REQUEST_INFO: action.payload};
+      return { ...state, CLIENT_DETAIL: action.payload };
+    case REQUEST_INFO:
+      
+      return { ...state, REQUEST_INFO: action.payload };
+      case REQUEST_INFO_BY_ID:
+        console.log(
+          'himmmm',
+          action.payload,
+        );
+        return { ...state, REQUEST_INFO_BY_ID: action.payload };
   }
 
   return state;
