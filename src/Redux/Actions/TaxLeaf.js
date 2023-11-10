@@ -5,7 +5,9 @@ import {
   CLIENT_LIST,
   CLIENT_DETAIL,
   REQUEST_INFO,
-  REQUEST_INFO_BY_ID
+  REQUEST_INFO_BY_ID,
+  FOLDER_LIST,
+  DOCUMENT_INFO_FOLDER
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
@@ -398,3 +400,103 @@ export const RequestInfoById = (id, navigation) => dispatch => {
     }
   });
 };
+
+
+export const folderNameList =
+  (clientId, clientType, navigation) => dispatch => {
+    // dispatch({
+    //   type: 'LOADING',
+    //   payload: true,
+    // });
+
+    return new Promise(async (resolve, reject) => {
+      let data = {
+        GuestInfo: {
+          // clientType: clientType,
+          clientType: "Business"
+
+        },
+      };
+      const response = await logistical.post('/FileCabinet/GetFolderList', data);
+      console.log(
+        response.azureFoldersInfo,
+        'GetFolderList',
+      );
+
+      if (response) {
+        // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+        dispatch({
+          type: FOLDER_LIST,
+          payload: response.azureFoldersInfo,
+        });
+
+        //   Alert.alert(response.response[0])
+        resolve(response);
+
+        // Alert.alert(response.massage);
+        // navigation.navigate('ClientInfo');
+
+        // dispatch({
+        //   type: 'LOADING',
+        //   payload: false,
+        // });
+      } else {
+        Alert.alert('No data found');
+        //Alert.alert(response.massage);
+        // dispatch({
+        //   type: 'LOADING',
+        //   payload: false,
+        // });
+        reject(response);
+      }
+    });
+  };
+
+ 
+  export const documentInfobyFolder = (documentId, navigation) => dispatch => {
+    // dispatch({
+    //   type: 'LOADING',
+    //   payload: true,
+    // });
+  
+    return new Promise(async (resolve, reject) => {
+      let data = {
+        FolderInfo: {
+          DocumentTypeIds: documentId
+        }
+      };
+      console.log(data,'ddd')
+      const response = await logistical.post('/FileCabinet/GetDocumentTypes', data);
+         console.log(response.documentInfo, 'hilllloooo');
+  
+      if (response) {
+        // AsyncStorage.setItem('login', JSON.stringify(response.token));
+  
+        dispatch({
+          type: DOCUMENT_INFO_FOLDER,
+          payload: response.documentInfo,
+        });
+
+  
+        //   Alert.alert(response.response[0])
+        resolve(response);
+  
+        // Alert.alert(response.massage);
+        // navigation.navigate('ClientInfo');
+  
+        // dispatch({
+        //   type: 'LOADING',
+        //   payload: false,
+        // });
+      } else {
+        Alert.alert('No data found');
+        //Alert.alert(response.massage);
+        // dispatch({
+        //   type: 'LOADING',
+        //   payload: false,
+        // });
+        reject(response);
+      }
+    });
+  };

@@ -5,7 +5,9 @@ import {
   CLIENT_LIST,
   CLIENT_DETAIL,
   REQUEST_INFO,
-  REQUEST_INFO_BY_ID
+  REQUEST_INFO_BY_ID,
+  FOLDER_LIST,
+  DOCUMENT_INFO_FOLDER
 } from '../Actions/types';
 
 const initialstate = {
@@ -16,6 +18,8 @@ const initialstate = {
   CLIENT_DETAIL: {},
   REQUEST_INFO: {},
   REQUEST_INFO_BY_ID: {},
+  FOLDER_LIST: {},
+  DOCUMENT_INFO_FOLDER:{}
 };
 
 const TaxLeafReducer = (state = initialstate, action) => {
@@ -35,14 +39,20 @@ const TaxLeafReducer = (state = initialstate, action) => {
     case CLIENT_DETAIL:
       return { ...state, CLIENT_DETAIL: action.payload };
     case REQUEST_INFO:
-      
+
       return { ...state, REQUEST_INFO: action.payload };
-      case REQUEST_INFO_BY_ID:
-        console.log(
-          'himmmm',
-          action.payload,
-        );
-        return { ...state, REQUEST_INFO_BY_ID: action.payload };
+    case REQUEST_INFO_BY_ID:
+
+      return { ...state, REQUEST_INFO_BY_ID: action.payload };
+    case FOLDER_LIST:
+      console.log(
+        'himmmm',
+        action.payload,
+      );
+      return { ...state, FOLDER_LIST: action.payload };
+      case DOCUMENT_INFO_FOLDER:
+        ;
+        return { ...state, DOCUMENT_INFO_FOLDER: action.payload };
   }
 
   return state;

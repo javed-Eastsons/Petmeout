@@ -117,14 +117,12 @@ const ViewRequest = ({ route }) => {
                             <View style={styles.contentView}>
                                 <Text style={styles.subHead}>Department:</Text>
                                 <Text style={styles.LIstText2}>
-                                    {' '}
                                     N/A
                                 </Text>
                             </View>
                             <View style={styles.contentView}>
                                 <Text style={styles.subHead}>Office:</Text>
                                 <Text style={styles.LIstText2}>
-                                    {' '}
                                     CORP
                                 </Text>
                             </View>
