@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,24 +9,25 @@ import {
   Image,
   ImageBackground,
   Button,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Color} from '../Style';
-import {useDispatch, useSelector} from 'react-redux';
-import {clientInfo, ManagerInfo} from '../Redux/Actions/TaxLeaf';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {Loader} from '../Component/Loader';
+import { Color } from '../Style';
+import { useDispatch, useSelector } from 'react-redux';
+import { clientInfo, ManagerInfo } from '../Redux/Actions/TaxLeaf';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { Loader } from '../Component/Loader';
 
 import Carousel from 'react-native-reanimated-carousel';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {dashboardlist} from '../Redux/Actions/Dashboard';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { dashboardlist } from '../Redux/Actions/Dashboard';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
@@ -34,11 +35,11 @@ const HomeScreen = () => {
   const [infoData, setInfoData] = useState({});
   const [dashboardList, setDashboardList] = useState([]);
   const [dashboardMessageList, setDashboardMessageList] = useState([]);
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {DASHBOARD_LIST} = useSelector(state => state.DashboardReducer);
-  const {DASHBOARD_MESSAGE_LIST} = useSelector(state => state.DashboardReducer);
-  const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { DASHBOARD_LIST } = useSelector(state => state.DashboardReducer);
+  const { DASHBOARD_MESSAGE_LIST } = useSelector(state => state.DashboardReducer);
+  const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { LOGIN_DATA } = useSelector(state => state.TaxLeafReducer);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const jsonData = MY_INFO.guestInfo;
@@ -49,7 +50,8 @@ const HomeScreen = () => {
     console.log(data);
   };
   console.log(showwhat1, 'showWhat');
-console.log(dashboardMessageList.length,'messageList')
+  console.log(dashboardMessageList.length, 'messageList')
+
   const data = [
     {
       id: 1,
@@ -118,6 +120,20 @@ console.log(dashboardMessageList.length,'messageList')
       setLoader(false);
     }, 2000);
   }, []);
+  useEffect(() => {
+    setInfoData(MANAGER_INFO);
+    setDashboardList(DASHBOARD_LIST);
+    setDashboardMessageList(DASHBOARD_MESSAGE_LIST);
+    dispatch(
+      dashboardlist(
+        jsonData?.clientId,
+        jsonData?.clientType,
+        officeInfo?.id,
+        navigation,
+      ),
+    );
+    dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+  }, [LOGIN_DATA]);
 
   useEffect(() => {
     setInfoData(MANAGER_INFO);
@@ -136,6 +152,8 @@ console.log(dashboardMessageList.length,'messageList')
         navigation,
       ),
     );
+    dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+
   }, [showwhat1]);
 
 
@@ -166,10 +184,10 @@ console.log(dashboardMessageList.length,'messageList')
 
   console.log(TaxfilteredList, 'TaxfilteredListt');
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardSlider}
-      // onPress={toggleModal}
+    // onPress={toggleModal}
     >
       <View style={styles.cardShadow}>
         <Image
@@ -184,7 +202,7 @@ console.log(dashboardMessageList.length,'messageList')
       <View>
         <Text style={styles.postText}>{item.Title}</Text>
       </View>
-      <View style={{padding: 5}}>
+      <View style={{ padding: 5 }}>
         <Text numberOfLines={3} style={styles.sliderText}>
           {item.subHead}
         </Text>
@@ -201,14 +219,14 @@ console.log(dashboardMessageList.length,'messageList')
             size={20}
             color="#fff"
           />
-          <Text style={{color: '#fff', marginLeft: 10}}>987654</Text>
+          <Text style={{ color: '#fff', marginLeft: 10 }}>987654</Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
   return (
     <View style={styles.container}>
-       {/* <ImageBackground
+      {/* <ImageBackground
           source={bgImage}
           style={styles.bgImg}
           resizeMode="cover"> */}
@@ -549,7 +567,7 @@ console.log(dashboardMessageList.length,'messageList')
                       <Icon1
                         style={[
                           styles.icon,
-                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                          { color: showwhat1 == 'Signature' ? '#fff' : '#000' },
                         ]}
                         name="event"
                         size={20}
@@ -731,7 +749,7 @@ console.log(dashboardMessageList.length,'messageList')
                       <Icon1
                         style={[
                           styles.icon,
-                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                          { color: showwhat1 == 'Signature' ? '#fff' : '#000' },
                         ]}
                         name="event"
                         size={15}
@@ -912,7 +930,7 @@ console.log(dashboardMessageList.length,'messageList')
                       <Icon1
                         style={[
                           styles.icon,
-                          {color: showwhat1 == 'Signature' ? '#fff' : '#000'},
+                          { color: showwhat1 == 'Signature' ? '#fff' : '#000' },
                         ]}
                         name="event"
                         size={20}
@@ -1000,7 +1018,7 @@ console.log(dashboardMessageList.length,'messageList')
                     <View style={styles.part}></View>
                     {TaxfilteredList &&
                       TaxfilteredList.map(item => (
-                        <View key={item.id} style={{padding: 20}}>
+                        <View key={item.id} style={{ padding: 20 }}>
                           <Text
                             style={{
                               backgroundColor: '#23c6c8',
@@ -1101,11 +1119,11 @@ console.log(dashboardMessageList.length,'messageList')
             } else if (showwhat1 == 'Reminders') {
               return (
                 <TouchableOpacity onPress={() => setshowwhat1('')}>
-                  <View style={{height: 200}}>
+                  <View style={{ height: 200 }}>
                     <View style={styles.part}></View>
                     {filteredList &&
                       filteredList.map(item => (
-                        <View key={item.id} style={{height: 200, padding: 20}}>
+                        <View key={item.id} style={{ height: 200, padding: 20 }}>
                           <Text
                             style={{
                               backgroundColor: '#23c6c8',
@@ -1142,7 +1160,7 @@ console.log(dashboardMessageList.length,'messageList')
           })()}
         </View>
 
-        <View style={{flex: 1, marginTop: 20, marginLeft: 20}}>
+        <View style={{ flex: 1, marginTop: 20, marginLeft: 20 }}>
           <Carousel
             loop
             width={width}
@@ -1202,7 +1220,7 @@ console.log(dashboardMessageList.length,'messageList')
             </Text>
           </ScrollView>
         </View>
-        <View style={{height: wp(5)}}></View>
+        <View style={{ height: wp(5) }}></View>
       </ScrollView>
       {/* </ImageBackground> */}
     </View>
@@ -1393,13 +1411,13 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginTop: 20,
   },
-  icon: {alignSelf: 'center'},
+  icon: { alignSelf: 'center' },
   cardShadow: {
     // backgroundColor: 'red',
     // height: 300,
     paddingTop: 20,
   },
-  bgImg:{
-    height:hp(85)
+  bgImg: {
+    height: hp(85)
   }
 });

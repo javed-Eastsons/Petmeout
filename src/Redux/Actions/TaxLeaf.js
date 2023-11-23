@@ -265,7 +265,7 @@ export const ClientInfoList =
   };
 
 
-export const RequestInfoList = (client, navigation) => dispatch => {
+export const RequestInfoList = (clientId, navigation) => dispatch => {
   // dispatch({
   //   type: 'LOADING',
   //   payload: true,
@@ -274,7 +274,7 @@ export const RequestInfoList = (client, navigation) => dispatch => {
   return new Promise(async (resolve, reject) => {
     let data = {
       GuestInfo: {
-        client: client,
+        ClientId: clientId,
       },
     };
     console.log(data, 'requestPayload')
@@ -413,7 +413,7 @@ export const folderNameList =
       let data = {
         GuestInfo: {
           // clientType: clientType,
-          clientType: "Business"
+          clientType: "Individual"
 
         },
       };

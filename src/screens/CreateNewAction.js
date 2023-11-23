@@ -28,7 +28,7 @@ import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
 import { Dropdown } from 'react-native-element-dropdown';
 import Editor from './editor';
-import { RequestSubmit } from '../Redux/Actions/TaxLeaf';
+import { RequestSubmit,ManagerInfo } from '../Redux/Actions/TaxLeaf';
 import { Color } from '../Style';
 import { Loader } from '../Component/Loader';
 
@@ -67,7 +67,7 @@ const CreateNewAction = () => {
     setDatePicker(true);
   };
   console.log(selectedId, 'selectedIdRadio')
-  console.log(notes, 'notes')
+  console.log(MANAGER_INFO, 'MANAGER_INFO')
   console.log(actionSubject, 'actionSubject')
   console.log(value, 'valueIMP')
   console.log(date, 'date')
@@ -107,6 +107,11 @@ const CreateNewAction = () => {
     ],
     [],
   );
+  useEffect(() => {
+    dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+
+  }, [])
+  
   const onSubmit = () => {
     let data = {
       // moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')
@@ -115,7 +120,7 @@ const CreateNewAction = () => {
         assignTo: selectedId,
         clientId: jsonData?.client,
         subject: actionSubject,
-        message: notes,
+        // message: notes,
         priority: value,
         // status: 0,
         // addedByUser: 910,
@@ -246,6 +251,8 @@ const CreateNewAction = () => {
                 padding: 5,
                 color: '#000',
                 marginLeft: 12,
+                marginTop:10
+
               }}>
               Priority *
             </Text>
@@ -281,6 +288,7 @@ const CreateNewAction = () => {
                 padding: 5,
                 color: '#000',
                 marginLeft: 12,
+                marginTop:10
               }}>
               Due Date
             </Text>
@@ -307,7 +315,7 @@ const CreateNewAction = () => {
               />
             )}
 
-            <Text
+            {/* <Text
               style={{
                 alignSelf: 'flex-start',
                 padding: 5,
@@ -321,7 +329,7 @@ const CreateNewAction = () => {
               numberOfLines={6}
               onChangeText={(text) => setNotes(text)}
               style={styles.textArea}
-            />
+            /> */}
           </View>
         </View>
         <View

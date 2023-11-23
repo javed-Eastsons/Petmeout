@@ -55,7 +55,7 @@ const Request = () => {
   console.log(REQUEST_INFO, 'REQUEST_INFO')
   useEffect(() => {
     setLoader(true);
-    dispatch(RequestInfoList(jsonData?.client, navigation));
+    dispatch(RequestInfoList(jsonData?.clientId, navigation));
 
     setRequestInfoData(REQUEST_INFO?.requestInfoListModel);
     setTimeout(() => {
@@ -79,8 +79,8 @@ const Request = () => {
             style={{
               width: '40%',
               alignSelf: 'flex-start',
-              marginTop: 10,
-              marginBottom: 20,
+              // marginTop: 10,
+              // marginBottom: 20,
               marginLeft: 20,
             }}>
 
@@ -406,9 +406,8 @@ const Request = () => {
             })()}
           </View>
 
-          <View style={styles.subContainer}>
-            <View style={{flexDirection:'row'}}>
-              <View style={{width:wp(55),height:hp(10)}}>
+          <View style={[styles.mainTab, { marginBottom: 10}]}>
+            <View style={{ width: wp(55), height: hp(10) }}>
               {(() => {
                 if (showwhat == 'Experience') {
                   return (
@@ -593,43 +592,45 @@ const Request = () => {
                   );
                 }
               })()}
-              </View>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('CreateNewAction')}
-                // onPress={() => setModalVisible(true)}
-                style={{
-                  flexDirection: 'row',
-                  width: wp(35),
-                  // justifyContent: 'center',
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  padding: 5,
-                }}>
-                <View
-                  style={{
-                    width: 35,
-                    height: 35,
-                    justifyContent: 'center',
-                    // borderWidth: 1,
-                    borderRadius: 50,
-                    borderColor: '#2F4050',
-                    // alignSelf: 'center',
-                  }}>
-                  <Image
-                    source={iconm}
-                    style={{
-                      width: 20,
-                      height: 20,
-
-                      borderColor: '#fff',
-                      alignSelf: 'center',
-                    }}
-                  />
-                </View>
-                <Text style={styles.newRText}>New Request</Text>
-              </TouchableOpacity>
             </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CreateNewAction')}
+              // onPress={() => setModalVisible(true)}
+              style={{
+                flexDirection: 'row',
+                width: wp(35),
+                // justifyContent: 'center',
+                borderWidth: 1,
+                borderRadius: 10,
+                marginTop: 5,
+                height:hp(6),
+                padding: 5,
+              }}>
+              <View
+                style={{
+                  width: 35,
+                  height: 35,
+                  justifyContent: 'center',
+                  // borderWidth: 1,
+                  borderRadius: 50,
+                  borderColor: '#2F4050',
+                  // alignSelf: 'center',
+                }}>
+                <Image
+                  source={iconm}
+                  style={{
+                    width: 20,
+                    height: 20,
+
+                    borderColor: '#fff',
+                    alignSelf: 'center',
+                  }}
+                />
+              </View>
+              <Text style={styles.newRText}>New Request</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.subContainer}>
 
             {(() => {
               if (showwhat == 'Experience') {
@@ -666,11 +667,11 @@ const Request = () => {
                       </View> */}
                       <View
                         style={{
-                          width: wp(20),
+                          width: wp(25),
 
                           alignItems: 'center',
                         }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 14,fontWeight:'600'}}>
                           Action Id
                         </Text>
                       </View>
@@ -693,34 +694,25 @@ const Request = () => {
                       </View> */}
                       <View
                         style={{
-                          width: wp(20),
-
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                          Created By
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: wp(22),
-
-                          alignItems: 'center',
-                        }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                          Assigned To
-                        </Text>
-                      </View>
-                      <View
-                        style={{
                           width: wp(25),
 
                           alignItems: 'center',
                         }}>
-                        <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                          Client ID
+                        <Text style={{ color: Color.darkGreen,  fontSize: 14,fontWeight:'600'}}>
+                          Created On
                         </Text>
                       </View>
+                      <View
+                        style={{
+                          width: wp(35),
+
+                          alignItems: 'center',
+                        }}>
+                        <Text style={{ color: Color.darkGreen, fontSize: 14,fontWeight:'600' }}>
+                          Subject
+                        </Text>
+                      </View>
+                      
                     </View>
                     <View>
                       {/* <View style={styles.subContainer}> */}
@@ -736,75 +728,32 @@ const Request = () => {
                           // numColumns={5}
                           keyExtractor={(item, index) => index}
                           renderItem={({ item, index }) => (
-                            <View
-                              style={{
-                                width: wp(90),
-                                backgroundColor: '#fff',
-
-                                // alignItems: 'center',
-                                // alignSelf: 'center',
-                                elevation: 10,
-
-                                marginBottom: 10,
-                                flexDirection: 'column',
-                                height: wp(25),
-                              }}>
-                              <View style={{
-                                flexDirection: 'row', justifyContent: "flex-end",
-                                // width: wp(90),
-                                backgroundColor: '#fff',
-                                marginBottom: 17,
-                                height: hp(3)
-
-                              }}>
-
-                                <TouchableOpacity
-                                  onPress={() => {
+                            <TouchableOpacity
+                            onPress={() => {
                                     navigation.navigate('ViewRequest', {
                                       actionId: item?.actionModel?.id
                                     })
                                   }}
-                                  style={{
-                                    backgroundColor: '#8AB645',
-                                    padding: 5,
-                                    textAlign: 'center',
-                                    width: wp(15),
-                                    marginLeft: 10,
-                                    flexDirection: 'row',
-                                    // borderRadius: 3
-                                  }}
-                                >
-                                  <Icon
-                                    name="eye"
-                                    size={14}
-                                    color="#fff"
-                                  />
-                                  <Text style={{
-                                    color: Color.white,
-                                    fontSize: 10,
-                                    // marginTop: 2,
-                                    marginLeft: 4
+                              style={{
+                                width: wp(90),
+                                backgroundColor: '#fff',
 
-                                  }}>
+                                alignItems: 'center',
+                                alignSelf: 'center',
+                                elevation: 10,
 
-
-                                    View
-                                  </Text>
-                                </TouchableOpacity>
-
-                              </View>
+                                marginBottom: 10,
+                                flexDirection: 'row',
+                                height: wp(15),
+                              }}>
+                            
 
 
 
-
-                              <View
-                                style={{
-                                  width: wp(90),
-                                  flexDirection: 'row'
-                                }}>
+                             
                                 <View
                                   style={{
-                                    width: wp(20),
+                                    width: wp(25),
                                     alignItems: 'center',
                                   }}>
                                   <Text style={{ color: '#2F4050', fontSize: 13 }}>
@@ -815,7 +764,7 @@ const Request = () => {
 
                                 <View
                                   style={{
-                                    width: wp(20),
+                                    width: wp(25),
 
                                     alignItems: 'center',
                                   }}>
@@ -826,38 +775,19 @@ const Request = () => {
                                 </View>
                                 <View
                                   style={{
-                                    width: wp(22),
+                                    width: wp(35),
 
                                     alignItems: 'center',
                                   }}>
                                   <Text
                                     style={{
-                                      color: Color.white,
-                                      fontSize: 9,
-                                      backgroundColor: '#1c84c6',
-                                      padding: 6,
-                                      textAlign: 'center',
-                                      width: wp(15),
+                                      color: '#2F4050', fontSize: 12
                                     }}>
-                                    {item?.actionModel?.assignWhom}
+                                    {item?.actionModel?.subject}
                                   </Text>
                                 </View>
-                                <View
-                                  style={{
-                                    width: wp(25),
-
-                                    alignItems: 'center',
-                                  }}>
-
-
-                                  <Text style={{ color: '#2F4050', fontSize: 12 }}>
-
-                                    {item?.actionModel?.clientId}
-                                  </Text>
-                                  {/* )} */}
-                                </View>
-                              </View>
-                            </View>
+                                
+                            </TouchableOpacity>
                           )}
                         />
                       </View>
@@ -889,7 +819,7 @@ const styles = StyleSheet.create({
   //   height: 480,
   // },
   mainTab: {
-    // backgroundColor: '#fff',
+    backgroundColor: '#fff',
     width: wp(100),
     flexDirection: 'row',
     justifyContent: 'center',
@@ -964,7 +894,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // justifyContent: "center",
     // alignItems: "center",
-    marginTop: 20,
+    // marginTop: 20,
     // marginBottom: 30,
     width: wp(90),
 
@@ -1008,7 +938,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   subContainer: {
-    // backgroundColor: '#fff',
+    // backgroundColor: 'red',
     width: wp(95),
     alignSelf: 'center',
     // marginTop: 20,
@@ -1023,7 +953,7 @@ const styles = StyleSheet.create({
     // marginLeft: 20,
     //  textAlign:'center'
   },
-  bgImg:{
-    height:hp(85)
+  bgImg: {
+    height: hp(85)
   }
 });

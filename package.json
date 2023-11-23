@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/checkbox": "^0.5.16",
     "@react-native-community/datetimepicker": "^7.6.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^6.5.7",
@@ -26,6 +27,7 @@
     "react-native-element-dropdown": "^2.10.0",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-gradle-plugin": "^0.71.19",
+    "react-native-html-to-pdf": "^0.12.0",
     "react-native-image-picker": "^7.0.0",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-modal": "^13.0.1",
@@ -43,6 +45,7 @@
     "react-native-screens": "^3.25.0",
     "react-native-shadow-2": "^7.0.8",
     "react-native-star-rating": "^1.1.0",
+    "react-native-step-indicator": "^1.0.3",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.0",
     "react-native-video-player": "^0.14.0",

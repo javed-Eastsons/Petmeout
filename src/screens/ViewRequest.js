@@ -127,54 +127,7 @@ const ViewRequest = ({ route }) => {
                                 </Text>
                             </View>
                         </View>
-                        <View style={[styles.slideContainerClient1, { marginTop: 20 }]}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    // navigation.navigate('ViewRequest', {
-                                    // })
-                                }}
-                                style={{
-                                    backgroundColor: '#1C84C6',
-                                    padding: 5,
-                                    textAlign: 'center',
-                                    width: wp(18),
-                                    marginLeft: 20,
-                                    flexDirection: 'row',
-                                    borderRadius: 3,
-                                    marginTop: 20,
-                                }}
-                            >
-                                {/* <Icon
-                                  name="eye"
-                                  size={14}
-                                  color="#fff"
-                                /> */}
-                                <Text style={{
-                                    color: Color.white,
-                                    fontSize: 10,
-                                    // marginTop: 2,
-                                    marginLeft: 4,
-                                    fontWeight: '700'
-
-                                }}>
-
-
-                                    + Assign
-                                </Text>
-                            </TouchableOpacity>
-                            <View style={styles.contentView1}>
-                                <Text style={styles.subHead}>Department:</Text>
-                                <Text style={styles.LIstText2}>
-                                    {' '}
-                                </Text>
-                            </View>
-                            <View style={styles.contentView1}>
-                                <Text style={styles.subHead}>Office:</Text>
-                                <Text style={styles.LIstText2}>
-                                    {' '}
-                                </Text>
-                            </View>
-                        </View>
+                        
                         <View style={{ backgroundColor: '#fff', paddingBottom: 20, borderRadius: 10, width: wp(90), alignSelf: 'center', marginTop: 20 }}>
                             <View style={styles.slideContainerClient1}>
                                 <View style={{ flexDirection: 'row', marginLeft: 15, marginTop: 10 }}>
@@ -293,6 +246,56 @@ const ViewRequest = ({ route }) => {
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
+                                
+                            </View>
+                            
+                        </View>
+                        <View style={[styles.slideContainerClient1, { marginTop: 20 }]}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    // navigation.navigate('ViewRequest', {
+                                    // })
+                                }}
+                                style={{
+                                    backgroundColor: '#1C84C6',
+                                    padding: 5,
+                                    textAlign: 'center',
+                                    width: wp(18),
+                                    marginLeft: 20,
+                                    flexDirection: 'row',
+                                    borderRadius: 3,
+                                    marginTop: 20,
+                                }}
+                            >
+                                {/* <Icon
+                                  name="eye"
+                                  size={14}
+                                  color="#fff"
+                                /> */}
+                                <Text style={{
+                                    color: Color.white,
+                                    fontSize: 10,
+                                    // marginTop: 2,
+                                    marginLeft: 4,
+                                    fontWeight: '700'
+
+                                }}>
+
+
+                                    + Assign
+                                </Text>
+                            </TouchableOpacity>
+                            <View style={styles.contentView1}>
+                                <Text style={styles.subHead}>Department:</Text>
+                                <Text style={styles.LIstText2}>
+                                    {' '}
+                                </Text>
+                            </View>
+                            <View style={styles.contentView1}>
+                                <Text style={styles.subHead}>Office:</Text>
+                                <Text style={styles.LIstText2}>
+                                    {' '}
+                                </Text>
                             </View>
                         </View>
                     </ScrollView>

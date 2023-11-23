@@ -90,12 +90,13 @@ const Payments = () => {
   const { GET_ORDER_DETAILS } = useSelector(state => state.PaymentReducer);
   const serviceListModel = GET_ORDER_DETAILS[0]?.serviceListModel[0]
   const bgImage = require('../Assets/img/guest_shape.png');
-
+const [orderIDAcc, setOrderID]= useState()
   const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
     console.log(data);
   };
+  console.log(orderIDAcc,'orderIDAcc')
   const jsonData = MY_INFO.guestInfo;
   console.log(GET_ORDER_DETAILS, 'orderInfoPAymentScreen')
 
@@ -125,15 +126,15 @@ const Payments = () => {
 
   const getorderbyId = (orderId) => {
     // Alert.alert('hii')
-    console.log(orderId,'orderIDDDD')
+    console.log(orderId, 'orderIDDDD')
     // setLoader(true);
 
     dispatch(
       GetDetailsbyOrderId(jsonData?.clientId, jsonData?.clientType, orderId, navigation),
     );
-  //   setTimeout(() => {
-  //     setLoader(false);
-  // }, 2000);
+    //   setTimeout(() => {
+    //     setLoader(false);
+    // }, 2000);
   }
   console.log(
     infoData.length,
@@ -251,7 +252,7 @@ const Payments = () => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity style={{ flexDirection: 'row' }}
-          onPress={() => getorderbyId(item?.collectionInfo?.orderId)}
+            onPress={() => getorderbyId(item?.collectionInfo?.orderId)}
           >
             {/* <View
                         style={{
@@ -364,203 +365,206 @@ const Payments = () => {
   };
 
   const renderContent = (section, _, isActive) => {
+    setOrderID(section?.collectionInfo?.orderId)
+
     return (
       <>
-        <Animatable.View
-          duration={400}
-          style={[
-            styles.content,
-            isActive ? styles.active : styles.inactive,
-            {
-              width: wp(90),
-              // backgroundColor: '#fff',
-              alignItems: 'center',
-              alignSelf: 'center',
-              marginBottom: 10,
-              flexDirection: 'row',
-              height: wp(10),
-              opacity: 10,
-              paddingLeft: 10,
-              paddingRight: 10,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            },
-          ]}
-          transition="backgroundColor">
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
-              marginTop: 4,
-              paddingTop: 3,
-              width: wp(15),
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              fontWeight: '700',
-              justifyContent: 'center',
-            }}>
-            Category
-          </Animatable.Text>
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
-              marginTop: 4,
-              paddingTop: 3,
-              width: wp(25),
+        <Animatable.View style={{ marginBottom: 10, backgroundColor: '#fff' }}>
+          <Animatable.View
+            duration={400}
+            style={[
+              styles.content,
+              isActive ? styles.active : styles.inactive,
+              {
+                width: wp(90),
+                // backgroundColor: '#fff',
+                alignItems: 'center',
+                alignSelf: 'center',
+                // marginBottom: 10,
+                flexDirection: 'row',
+                height: wp(10),
+                opacity: 10,
+                paddingLeft: 10,
+                paddingRight: 10,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              },
+            ]}
+            transition="backgroundColor">
+            <Animatable.Text
+              animation={isActive ? 'bounceIn' : undefined}
+              style={{
+                color: '#000',
+                textAlign: 'center',
+                marginTop: 4,
+                paddingTop: 3,
+                width: wp(15),
+                // backgroundColor: '#2F5597',
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                height: wp(7),
+                fontSize: 12,
+                fontWeight: '700',
+                justifyContent: 'center',
+              }}>
+              Category
+            </Animatable.Text>
+            <Animatable.Text
+              animation={isActive ? 'bounceIn' : undefined}
+              style={{
+                color: '#000',
+                textAlign: 'center',
+                marginTop: 4,
+                paddingTop: 3,
+                width: wp(25),
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              fontWeight: '700',
-              justifyContent: 'center',
-            }}>
-            Service Name
-          </Animatable.Text>
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
-              marginTop: 4,
-              paddingTop: 3,
-              width: wp(20),
+                // backgroundColor: '#2F5597',
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                height: wp(7),
+                fontSize: 12,
+                fontWeight: '700',
+                justifyContent: 'center',
+              }}>
+              Service Name
+            </Animatable.Text>
+            <Animatable.Text
+              animation={isActive ? 'bounceIn' : undefined}
+              style={{
+                color: '#000',
+                textAlign: 'center',
+                marginTop: 4,
+                paddingTop: 3,
+                width: wp(20),
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              fontWeight: '700',
-              justifyContent: 'center',
-            }}>
-            Retail Price
-          </Animatable.Text>
-          <Animatable.Text
-            animation={isActive ? 'bounceIn' : undefined}
-            style={{
-              color: '#000',
-              textAlign: 'center',
-              marginTop: 4,
-              paddingTop: 3,
-              width: wp(15),
+                // backgroundColor: '#2F5597',
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                height: wp(7),
+                fontSize: 12,
+                fontWeight: '700',
+                justifyContent: 'center',
+              }}>
+              Retail Price
+            </Animatable.Text>
+            <Animatable.Text
+              animation={isActive ? 'bounceIn' : undefined}
+              style={{
+                color: '#000',
+                textAlign: 'center',
+                marginTop: 4,
+                paddingTop: 3,
+                width: wp(15),
 
-              // backgroundColor: '#2F5597',
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              height: wp(7),
-              fontSize: 12,
-              fontWeight: '700',
-              justifyContent: 'center',
-            }}>
-            Quantity
-          </Animatable.Text>
+                // backgroundColor: '#2F5597',
+                borderTopLeftRadius: 10,
+                borderTopRightRadius: 10,
+                height: wp(7),
+                fontSize: 12,
+                fontWeight: '700',
+                justifyContent: 'center',
+              }}>
+              Quantity
+            </Animatable.Text>
+          </Animatable.View>
+          <FlatList
+            data={GET_ORDER_DETAILS[0]?.serviceListModel}
+            keyExtractor={item => item.id}
+            renderItem={({ item, index }) => (
+              <Animatable.View
+                duration={400}
+                style={[
+                  styles.content,
+                  isActive ? styles.active : styles.inactive,
+                  {
+                    width: wp(90),
+                    // backgroundColor: '#fff',
+                    alignItems: 'center',
+                    // marginBottom: 10,
+                    flexDirection: 'row',
+                    height: wp(15),
+
+
+
+                    alignSelf: 'center',
+
+                    opacity: 10,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    paddingBottom: 10,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  },
+                ]}
+                transition="backgroundColor">
+                <Animatable.Text
+                  animation={isActive ? 'bounceIn' : undefined}
+                  style={{
+                    color: '#000',
+                    textAlign: 'center',
+                    width: wp(15),
+
+                    // backgroundColor: '#2F5597',
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    height: wp(10),
+                    fontSize: 12,
+                    justifyContent: 'center',
+                  }}>
+                  {item?.serviceInfo?.category?.name}
+                </Animatable.Text>
+                <Animatable.Text
+                  animation={isActive ? 'bounceIn' : undefined}
+                  style={{
+                    color: '#000',
+                    textAlign: 'center',
+                    width: wp(25),
+
+                    // backgroundColor: '#2F5597',
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    height: wp(10),
+                    fontSize: 12,
+                    justifyContent: 'center',
+                  }}>
+                  {item?.serviceInfo?.description}
+                </Animatable.Text>
+                <Animatable.Text
+                  animation={isActive ? 'bounceIn' : undefined}
+                  style={{
+                    color: '#000',
+                    textAlign: 'center',
+                    width: wp(20),
+
+                    // backgroundColor: '#2F5597',
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    height: wp(10),
+                    fontSize: 12,
+                    justifyContent: 'center',
+                  }}>
+                  ${item?.reqInfo?.retailPrice}
+                </Animatable.Text>
+                <Animatable.Text
+                  animation={isActive ? 'bounceIn' : undefined}
+                  style={{
+                    color: '#000',
+                    textAlign: 'center',
+                    width: wp(15),
+
+                    // backgroundColor: '#2F5597',
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    height: wp(10),
+                    fontSize: 12,
+                    justifyContent: 'center',
+                  }}>
+                  {item?.reqInfo?.quantity}
+                </Animatable.Text>
+              </Animatable.View>
+            )}
+          />
         </Animatable.View>
-        <FlatList
-          data={GET_ORDER_DETAILS[0]?.serviceListModel}
-          keyExtractor={item => item.id}
-          renderItem={({ item, index }) => (
-            <Animatable.View
-              duration={400}
-              style={[
-                styles.content,
-                isActive ? styles.active : styles.inactive,
-                {
-                  width: wp(90),
-                  backgroundColor: '#fff',
-                  alignItems: 'center',
-                  marginBottom: 10,
-                  flexDirection: 'row',
-                  height: wp(15),
-
-
-
-                  alignSelf: 'center',
-
-                  opacity: 10,
-                  paddingLeft: 10,
-                  paddingRight: 10,
-                  paddingBottom: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                },
-              ]}
-              transition="backgroundColor">
-              <Animatable.Text
-                animation={isActive ? 'bounceIn' : undefined}
-                style={{
-                  color: '#000',
-                  textAlign: 'center',
-                  width: wp(15),
-
-                  // backgroundColor: '#2F5597',
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  height: wp(10),
-                  fontSize: 12,
-                  justifyContent: 'center',
-                }}>
-                {item?.serviceInfo?.category?.name}
-              </Animatable.Text>
-              <Animatable.Text
-                animation={isActive ? 'bounceIn' : undefined}
-                style={{
-                  color: '#000',
-                  textAlign: 'center',
-                  width: wp(25),
-
-                  // backgroundColor: '#2F5597',
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  height: wp(10),
-                  fontSize: 12,
-                  justifyContent: 'center',
-                }}>
-                {item?.serviceInfo?.description}
-              </Animatable.Text>
-              <Animatable.Text
-                animation={isActive ? 'bounceIn' : undefined}
-                style={{
-                  color: '#000',
-                  textAlign: 'center',
-                  width: wp(20),
-
-                  // backgroundColor: '#2F5597',
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  height: wp(10),
-                  fontSize: 12,
-                  justifyContent: 'center',
-                }}>
-                ${item?.reqInfo?.retailPrice}
-              </Animatable.Text>
-              <Animatable.Text
-                animation={isActive ? 'bounceIn' : undefined}
-                style={{
-                  color: '#000',
-                  textAlign: 'center',
-                  width: wp(15),
-
-                  // backgroundColor: '#2F5597',
-                  borderTopLeftRadius: 10,
-                  borderTopRightRadius: 10,
-                  height: wp(10),
-                  fontSize: 12,
-                  justifyContent: 'center',
-                }}>
-                {item?.reqInfo?.quantity}
-              </Animatable.Text>
-            </Animatable.View>
-          )}
-        />
-
       </>
     );
   };
@@ -569,6 +573,7 @@ const Payments = () => {
     console.log('HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH');
     console.log(sections, 'PPPPPPPPPPPPPPPPPPPP');
     setActiveSection(sections.includes(undefined) ? [] : sections);
+    // getorderbyId(sections?.collectionInfo?.orderId)
   };
 
   return (
@@ -580,151 +585,151 @@ const Payments = () => {
           source={bgImage}
           style={styles.bgImg}
           resizeMode="cover">
-        {/* <View style={styles.headerView}>
+          {/* <View style={styles.headerView}>
           <Text style={styles.header}>Plan Invoices</Text>
         </View> */}
-        {(() => {
-          if (showwhat == 'Experience') {
-            return (
-              <View style={styles.moblieSec}>
-                <TouchableOpacity
-                  style={[
-                    styles.emailtoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'Experience' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('Experience')}>
-                  <Text style={styles.ButtonText}>
-                    Pending ({infoData.length})
+          {(() => {
+            if (showwhat == 'Experience') {
+              return (
+                <View style={styles.moblieSec}>
+                  <TouchableOpacity
+                    style={[
+                      styles.emailtoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'Experience' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('Experience')}>
+                    <Text style={styles.ButtonText}>
+                      Pending ({infoData.length})
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.mobiletoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'My Schools' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('My Schools')}>
+                    <Text style={styles.ButtonText}>Paid (0)</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.emailtoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'Reviews' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('Reviews')}>
+                    <Text style={styles.ButtonText}>Plan</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            } else if (showwhat == 'My Schools') {
+              return (
+                <View style={styles.moblieSec}>
+                  <TouchableOpacity
+                    style={[
+                      styles.emailtoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'Experience' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('Experience')}>
+                    <Text style={styles.ButtonText}>Pending (0)</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.mobiletoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'My Schools' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('My Schools')}>
+                    <Text style={styles.ButtonText}>Paid (0)</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.emailtoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'Reviews' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('Reviews')}>
+                    <Text style={styles.ButtonText}>Plan</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.moblieSec}>
+                  <TouchableOpacity
+                    style={[
+                      styles.emailtoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'Experience' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('Experience')}>
+                    <Text style={styles.ButtonText}>Pending (0)</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.mobiletoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'My Schools' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('My Schools')}>
+                    <Text style={styles.ButtonText}>Paid (0)</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.emailtoch,
+                      {
+                        backgroundColor:
+                          showwhat == 'Reviews' ? Color.geen : 'lightgray',
+                      },
+                    ]}
+                    onPress={() => showwhatfunc('Reviews')}>
+                    <Text style={styles.ButtonText}>Plan</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            }
+          })()}
+
+          {(() => {
+            if (showwhat == 'Experience') {
+              return (
+                <View style={styles.subContainer}>
+                  <Text style={styles.subHead}>
+                    Pending Invoices ({infoData.length})
                   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.mobiletoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'My Schools' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('My Schools')}>
-                  <Text style={styles.ButtonText}>Paid (0)</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.emailtoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'Reviews' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('Reviews')}>
-                  <Text style={styles.ButtonText}>Plan</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          } else if (showwhat == 'My Schools') {
-            return (
-              <View style={styles.moblieSec}>
-                <TouchableOpacity
-                  style={[
-                    styles.emailtoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'Experience' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('Experience')}>
-                  <Text style={styles.ButtonText}>Pending (0)</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.mobiletoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'My Schools' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('My Schools')}>
-                  <Text style={styles.ButtonText}>Paid (0)</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.emailtoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'Reviews' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('Reviews')}>
-                  <Text style={styles.ButtonText}>Plan</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          } else {
-            return (
-              <View style={styles.moblieSec}>
-                <TouchableOpacity
-                  style={[
-                    styles.emailtoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'Experience' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('Experience')}>
-                  <Text style={styles.ButtonText}>Pending (0)</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.mobiletoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'My Schools' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('My Schools')}>
-                  <Text style={styles.ButtonText}>Paid (0)</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.emailtoch,
-                    {
-                      backgroundColor:
-                        showwhat == 'Reviews' ? Color.geen : 'lightgray',
-                    },
-                  ]}
-                  onPress={() => showwhatfunc('Reviews')}>
-                  <Text style={styles.ButtonText}>Plan</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          }
-        })()}
 
-        {(() => {
-          if (showwhat == 'Experience') {
-            return (
-              <View style={styles.subContainer}>
-                <Text style={styles.subHead}>
-                  Pending Invoices ({infoData.length})
-                </Text>
+                  <View
+                    style={{
+                      width: wp(90),
+                      backgroundColor: '#fff',
 
-                <View
-                  style={{
-                    width: wp(90),
-                    backgroundColor: '#fff',
+                      alignItems: 'center',
+                      alignSelf: 'center',
+                      elevation: 10,
 
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                    elevation: 10,
-
-                    marginBottom: 10,
-                    flexDirection: 'row',
-                    height: wp(15),
-                  }}>
-                  {/* <View
+                      marginBottom: 10,
+                      flexDirection: 'row',
+                      height: wp(15),
+                    }}>
+                    {/* <View
                         style={{
                           width: wp(15),
 
@@ -740,18 +745,18 @@ const Payments = () => {
                           }}
                         />
                       </View> */}
-                  <View
-                    style={{
-                      width: wp(20),
+                    <View
+                      style={{
+                        width: wp(20),
 
-                      alignItems: 'center',
-                    }}>
-                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                      Order Id
-                    </Text>
-                  </View>
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                        Order Id
+                      </Text>
+                    </View>
 
-                  {/* <View
+                    {/* <View
                         style={{
                           width: wp(15),
 
@@ -767,38 +772,38 @@ const Payments = () => {
                           }}
                         />
                       </View> */}
-                  <View
-                    style={{
-                      width: wp(20),
+                    <View
+                      style={{
+                        width: wp(20),
 
-                      alignItems: 'center',
-                    }}>
-                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                      Client ID
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      width: wp(20),
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                        Client ID
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        width: wp(20),
 
-                      alignItems: 'center',
-                    }}>
-                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                      Office ID
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      width: wp(20),
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                        Office ID
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        width: wp(20),
 
-                      alignItems: 'center',
-                    }}>
-                    <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
-                      Tracking
-                    </Text>
+                        alignItems: 'center',
+                      }}>
+                      <Text style={{ color: Color.darkGreen, fontSize: 12 }}>
+                        Tracking
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                
+
                   <Accordion
                     activeSections={activeSections}
                     sections={infoData}
@@ -813,14 +818,14 @@ const Payments = () => {
                     onChange={setSections}
                   />
 
-              </View>
-            );
-          } else if (showwhat == 'My Schools') {
-            return (
-              <View style={styles.subContainer}>
-                <Text style={styles.subHead}>Paid Invoices (0)</Text>
-                <Text style={{ textAlign: 'center' }}>No Data Found</Text>
-                {/* <FlatList
+                </View>
+              );
+            } else if (showwhat == 'My Schools') {
+              return (
+                <View style={styles.subContainer}>
+                  <Text style={styles.subHead}>Paid Invoices (0)</Text>
+                  <Text style={{ textAlign: 'center' }}>No Data Found</Text>
+                  {/* <FlatList
                   data={data}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
@@ -893,14 +898,14 @@ const Payments = () => {
                     </View>
                   )}
                 /> */}
-              </View>
-            );
-          } else {
-            return (
-              <View style={styles.subContainer}>
-                <Text style={styles.subHead}>Plan</Text>
-                <Text style={{ textAlign: 'center' }}>No Data Found</Text>
-                {/* <FlatList
+                </View>
+              );
+            } else {
+              return (
+                <View style={styles.subContainer}>
+                  <Text style={styles.subHead}>Plan</Text>
+                  <Text style={{ textAlign: 'center' }}>No Data Found</Text>
+                  {/* <FlatList
                   data={data}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
@@ -973,11 +978,11 @@ const Payments = () => {
                     </View>
                   )}
                 /> */}
-              </View>
-            );
-          }
-        })()}
-      </ImageBackground>
+                </View>
+              );
+            }
+          })()}
+        </ImageBackground>
       </View>
       <CustomBottomTab />
     </SafeAreaView>

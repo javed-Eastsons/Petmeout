@@ -41,6 +41,7 @@ const FileCabinet = () => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [filteredReq, setFilteredReq] = useState();
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -62,6 +63,9 @@ const FileCabinet = () => {
     }
     return null;
   };
+  
+  console.log(filteredReq, 'filteredReq');
+
   console.log(selectedData, 'selll');
   const data = [
     {
@@ -133,11 +137,23 @@ const FileCabinet = () => {
     dispatch(
       folderNameList(jsonData?.clientId, jsonData?.clientType, navigation),
     );
+   
     setTimeout(() => {
       setLoader(false);
     }, 2000);
+   
     // setInfoData(CLIENT_LIST);
   }, []);
+  useEffect(() => {
+    if (Array.isArray(FOLDER_LIST)) {
+      const filteredFolders = FOLDER_LIST.filter(folder => {
+        return folder.azureFolderName !== "Temporary Folder" && folder.azureRenameFolderName1 !== "";
+      });
+    
+      setFilteredReq(filteredFolders)
+      console.log(filteredFolders,'filteredFolders')    }
+  }, [FOLDER_LIST])
+  
   useEffect(() => {
     setLoader(true);
 
@@ -225,7 +241,7 @@ const FileCabinet = () => {
             <View>
               <DataTable style={styles.container}>
                 <DataTable.Header style={styles.tableHeader}>
-                  <DataTable.Title style={{ flex: 2 }}>
+                  <DataTable.Title style={{ flex: 3 }}>
                     <Text style={styles.headerText}>Folder Name</Text>
                   </DataTable.Title>
                   <DataTable.Title>
@@ -237,18 +253,18 @@ const FileCabinet = () => {
                 </DataTable.Header>
                 <FlatList
                   contentContainerStyle={{ paddingBottom: 200 }}
-                  data={FOLDER_LIST}
+                  data={filteredReq}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
                   renderItem={({ item, index }) => (
                     <DataTable.Row
                       key={item.id}
-                      onPress={() =>{ press == true ? handleRowOFF(item): handleRow(item)}}
+                      onPress={() =>{ handleRow(item)}}
                       style={{
                         backgroundColor:
                           idRow == item.id && press == true ? '#fff' : null,
                       }}>
-                      <DataTable.Cell style={{ flex: 2 }}  >
+                      <DataTable.Cell style={{ flex: 3 }}  >
                         <Text
                           style={{
                             fontSize: 12,
@@ -256,8 +272,9 @@ const FileCabinet = () => {
                               idRow == item.id && press == true
                                 ? '#2F4050'
                                 : '#676A6C',
+                                fontWeight:'700'
                           }}>
-                          {item?.azureFolderName}
+                          {item?.azureRenameFolderName1}
                         </Text>
                       </DataTable.Cell>
                       <DataTable.Cell >
@@ -270,7 +287,7 @@ const FileCabinet = () => {
                                 ? '#2F4050'
                                 : '#676A6C',
                           }}>
-                          {item?.leafCloud}
+                          {item?.status}
                         </Text>
                       </DataTable.Cell>
                       <DataTable.Cell>
@@ -282,7 +299,9 @@ const FileCabinet = () => {
                                 ? '#2F4050'
                                 : '#676A6C',
                           }}>
-                          {idRow == item.id && press == true && DOCUMENT_INFO_FOLDER ? DOCUMENT_INFO_FOLDER.length : '0'}
+                          {/* {idRow == item.id && press == true && DOCUMENT_INFO_FOLDER ? DOCUMENT_INFO_FOLDER.length : '0'} */}
+                          {item.documentTypeIds.split(',').length}
+
                         </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
@@ -314,12 +333,13 @@ const FileCabinet = () => {
 
                 <DataTable style={styles.container}>
                   <DataTable.Header style={styles.tableHeader1}>
-                    <DataTable.Title style={{ flex: 2 }}>
+                    <DataTable.Title style={{ flex: 4 }}>
                       <Text style={styles.headerText1}>Document Type</Text>
                     </DataTable.Title>
                     <DataTable.Title>
                       <Text style={styles.headerText1}>CreatedAt</Text>
                     </DataTable.Title>
+                  
 
                   </DataTable.Header>
                   <FlatList
@@ -334,7 +354,7 @@ const FileCabinet = () => {
                           backgroundColor:
                             idRow == item.id && press == true ? '#fff' : null,
                         }}>
-                        <DataTable.Cell style={{ flex: 2 }}  >
+                        <DataTable.Cell style={{ flex: 4 }}  >
                           <Text
                             style={{
                               fontSize: 12,
@@ -346,6 +366,7 @@ const FileCabinet = () => {
                             {item?.documentType}
                           </Text>
                         </DataTable.Cell>
+                        
                         <DataTable.Cell >
                           <Text
                             style={{
@@ -359,6 +380,7 @@ const FileCabinet = () => {
                             {moment(item?.createdAt).format('MM-DD-YYYY')}
                           </Text>
                         </DataTable.Cell>
+                     
 
                       </DataTable.Row>
                     )}
