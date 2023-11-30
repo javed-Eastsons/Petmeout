@@ -27,7 +27,7 @@ const ViewRequest = ({ route }) => {
         }, 2000);
     }, [actionId]);
     return (
-        <>
+        <View style={{backgroundColor:'#d5e3e5'}}>
             <Loader flag={loader} />
             <View style={{ marginLeft: 25, marginBottom: 20 }}>
                 <Text style={{ color: 'gray', fontSize: 16 }}>Action Id <Text style={{ color: '#000', fontSize: 18, fontWeight: '600' }}>#{REQUEST_INFO_BY_ID?.actionModel?.id}</Text></Text>
@@ -103,10 +103,10 @@ const ViewRequest = ({ route }) => {
             <View style={styles.header}>
                 <Text style={{ color: '#000', fontSize: 15, fontWeight: '600' }}>Client ID: {REQUEST_INFO_BY_ID?.actionModel?.clientId}</Text>
             </View>
-            <ImageBackground
-                source={bgImage}
+            <View
+                // source={bgImage}
                 style={styles.bgImg}
-                resizeMode="cover">
+               >
                 <View style={styles.container}>
                     <ScrollView style={{ marginBottom: 140 }}>
 
@@ -300,8 +300,8 @@ const ViewRequest = ({ route }) => {
                         </View>
                     </ScrollView>
                 </View>
-            </ImageBackground>
-        </>
+            </View>
+        </View>
 
     )
 }
@@ -394,4 +394,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8AC59', color: '#fff', borderRadius: 3, marginLeft: 10, marginRight: 4, width: wp(6), alignSelf: 'center', marginTop: 5, height: hp(3),
         paddingLeft: 6
     },
+    bgImg:{
+        paddingBottom:140
+    }
 })

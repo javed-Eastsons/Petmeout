@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Alert,
   Modal,
@@ -19,19 +19,19 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
-import {ManagerInfo} from '../Redux/Actions/TaxLeaf';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {Loader} from '../Component/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { ManagerInfo } from '../Redux/Actions/TaxLeaf';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { Loader } from '../Component/Loader';
 import CustomBottomTab from '../Component/CustomBottomTab';
-import {Color} from '../Style';
+import { Color } from '../Style';
 
 const Manager = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [infoData, setInfoData] = useState({});
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { LOGIN_DATA } = useSelector(state => state.TaxLeafReducer);
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const jsonData = MY_INFO.guestInfo;
@@ -63,203 +63,204 @@ const Manager = () => {
   console.log(infoData?.managerInfo?.user, 'MANAGER_INFOMANAGER_INFO');
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Loader flag={loader} />
       <CustomHeader />
-      <ScrollView style={{height: hp(80)}}>
-        {/* <Text
+      <ScrollView style={{ height: hp(80) }}>
+        <View style={{ backgroundColor: '#d5e3e5' }}>
+          {/* <Text
           style={{fontSize: 16, color: '#000', marginTop: 10, marginLeft: 20}}>
           Client Manager Profile
         </Text> */}
 
-        <View
-          style={modalVisible ? styles.mainContainer1 : styles.mainContainer}>
-          <View style={{textAlign: 'center'}}>
-            <View style={{textAlign: 'center'}}>
-              <Image
-                source={require('../Assets/profileBlank.png')}
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: 50,
-                  alignSelf: 'center',
-                }}
-              />
-              <Text
-                style={{
-                  textAlign: 'center',
-                  color: '#000',
-                  margin: 10,
-                  fontWeight: '700',
-                  fontSize: 16,
-                }}>
-                {infoData?.managerInfo?.firstName}{' '}
-                {infoData?.managerInfo?.lastName}
-              </Text>
-            </View>
-            {/* <Text
+          <View
+            style={modalVisible ? styles.mainContainer1 : styles.mainContainer}>
+            <View style={{ textAlign: 'center' }}>
+              <View style={{ textAlign: 'center' }}>
+                <Image
+                  source={require('../Assets/profileBlank.png')}
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: 50,
+                    alignSelf: 'center',
+                  }}
+                />
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#000',
+                    margin: 10,
+                    fontWeight: '700',
+                    fontSize: 16,
+                  }}>
+                  {infoData?.managerInfo?.firstName}{' '}
+                  {infoData?.managerInfo?.lastName}
+                </Text>
+              </View>
+              {/* <Text
               style={{textAlign: 'center', color: '#000', marginBottom: 10}}>
               Prince Eastsons
             </Text> */}
-            <View style={{width: '60%', alignSelf: 'center', marginBottom: 20}}>
-              <Button
-                title="+ Submit Your Request"
-                color="#2F4050"
-                onPress={() => setModalVisible(true)}
-              />
+              <View style={{ width: '60%', alignSelf: 'center', marginBottom: 20 }}>
+                <Button
+                  title="+ Submit Your Request"
+                  color="#2F4050"
+                  onPress={() => setModalVisible(true)}
+                />
+              </View>
             </View>
-          </View>
-          <View>
-            <View style={styles.infoSec}>
-              <Text style={styles.infoSecText}>
-                Hi! My name is{' '}
-                <Text style={{fontWeight: '800'}}>
-                  {infoData?.managerInfo?.firstName}{' '}
-                  {infoData?.managerInfo?.lastName}
-                </Text>{' '}
-                . I'm your manager at TAXLEAF. This is my contact information.
-                You can reach me through the portal or direct at any time.
-                Thanks and have a great day!
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              width: wp(90),
-              backgroundColor: '#fff',
-              //padding: 10,
-              elevation: 10,
-              marginBottom: 20,
-              alignSelf: 'center',
-              borderRadius: 10,
-              paddingBottom: 20,
-            }}>
-            <View
-              style={{
-                height: 50,
-                borderTopStartRadius: 10,
-                borderTopRightRadius: 10,
-                width: wp(90),
-                paddingLeft: 10,
-                alignSelf: 'center',
-                justifyContent: 'center',
-                backgroundColor: Color.darkGreen,
-              }}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600', color: '#fff'}}>
-                  MY INFO:
+            <View>
+              <View style={styles.infoSec}>
+                <Text style={styles.infoSecText}>
+                  Hi! My name is{' '}
+                  <Text style={{ fontWeight: '800' }}>
+                    {infoData?.managerInfo?.firstName}{' '}
+                    {infoData?.managerInfo?.lastName}
+                  </Text>{' '}
+                  . I'm your manager at TAXLEAF. This is my contact information.
+                  You can reach me through the portal or direct at any time.
+                  Thanks and have a great day!
                 </Text>
-              </Text>
+              </View>
             </View>
             <View
               style={{
-                height: 40,
-                backgroundColor: '#fff',
-                marginTop: 10,
-                padding: 10,
-              }}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>Phone:</Text>{' '}
-                {infoData?.managerInfo?.cell}
-              </Text>
-            </View>
-            <View style={{height: 40, marginTop: 10, padding: 10}}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>Email:</Text>{' '}
-                {infoData?.managerInfo?.user}
-              </Text>
-            </View>
-            <View style={styles.progress}>
-              <Progress.Bar
-                progress={0.3}
-                height={8}
-                borderRadius={10}
-                width={260}
-                unfilledColor="#2F4050"
-                color="#8ab645"
-                borderColor="#fff"
-              />
-            </View>
-          </View>
-          <View
-            style={{
-              width: wp(90),
-              backgroundColor: '#fff',
-              //padding: 10,
-              elevation: 10,
-              marginBottom: 20,
-              alignSelf: 'center',
-              borderRadius: 10,
-              paddingBottom: 20,
-            }}>
-            <View
-              style={{
-                height: 50,
-                borderTopStartRadius: 10,
-                borderTopRightRadius: 10,
                 width: wp(90),
-                paddingLeft: 10,
+                backgroundColor: '#fff',
+                //padding: 10,
+                elevation: 10,
+                marginBottom: 20,
                 alignSelf: 'center',
-                justifyContent: 'center',
-                backgroundColor: Color.darkGreen,
+                borderRadius: 10,
+                paddingBottom: 20,
               }}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600', color: '#fff'}}>
-                  OFFICE INFO:
+              <View
+                style={{
+                  height: 50,
+                  borderTopStartRadius: 10,
+                  borderTopRightRadius: 10,
+                  width: wp(90),
+                  paddingLeft: 10,
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: Color.darkGreen,
+                }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff' }}>
+                    MY INFO:
+                  </Text>
                 </Text>
-              </Text>
+              </View>
+              <View
+                style={{
+                  height: 40,
+                  backgroundColor: '#fff',
+                  marginTop: 10,
+                  padding: 10,
+                }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Phone:</Text>{' '}
+                  {infoData?.managerInfo?.cell ? infoData?.managerInfo?.cell :'N/A'}
+                </Text>
+              </View>
+              <View style={{ height: 40, marginTop: 10, padding: 10 }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Email:</Text>{' '}
+                  {infoData?.managerInfo?.user}
+                </Text>
+              </View>
+              <View style={styles.progress}>
+                <Progress.Bar
+                  progress={0.3}
+                  height={8}
+                  borderRadius={10}
+                  width={260}
+                  unfilledColor="#2F4050"
+                  color="#8ab645"
+                  borderColor="#fff"
+                />
+              </View>
             </View>
-
             <View
               style={{
-                height: 40,
+                width: wp(90),
                 backgroundColor: '#fff',
-                marginTop: 10,
-                padding: 10,
+                //padding: 10,
+                elevation: 10,
+                marginBottom: 20,
+                alignSelf: 'center',
+                borderRadius: 10,
+                paddingBottom: 20,
               }}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>Name:</Text>{' '}
-                {infoData?.officeInfo?.name}
-              </Text>
-            </View>
+              <View
+                style={{
+                  height: 50,
+                  borderTopStartRadius: 10,
+                  borderTopRightRadius: 10,
+                  width: wp(90),
+                  paddingLeft: 10,
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: Color.darkGreen,
+                }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff' }}>
+                    OFFICE INFO:
+                  </Text>
+                </Text>
+              </View>
 
-            <View style={{height: 40, marginTop: 10, padding: 10}}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>Email:</Text>{' '}
-                {infoData?.officeInfo?.email}
-              </Text>
+              <View
+                style={{
+                  height: 40,
+                  backgroundColor: '#fff',
+                  marginTop: 10,
+                  padding: 10,
+                }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Name:</Text>{' '}
+                  {infoData?.officeInfo?.name}
+                </Text>
+              </View>
+
+              <View style={{ height: 40, marginTop: 10, padding: 10 }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Email:</Text>{' '}
+                  {infoData?.officeInfo?.email}
+                </Text>
+              </View>
+              <View
+                style={{
+                  height: 40,
+                  backgroundColor: '#fff',
+                  marginTop: 10,
+                  padding: 10,
+                }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Phone:</Text>{' '}
+                  {infoData?.officeInfo?.phone}
+                </Text>
+              </View>
+              <View style={{ height: 40, marginTop: 10, padding: 10 }}>
+                <Text style={styles.LIstText2}>
+                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Office:</Text>{' '}
+                  {infoData?.officeInfo?.address} {infoData?.officeInfo?.city}, {infoData?.officeInfo?.zip}
+                </Text>
+              </View>
+              <View style={styles.progress}>
+                <Progress.Bar
+                  progress={0.5}
+                  height={8}
+                  borderRadius={10}
+                  width={260}
+                  unfilledColor="#2F4050"
+                  color="#8ab645"
+                  borderColor="#fff"
+                />
+              </View>
             </View>
-            <View
-              style={{
-                height: 40,
-                backgroundColor: '#fff',
-                marginTop: 10,
-                padding: 10,
-              }}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>Phone:</Text>{' '}
-                {infoData?.officeInfo?.phone}
-              </Text>
-            </View>
-            <View style={{height: 40, marginTop: 10, padding: 10}}>
-              <Text style={styles.LIstText2}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>Office:</Text>{' '}
-                {infoData?.officeInfo?.address}
-              </Text>
-            </View>
-            <View style={styles.progress}>
-              <Progress.Bar
-                progress={0.5}
-                height={8}
-                borderRadius={10}
-                width={260}
-                unfilledColor="#2F4050"
-                color="#8ab645"
-                borderColor="#fff"
-              />
-            </View>
-          </View>
-          {/* <View>
+            {/* <View>
             <View style={styles.infoSec}>
               <Text style={styles.infoSecText}>
                 Hi! My name is John Smith . I'm your manager at TAXLEAF. This is
@@ -268,8 +269,9 @@ const Manager = () => {
               </Text>
             </View>
           </View> */}
+          </View>
+          <View style={{ height: wp(15) }}></View>
         </View>
-        <View style={{height: wp(15)}}></View>
       </ScrollView>
       <CustomBottomTab />
       <Modal
@@ -303,7 +305,7 @@ const Manager = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text style={{color: '#fff'}}>X</Text>
+                <Text style={{ color: '#fff' }}>X</Text>
               </TouchableOpacity>
             </View>
 
@@ -311,43 +313,43 @@ const Manager = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Name"
-                // onChangeText={onChangeText}
-                // value={text}
+              // onChangeText={onChangeText}
+              // value={text}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Phone"
 
-                // onChangeText={onChangeText}
-                // value={text}
+              // onChangeText={onChangeText}
+              // value={text}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Email"
 
-                // onChangeText={onChangeText}
-                // value={text}
+              // onChangeText={onChangeText}
+              // value={text}
               />
               <TextInput
-                style={[styles.input, {Height: 50}]}
+                style={[styles.input, { Height: 50 }]}
                 placeholder="Messsage"
                 editable
                 multiline
                 numberOfLines={4}
                 maxLength={40}
-                // onChangeText={onChangeText}
-                // value={text}
+              // onChangeText={onChangeText}
+              // value={text}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Country"
 
-                // onChangeText={onChangeText}
-                // value={text}
+              // onChangeText={onChangeText}
+              // value={text}
               />
               <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
-                // onPress={() => setModalVisible(!modalVisible)}
+              // onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={styles.textStyle}>Send</Text>
               </TouchableOpacity>

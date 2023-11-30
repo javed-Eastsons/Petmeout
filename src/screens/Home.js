@@ -26,12 +26,16 @@ import Carousel from 'react-native-reanimated-carousel';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
+import Icon4 from 'react-native-vector-icons/FontAwesome6';
+
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { dashboardlist } from '../Redux/Actions/Dashboard';
+import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const HomeScreen = () => {
   const width = Dimensions.get('window').width;
   const [showwhat1, setshowwhat1] = useState('');
+  const [showwhat2, setshowwhat2] = useState('');
   const [infoData, setInfoData] = useState({});
   const [dashboardList, setDashboardList] = useState([]);
   const [dashboardMessageList, setDashboardMessageList] = useState([]);
@@ -44,13 +48,35 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const jsonData = MY_INFO.guestInfo;
   const officeInfo = MY_INFO.officeInfo;
+//   useEffect(() => {
+//     console.log(MY_INFO,'Hooooooooo')
 
+//    Alert.alert('Hello World')
+//     dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+// console.log(MY_INFO,'Hooooooooo')
+//   }, []);
   const showwhatfunc1 = data => {
     setshowwhat1(data);
     console.log(data);
   };
+  const showwhatfunc2 = data => {
+    setshowwhat2(data);
+    console.log(data);
+  };
+  useEffect(() => {
+    if (showwhat1) {
+      setshowwhat2('')
+
+    }
+  }, [showwhat1])
+  useEffect(() => {
+    if (showwhat2) {
+      setshowwhat1('')
+
+    }
+  }, [showwhat2])
   console.log(showwhat1, 'showWhat');
-  console.log(dashboardMessageList.length, 'messageList')
+  console.log(dashboardMessageList?.length, 'messageList')
 
   const data = [
     {
@@ -215,7 +241,7 @@ const HomeScreen = () => {
                 color: '#fff',
               },
             ]}
-            name="call"
+            name="phone-in-talk"
             size={20}
             color="#fff"
           />
@@ -232,55 +258,45 @@ const HomeScreen = () => {
           resizeMode="cover"> */}
       <Loader flag={loader} />
       <ScrollView>
-        <Text style={styles.heading}>
+        {/* <Text style={styles.heading}>
           Thank you for being our client since 2023
-        </Text>
+        </Text> */}
 
-        <View style={styles.slideContainer}>
+        <View style={styles.tabsContainer}>
           <View style={styles.mainTab}>
             {(() => {
               if (showwhat1 == 'Message') {
                 return (
                   <View style={styles.moblieSec}>
                     {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
-                    <TouchableOpacity
-                      style={[
-                        styles.emailtoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Message' ? Color.geen : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Message'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Message')
-                      }>
-                      <Icon3
+                    <View>
+                      <TouchableOpacity
                         style={[
-                          styles.icon,
+                          styles.emailtoch,
                           {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                            backgroundColor:
+                              showwhat1 == 'Message' ? Color.geen : Color.darkGreen,
                           },
                         ]}
-                        name="money-check-alt"
-                        size={15}
-                        color="#fff"
-                      />
+                        onPress={() =>
+                          showwhat1 == 'Message'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Message')
+                        }>
+                        <Icon3
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Message' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="money-check-alt"
+                          size={25}
+                          color="#fff"
+                        />
 
-                      <Text
-                        style={[
-                          styles.ButtonText,
-                          {
-                            color:
-                              showwhat1 == 'Message'
-                                ? Color.white
-                                : Color.darkGreen,
-                          },
-                        ]}>
-                        Tax
-                      </Text>
-                      <Text
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -291,49 +307,52 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Proposal'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Proposal')
-                      }>
-                      <Icon
-                        style={[
-                          styles.icon,
-                          {
-                            color:
-                              showwhat1 == 'Proposal'
-                                ? Color.white
-                                : Color.darkGreen,
-                          },
-                        ]}
-                        name="message1"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
                             color:
-                              showwhat1 == 'Proposal'
-                                ? Color.white
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
                                 : Color.darkGreen,
                           },
                         ]}>
-                        Messages
+                        Tax
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Proposal' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Proposal'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Proposal')
+                        }>
+                        <Icon
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat1 == 'Proposal'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="message1"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -344,50 +363,52 @@ const HomeScreen = () => {
                           },
                         ]}>
                         ({dashboardMessageList.length})
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Signature'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Signature')
-                      }>
-                      <Icon1
-                        style={[
-                          styles.icon,
-                          {
-                            color:
-                              showwhat1 == 'Signature'
-                                ? Color.white
-                                : Color.darkGreen,
-                          },
-                        ]}
-                        name="event"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
                             color:
-                              showwhat1 == 'Signature'
-                                ? Color.white
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
                                 : Color.darkGreen,
                           },
                         ]}>
-                        Events
+                        Messages
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Signature' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Signature'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Signature')
+                        }>
+                        <Icon1
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat1 == 'Signature'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="event"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -398,49 +419,52 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (0)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Reminders'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Reminders')
-                      }>
-                      <Icon2
-                        style={[
-                          styles.icon,
-                          {
-                            color:
-                              showwhat1 == 'Reminders'
-                                ? Color.white
-                                : Color.darkGreen,
-                          },
-                        ]}
-                        name="holiday-village"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
                             color:
-                              showwhat1 == 'Reminders'
-                                ? Color.white
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
                                 : Color.darkGreen,
                           },
                         ]}>
-                        Holidays
+                        Events
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Reminders' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Reminders'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Reminders')
+                        }>
+                        <Icon2
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat1 == 'Reminders'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="holiday-village"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -451,8 +475,21 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
+                      </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Holidays
                       </Text>
-                    </TouchableOpacity>
+                    </View>
                     {/* </View> */}
                   </View>
                 );
@@ -460,40 +497,35 @@ const HomeScreen = () => {
                 return (
                   <View style={styles.moblieSec}>
                     {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
-                    <TouchableOpacity
-                      style={[
-                        styles.emailtoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Message'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Message')
-                      }>
-                      <Icon3
+                    <View>
+                      <TouchableOpacity
                         style={[
-                          styles.icon,
+                          styles.emailtoch,
                           {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                            backgroundColor:
+                              // showwhat1 == 'Message' ? '#2F4050' : '#fff',
+                              showwhat1 == 'Message' ? Color.geen : Color.darkGreen,
+
                           },
                         ]}
-                        name="money-check-alt"
-                        size={20}
-                        color="#fff"
-                      />
-                      <Text
-                        style={[
-                          styles.ButtonText,
-                          {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
-                          },
-                        ]}>
-                        Tax
-                      </Text>
-                      <Text
+                        onPress={() =>
+                          showwhat1 == 'Message'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Message')
+                        }>
+                        <Icon3
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Message' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="money-check-alt"
+                          size={25}
+                          color="#fff"
+                        />
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -501,43 +533,49 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Proposal' ? Color.geen : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Proposal'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Proposal')
-                      }>
-                      <Icon
-                        style={[
-                          styles.icon,
-                          {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
-                          },
-                        ]}
-                        name="message1"
-                        size={15}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Messages
+                        Tax
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Proposal' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Proposal'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Proposal')
+                        }>
+                        <Icon
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Proposal' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="message1"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -548,42 +586,47 @@ const HomeScreen = () => {
                           },
                         ]}>
                         ({dashboardMessageList.length})
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Signature'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Signature')
-                      }>
-                      <Icon1
-                        style={[
-                          styles.icon,
-                          { color: showwhat1 == 'Signature' ? '#fff' : '#000' },
-                        ]}
-                        name="event"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Events
+                        Messages
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Signature' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Signature'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Signature')
+                        }>
+                        <Icon1
+                          style={[
+                            styles.icon,
+                            { color: showwhat1 == 'Signature' ? '#fff' : '#fff' },
+                          ]}
+                          name="event"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -591,43 +634,49 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (0)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Reminders'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Reminders')
-                      }>
-                      <Icon2
-                        style={[
-                          styles.icon,
-                          {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
-                          },
-                        ]}
-                        name="holiday-village"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Holidays
+                        Events
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Reminders' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Reminders'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Reminders')
+                        }>
+                        <Icon2
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Reminders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="holiday-village"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -635,8 +684,21 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
+                      </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Holidays
                       </Text>
-                    </TouchableOpacity>
+                    </View>
                     {/* </View> */}
                   </View>
                 );
@@ -644,41 +706,34 @@ const HomeScreen = () => {
                 return (
                   <View style={styles.moblieSec}>
                     {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
-                    <TouchableOpacity
-                      style={[
-                        styles.emailtoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Message'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Message')
-                      }>
-                      <Icon3
+                    <View>
+                      <TouchableOpacity
                         style={[
-                          styles.icon,
+                          styles.emailtoch,
                           {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                            backgroundColor:
+                              showwhat1 == 'Message' ? '#2F4050' : Color.darkGreen,
                           },
                         ]}
-                        name="money-check-alt"
-                        size={20}
-                        color="#fff"
-                      />
+                        onPress={() =>
+                          showwhat1 == 'Message'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Message')
+                        }>
+                        <Icon3
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Message' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="money-check-alt"
+                          size={25}
+                          color="#fff"
+                        />
 
-                      <Text
-                        style={[
-                          styles.ButtonText,
-                          {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
-                          },
-                        ]}>
-                        Tax
-                      </Text>
-                      <Text
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -686,43 +741,49 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Proposal'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Proposal')
-                      }>
-                      <Icon
-                        style={[
-                          styles.icon,
-                          {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
-                          },
-                        ]}
-                        name="message1"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Messages
+                        Tax
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Proposal' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Proposal'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Proposal')
+                        }>
+                        <Icon
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Proposal' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="message1"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -730,42 +791,47 @@ const HomeScreen = () => {
                           },
                         ]}>
                         ({dashboardMessageList.length})
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Signature' ? Color.geen : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Signature'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Signature')
-                      }>
-                      <Icon1
-                        style={[
-                          styles.icon,
-                          { color: showwhat1 == 'Signature' ? '#fff' : '#000' },
-                        ]}
-                        name="event"
-                        size={15}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Events
+                        Messages
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Signature' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Signature'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Signature')
+                        }>
+                        <Icon1
+                          style={[
+                            styles.icon,
+                            { color: showwhat1 == 'Signature' ? '#fff' : '#fff' },
+                          ]}
+                          name="event"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -776,43 +842,49 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (0)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Reminders' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Reminders'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Reminders')
-                      }>
-                      <Icon2
-                        style={[
-                          styles.icon,
-                          {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
-                          },
-                        ]}
-                        name="holiday-village"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Holidays
+                        Events
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Reminders' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Reminders'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Reminders')
+                        }>
+                        <Icon2
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Reminders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="holiday-village"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -820,8 +892,21 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
+                      </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Holidays
                       </Text>
-                    </TouchableOpacity>
+                    </View>
                     {/* </View> */}
                   </View>
                 );
@@ -829,41 +914,34 @@ const HomeScreen = () => {
                 return (
                   <View style={styles.moblieSec}>
                     {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
-                    <TouchableOpacity
-                      style={[
-                        styles.emailtoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Message' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Message'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Message')
-                      }>
-                      <Icon3
+                    <View>
+                      <TouchableOpacity
                         style={[
-                          styles.icon,
+                          styles.emailtoch,
                           {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
+                            backgroundColor:
+                              showwhat1 == 'Message' ? '#2F4050' : Color.darkGreen,
                           },
                         ]}
-                        name="money-check-alt"
-                        size={20}
-                        color="#fff"
-                      />
+                        onPress={() =>
+                          showwhat1 == 'Message'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Message')
+                        }>
+                        <Icon3
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Message' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="money-check-alt"
+                          size={25}
+                          color="#fff"
+                        />
 
-                      <Text
-                        style={[
-                          styles.ButtonText,
-                          {
-                            color: showwhat1 == 'Message' ? '#fff' : '#000',
-                          },
-                        ]}>
-                        Tax
-                      </Text>
-                      <Text
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -871,39 +949,45 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Proposal' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() => showwhatfunc1('Proposal')}>
-                      <Icon
-                        style={[
-                          styles.icon,
-                          {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
-                          },
-                        ]}
-                        name="message1"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Proposal' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Messages
+                        Tax
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Proposal' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() => showwhatfunc1('Proposal')}>
+                        <Icon
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Proposal' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="message1"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -911,42 +995,47 @@ const HomeScreen = () => {
                           },
                         ]}>
                         ({dashboardMessageList.length})
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Signature' ? '#2F4050' : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Signature'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Signature')
-                      }>
-                      <Icon1
-                        style={[
-                          styles.icon,
-                          { color: showwhat1 == 'Signature' ? '#fff' : '#000' },
-                        ]}
-                        name="event"
-                        size={20}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Signature' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Events
+                        Messages
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Signature' ? '#2F4050' : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Signature'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Signature')
+                        }>
+                        <Icon1
+                          style={[
+                            styles.icon,
+                            { color: showwhat1 == 'Signature' ? '#fff' : '#fff' },
+                          ]}
+                          name="event"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -954,43 +1043,49 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (0)
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.mobiletoch,
-                        {
-                          backgroundColor:
-                            showwhat1 == 'Reminders' ? Color.geen : '#fff',
-                        },
-                      ]}
-                      onPress={() =>
-                        showwhat1 == 'Reminders'
-                          ? setshowwhat1('')
-                          : showwhatfunc1('Reminders')
-                      }>
-                      <Icon2
-                        style={[
-                          styles.icon,
-                          {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
-                          },
-                        ]}
-                        name="holiday-village"
-                        size={15}
-                        color="#fff"
-                      />
-
+                      </Text> */}
+                      </TouchableOpacity>
                       <Text
                         style={[
                           styles.ButtonText,
                           {
-                            color: showwhat1 == 'Reminders' ? '#fff' : '#000',
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
                           },
                         ]}>
-                        Holidays
+                        Events
                       </Text>
-                      <Text
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch1,
+                          {
+                            backgroundColor:
+                              showwhat1 == 'Reminders' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat1 == 'Reminders'
+                            ? setshowwhat1('')
+                            : showwhatfunc1('Reminders')
+                        }>
+                        <Icon2
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat1 == 'Reminders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="holiday-village"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
                         style={[
                           styles.ButtonText,
                           {
@@ -1001,8 +1096,937 @@ const HomeScreen = () => {
                           },
                         ]}>
                         (1)
+                      </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Holidays
                       </Text>
-                    </TouchableOpacity>
+                    </View>
+                    {/* </View> */}
+                  </View>
+                );
+              }
+            })()}
+
+
+            {(() => {
+              if (showwhat2 == 'orders') {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.emailtochO,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'orders' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'orders'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('orders')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat2 == 'orders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="list-check"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Message'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Orders
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'taxReturn' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'taxReturn'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('taxReturn')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'taxReturn'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="money-bills"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Proposal'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      ({dashboardMessageList.length})
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Tax Returns
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'book' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'book'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('book')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'book'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="calculator"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Signature'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (0)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Book Keeping
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'Gov' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'Gov'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('Gov')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'Gov'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="hand-holding-dollar"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Reminders'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Gov. Payments
+                      </Text>
+                    </View>
+                    {/* </View> */}
+                  </View>
+                );
+              } else if (showwhat2 == 'taxReturn') {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.emailtochO,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'orders' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'orders'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('orders')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat2 == 'orders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="list-check"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Message'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Orders
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'taxReturn' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'taxReturn'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('taxReturn')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'taxReturn'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="money-bills"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Proposal'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      ({dashboardMessageList.length})
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Tax Returns
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'book' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'book'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('book')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'book'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="calculator"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Signature'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (0)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Book Keeping
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'Gov' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'Gov'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('Gov')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'Gov'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="hand-holding-dollar"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Reminders'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Gov. Payments
+                      </Text>
+                    </View>
+                    {/* </View> */}
+                  </View>
+                );
+              } else if (showwhat2 == 'book') {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.emailtochO,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'orders' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'orders'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('orders')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat2 == 'orders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="list-check"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Message'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Orders
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'taxReturn' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'taxReturn'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('taxReturn')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'taxReturn'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="money-bills"
+                          size={25}
+                          color="#fff"
+                        />
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Proposal'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      ({dashboardMessageList.length})
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Tax Returns
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'book' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'book'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('book')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'book'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="calculator"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Signature'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (0)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Book Keeping
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'Gov' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'Gov'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('Gov')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'Gov'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="hand-holding-dollar"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Reminders'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Gov. Payments
+                      </Text>
+                    </View>
+                    {/* </View> */}
+                  </View>
+                );
+              } else {
+                return (
+                  <View style={styles.moblieSec}>
+                    {/* <View style={{ flexDirection: "column", justifyContent: 'space-between' }}> */}
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.emailtochO,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'orders' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'orders'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('orders')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color: showwhat2 == 'orders' ? '#fff' : '#fff',
+                            },
+                          ]}
+                          name="list-check"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Message'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Orders
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'taxReturn' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'taxReturn'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('taxReturn')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'taxReturn'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="money-bills"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Proposal'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      ({dashboardMessageList.length})
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Tax Returns
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'book' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'book'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('book')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'book'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="calculator"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Signature'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (0)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Book Keeping
+                      </Text>
+                    </View>
+                    <View>
+                      <TouchableOpacity
+                        style={[
+                          styles.mobiletoch,
+                          {
+                            backgroundColor:
+                              showwhat2 == 'Gov' ? Color.geen : Color.darkGreen,
+                          },
+                        ]}
+                        onPress={() =>
+                          showwhat2 == 'Gov'
+                            ? setshowwhat2('')
+                            : showwhatfunc2('Gov')
+                        }>
+                        <Icon4
+                          style={[
+                            styles.icon,
+                            {
+                              color:
+                                showwhat2 == 'Gov'
+                                  ? Color.white
+                                  : Color.white,
+                            },
+                          ]}
+                          name="hand-holding-dollar"
+                          size={25}
+                          color="#fff"
+                        />
+
+
+                        {/* <Text
+                      style={[
+                        styles.ButtonText,
+                        {
+                          color:
+                            showwhat1 == 'Reminders'
+                              ? Color.white
+                              : Color.darkGreen,
+                        },
+                      ]}>
+                      (1)
+                    </Text> */}
+                      </TouchableOpacity>
+                      <Text
+                        style={[
+                          styles.ButtonText,
+                          {
+                            color:
+                              showwhat1 == 'Message'
+                                ? Color.darkGreen
+                                : Color.darkGreen,
+                          },
+                        ]}>
+                        Gov. Payments
+                      </Text>
+                    </View>
                     {/* </View> */}
                   </View>
                 );
@@ -1158,6 +2182,52 @@ const HomeScreen = () => {
               );
             }
           })()}
+          {(() => {
+
+            if (showwhat2 == 'orders') {
+              return (
+                <TouchableOpacity onPress={() => setshowwhat2('')}>
+                  <View style={styles.part}></View>
+
+                  <View style={{ height: 200 }}>
+
+                    <Text style={{ alignSelf: 'center', marginTop: 20 }}>No Orders</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            } else if (showwhat2 == 'taxReturn') {
+              return (
+                <TouchableOpacity onPress={() => setshowwhat2('')}>
+                  <View style={styles.part}></View>
+
+                  <View style={{ height: 200 }}>
+                    <Text style={{ alignSelf: 'center', marginTop: 20 }}>No Tax Returns</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            } else if (showwhat2 == 'book') {
+              return (
+                <TouchableOpacity onPress={() => setshowwhat2('')}>
+                  <View style={styles.part}></View>
+
+                  <View style={{ height: 200 }}>
+                    <Text style={{ alignSelf: 'center', marginTop: 20 }}>No Book Keeping</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            } else if (showwhat2 == 'Gov') {
+              return (
+                <TouchableOpacity onPress={() => setshowwhat2('')}>
+                  <View style={styles.part}></View>
+
+                  <View style={{ height: 200 }}>
+                    <Text style={{ alignSelf: 'center', marginTop: 20 }}>No Gov. Payments</Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            }
+          })()}
+
         </View>
 
         <View style={{ flex: 1, marginTop: 20, marginLeft: 20 }}>
@@ -1212,7 +2282,7 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               />{' '}
-              {MANAGER_INFO?.managerInfo?.phone}
+              {MANAGER_INFO?.managerInfo?.phone ? MANAGER_INFO?.managerInfo?.phone :'N/A'}
             </Text>
             <Text style={styles.ofcInfotxt}>
               <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
@@ -1232,6 +2302,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#d5e3e5'
   },
   heading: {
     fontSize: 16,
@@ -1261,6 +2332,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
     // width:'62%'
   },
+  tabsContainer: {
+    // backgroundColor: '#fff',
+    width: wp(90),
+    justifyContent: 'center',
+    alignSelf: 'center',
+    /// height: 420,
+    opacity: 2,
+    paddingBottom: 20,
+    borderRadius: 10,
+    // marginTop: 20,
+    // width:'62%'
+  },
   Slidericons: {
     width: '80%',
     height: 160,
@@ -1279,16 +2362,17 @@ const styles = StyleSheet.create({
   },
   postText: {
     alignSelf: 'center',
-    color: '#1F3E50',
+    color: Color.geen,
     fontSize: 20,
     fontWeight: '600',
-    marginTop: 20,
+    // marginTop: 20,
   },
   sliderText: {
-    color: Color.geen,
+    color: Color.darkGreen,
     fontSize: 14,
     textAlign: 'center',
     marginTop: 10,
+    fontWeight:'700'
   },
   cardSlider: {
     flex: 1,
@@ -1298,10 +2382,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   info: {
-    color: '#1F3E50',
+    color: Color.geen,
     alignSelf: 'center',
     fontSize: 14,
     marginTop: 10,
+    fontWeight:'700'
   },
   btn: {
     width: wp(40),
@@ -1310,8 +2395,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 30,
     marginTop: 10,
-    backgroundColor: Color.geen,
-    borderRadius: 10,
+    backgroundColor: Color.darkGreen,
+    borderRadius: 30,
     padding: 10,
     alignItems: 'center',
   },
@@ -1390,6 +2475,16 @@ const styles = StyleSheet.create({
     //marginRight: 6,
     //marginTop: 10,
   },
+  emailtochO: {
+    //  backgroundColor: "lightgray",
+    width: wp(13),
+    height: wp(13),
+    paddingTop: 5,
+    //  justifyContent: 'center',
+    borderRadius: 50,
+    //marginRight: 6,
+    //marginTop: 10,
+  },
   ButtonText: {
     color: '#fff',
     textAlign: 'center',
@@ -1405,13 +2500,25 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     borderRadius: 50,
     // justifyContent: 'center',
+    marginLeft:5
+  },
+  mobiletoch1: {
+    // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
+    // width: 70,
+    // height: 45,
+    width: wp(13),
+    height: wp(13),
+    //marginTop: 10,
+    paddingTop: 5,
+    borderRadius: 50,
+    // justifyContent: 'center',
     marginRight: 5,
   },
   subHead: {
     marginLeft: 30,
     marginTop: 20,
   },
-  icon: { alignSelf: 'center' },
+  icon: { alignSelf: 'center', marginTop: 5 },
   cardShadow: {
     // backgroundColor: 'red',
     // height: 300,

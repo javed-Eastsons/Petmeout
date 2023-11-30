@@ -71,10 +71,10 @@ const Request = () => {
         {/* <View style={styles.headerView}>
           <Text style={styles.header}>Requests</Text>
         </View> */}
-        <ImageBackground
-          source={bgImage}
-          style={styles.bgImg}
-          resizeMode="cover">
+        <View
+
+style={{ backgroundColor: '#d5e3e5' }}
+>
           <View
             style={{
               width: '40%',
@@ -807,7 +807,7 @@ const Request = () => {
               }
             })()}
           </View>
-        </ImageBackground>
+        </View>
       </View>
     </SafeAreaView>
   );

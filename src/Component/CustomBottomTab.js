@@ -8,10 +8,10 @@ import {
 import {Color} from '../Style';
 
 const CustomBottomTab = () => {
-  const iconNm = require('../Assets/img/icons/home-green.png');
-  const iconClint = require('../Assets/img/icons/group-dark.png');
-  const iconFile = require('../Assets/img/icons/files-dark.png');
-  const iconRe = require('../Assets/img/icons/dots-dark.png');
+  const iconNm = require('../Assets/img/icons/home.png');
+  const iconClint = require('../Assets/img/icons/group.png');
+  const iconFile = require('../Assets/img/icons/files-white.png');
+  const iconRe = require('../Assets/img/icons/dots-white.png');
   const navigation = useNavigation();
   return (
     <View
@@ -22,7 +22,8 @@ const CustomBottomTab = () => {
         alignSelf: 'flex-end',
         width: wp(100),
         justifyContent: 'center',
-        backgroundColor: Color.white,
+        backgroundColor: Color.darkGreen,
+        paddingHorizontal:22
       }}>
       <View
         style={{
@@ -34,8 +35,10 @@ const CustomBottomTab = () => {
           borderTopWidth: 1,
           width: wp(96),
           justifyContent: 'space-between',
-          backgroundColor: Color.white,
+          backgroundColor: Color.darkGreen,
           height: 65,
+          paddingHorizontal:22
+
         }}>
         <TouchableOpacity
           onPress={() => navigation.navigate('Dashboard')}
@@ -52,9 +55,9 @@ const CustomBottomTab = () => {
           <Text
             style={{
               alignSelf: 'center',
-              color: Color.geen,
-              borderBottomWidth: 2,
-              borderBottomColor: Color.geen,
+              color: Color.white,
+              // borderBottomWidth: 2,
+              // borderBottomColor: Color.geen,
               paddingBottom: 5,
               fontSize: 10,
               fontWeight: 'bold',
@@ -78,9 +81,9 @@ const CustomBottomTab = () => {
           <Text
             style={{
               alignSelf: 'center',
-              color: Color.darkGreen,
+              color: Color.white,
               // borderBottomWidth: 2,
-              borderBottomColor: Color.geen,
+              // borderBottomColor: Color.geen,
               paddingBottom: 5,
               fontSize: 10,
               fontWeight: 'bold',
@@ -105,9 +108,9 @@ const CustomBottomTab = () => {
           <Text
             style={{
               alignSelf: 'center',
-              color: Color.darkGreen,
+              color: Color.white,
               // borderBottomWidth: 2,
-              borderBottomColor: Color.geen,
+              // borderBottomColor: Color.geen,
               paddingBottom: 5,
               fontSize: 10,
               fontWeight: 'bold',
@@ -132,9 +135,9 @@ const CustomBottomTab = () => {
           <Text
             style={{
               alignSelf: 'center',
-              color: Color.darkGreen,
+              color: Color.white,
               // borderBottomWidth: 2,
-              borderBottomColor: Color.geen,
+              // borderBottomColor: Color.geen,
               paddingBottom: 5,
               fontSize: 10,
               fontWeight: 'bold',

@@ -40,8 +40,9 @@ export default InvoiceView = ({ route }) => {
         // Add the current priceCharged to the sum
         return sum + priceCharged;
     }, 0); // Initialize sum with 0
-
     console.log("Total Price Charged:", totalPriceCharged);
+
+    console.log("route.params.orderId",route.params.orderId);
     const invoiceData = {
         invoiceNumber: '12345',
         invoiceDate: '01/01/2022',
@@ -253,6 +254,7 @@ const styles = StyleSheet.create({
     container: {
         padding: 20,
         // marginTop: 80,
+        backgroundColor:'#d5e3e5'
     },
     header: {
         alignItems: 'center',

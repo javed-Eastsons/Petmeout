@@ -168,10 +168,10 @@ const ClientInfo = () => {
 
   return (
     <View style={[styles.main]}>
-      <ImageBackground
-          source={bgImage}
-          style={styles.bgImg}
-          resizeMode="cover">
+      <View
+
+style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
+>
       <Loader flag={loader} />
       {/* <Text
         style={{fontSize: 28, color: '#000', marginTop: 10, marginLeft: 20}}>
@@ -664,7 +664,7 @@ const ClientInfo = () => {
       {/* //       );
         // }
     //   })()} */}
-    </ImageBackground>
+    </View>
     </View>
   );
 };

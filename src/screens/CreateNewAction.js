@@ -138,10 +138,10 @@ const CreateNewAction = () => {
   return (
     <View style={styles.container}>
       <Loader flag={loader} />
-      <ImageBackground
-          source={bgImage}
-          style={styles.bgImg}
-          resizeMode="cover">
+      <View
+
+        style={{ backgroundColor: '#d5e3e5' }}
+      >
       <ScrollView>
         <Text style={styles.heading}>Create New Action</Text>
 
@@ -374,7 +374,7 @@ const CreateNewAction = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      </ImageBackground>
+      </View>
     </View>
   );
 };

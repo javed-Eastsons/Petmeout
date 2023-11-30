@@ -25,10 +25,15 @@ export const GetPaymentList =
           clientId: clientId,
           clientType: clientType,
         },
+        // "GuestInfo": {
+        //   "clientId": 684,
+        //   "clientType": "company"
+        // }
+      
       };
       console.log(data,'payloadPaymentInfo')
       const response = await logistical.post('/Staff/PaymentInfo', data);
-      //  console.log(response, 'PaymentListPaymentListPaymentListPaymentList');
+       console.log(response, 'PaymentListPaymentListPaymentListPaymentList');
 
       if (response.failureStatus == false) {
         // console.log(
@@ -82,9 +87,12 @@ export const GetPaymentList =
       let data = {
       
         collectionView: {
-          orderId: orderId,
-          clientType: clientType,
-          client: clientId
+          // orderId: orderId,
+          // clientType: clientType,
+          // client: clientId
+          "orderId": 197,
+          "clientType": "company",
+          "client": 769
         }
       };
       console.log(data,'payloadOrderInfo')

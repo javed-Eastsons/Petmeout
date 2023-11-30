@@ -14,9 +14,9 @@ const ContactUs = () => {
     return (
         <View>
             <ScrollView>
-            <Text style={styles.headText1}>Get in Touch !</Text>
 
-            <ImageBackground source={bgImage} style={styles.bgImg} resizeMode='cover'>
+            <View style={{backgroundColor:'#d5e3e5'}}>
+            <Text style={styles.headText1}>Get in Touch !</Text>
 
                 <View style={styles.slideContainer}>
                     <Icon
@@ -134,7 +134,7 @@ const ContactUs = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                </ImageBackground>
+                </View>
             </ScrollView>
         </View>
     )
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         fontSize: 21,
         fontFamily: 'Poppins-Bold',
         // maxWidth:'80%',
-        color: '#fff',
+        color: Color.darkGreen,
         // height:40,
         marginTop: 20,
         marginLeft: 20,

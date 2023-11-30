@@ -6,6 +6,7 @@ import {
   ImageBackground,
   Image,
   Button,
+  Alert
 } from 'react-native';
 import {LoginUser} from '../Redux/Actions/TaxLeaf';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,7 +29,12 @@ const Login = () => {
   };
   const onLogin = () => {
     setLoader(true);
-    dispatch(LoginUser(email, navigation));
+    if(email){
+      dispatch(LoginUser(email, navigation));
+
+    }else{
+      Alert.alert('Please Enter Email Address')
+    }
     setTimeout(() => {
       setLoader(false);
     }, 2000);

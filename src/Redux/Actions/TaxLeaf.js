@@ -33,7 +33,7 @@ export const LoginUser = (email, navigation) => dispatch => {
     const response = await logistical.postlogin('/Staff/LoginStaff', data);
     console.log(response.token, 'responseresponseresponseresponse');
 
-    if (response.failureStatus == false) {
+    if (response.statusCode == 200) {
       AsyncStorage.setItem('login', JSON.stringify(response.token));
       console.log(response.token, 'token');
       console.log(
@@ -58,7 +58,7 @@ export const LoginUser = (email, navigation) => dispatch => {
       // });
     } else {
       // Alert.alert(response.message)
-      Alert.alert(response.massage);
+      Alert.alert('Your Account is not Approved');
       // dispatch({
       //   type: 'LOADING',
       //   payload: false,
@@ -182,7 +182,7 @@ export const ManagerInfo = (clientId, clientType, navigation) => dispatch => {
       },
     };
     const response = await logistical.post('/Staff/GetManagerInfo', data);
-    //    console.log(response.managerInfo, 'managerInfomanagerInfomanagerInfo');
+       console.log(response.managerInfo, 'managerInfomanagerInfomanagerInfo');
 
     if (response) {
       // AsyncStorage.setItem('login', JSON.stringify(response.token));

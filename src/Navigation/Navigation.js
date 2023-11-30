@@ -153,8 +153,10 @@ function MyTabBar({state, descriptors, navigation}) {
         borderTopWidth: 1,
         width: wp(112),
         //   justifyContent: 'space-between',
-        backgroundColor: Color.white,
+        backgroundColor:Color.darkGreen,    
         height: 60,
+        color:'#fff',
+        paddingHorizontal:22
       }}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
@@ -176,7 +178,7 @@ function MyTabBar({state, descriptors, navigation}) {
           {
             isFocused
               ? (iconNm = require('../Assets/img/icons/home-green.png'))
-              : (iconNm = require('../Assets/img/icons/home-dark.png'));
+              : (iconNm = require('../Assets/img/icons/home.png'));
           }
         }
 
@@ -187,7 +189,7 @@ function MyTabBar({state, descriptors, navigation}) {
           {
             isFocused
               ? (iconNm = require('../Assets/img/icons/group-green.png'))
-              : (iconNm = require('../Assets/img/icons/group-dark.png'));
+              : (iconNm = require('../Assets/img/icons/group.png'));
           }
         }
 
@@ -197,7 +199,7 @@ function MyTabBar({state, descriptors, navigation}) {
           {
             isFocused
               ? (iconNm = require('../Assets/img/icons/files-green.png'))
-              : (iconNm = require('../Assets/img/icons/files-dark.png'));
+              : (iconNm = require('../Assets/img/icons/files-white.png'));
           }
         }
         if (label == 'Requests') {
@@ -207,7 +209,7 @@ function MyTabBar({state, descriptors, navigation}) {
           {
             isFocused
               ? (iconNm = require('../Assets/img/icons/dots-green.png'))
-              : (iconNm = require('../Assets/img/icons/dots-dark.png'));
+              : (iconNm = require('../Assets/img/icons/dots-white.png'));
           }
         }
         // if (label == "Tab3") {
@@ -298,9 +300,9 @@ function MyTabBar({state, descriptors, navigation}) {
               <Text
                 style={{
                   alignSelf: 'center',
-                  color: isFocused ? Color.geen : Color.darkGreen,
-                  borderBottomWidth: 2,
-                  borderBottomColor: isFocused ? Color.geen : Color.white,
+                  color: isFocused ? Color.geen : Color.white,
+                  // borderBottomWidth: 2,
+                  // borderBottomColor: isFocused ? Color.geen : Color.white,
                   paddingBottom: 5,
                   fontSize: 10,
                   fontWeight: 'bold',

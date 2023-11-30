@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   SafeAreaView,
   View,
@@ -11,6 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Alert,
   ImageBackground
 } from 'react-native';
 import {
@@ -27,7 +28,7 @@ import { Loader } from '../Component/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-
+import DocumentPicker from 'react-native-document-picker'
 
 let iconNm = require('../Assets/img/icons/msg.png');
 let usericon = require('../Assets/img/icons/user-icon.png');
@@ -39,9 +40,12 @@ const FileCabinet = () => {
   const [press, setPress] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [value, setValue] = useState(null);
+  const [value1, setValue1] = useState(null);
+
   const [isFocus, setIsFocus] = useState(false);
   const [loader, setLoader] = useState(false);
   const [filteredReq, setFilteredReq] = useState();
+  const [docTypeById, setDocTypeById] = useState();
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -50,9 +54,25 @@ const FileCabinet = () => {
   const { DOCUMENT_INFO_FOLDER } = useSelector(state => state.TaxLeafReducer)
   // console.log(DOCUMENT_INFO_FOLDER.length, 'DOCUMENT_INFO_FOLDER')
   const bgImage = require('../Assets/img/guest_shape.png');
-
+  console.log(docTypeById, 'docTypeById')
+  console.log(value, 'kkkkkk')
   console.log(FOLDER_LIST, 'FOLDER_LIST')
+  console.log(DOCUMENT_INFO_FOLDER, 'DOCUMENT_INFO_FOLDER')
   const jsonData = MY_INFO.guestInfo;
+  const dataArray = docTypeById ? Object.values(docTypeById) : [];
+  console.log(Array.isArray(dataArray), 'isArray');
+  const [fileResponse, setFileResponse] = useState([]);
+
+  const handleDocumentSelection = useCallback(async () => {
+    try {
+      const response = await DocumentPicker.pick({
+        presentationStyle: 'fullScreen',
+      });
+      setFileResponse(response);
+    } catch (err) {
+      console.warn(err);
+    }
+  }, []);
   const renderLabel = () => {
     if (value || isFocus) {
       return (
@@ -63,7 +83,7 @@ const FileCabinet = () => {
     }
     return null;
   };
-  
+
   console.log(filteredReq, 'filteredReq');
 
   console.log(selectedData, 'selll');
@@ -137,11 +157,11 @@ const FileCabinet = () => {
     dispatch(
       folderNameList(jsonData?.clientId, jsonData?.clientType, navigation),
     );
-   
+
     setTimeout(() => {
       setLoader(false);
     }, 2000);
-   
+
     // setInfoData(CLIENT_LIST);
   }, []);
   useEffect(() => {
@@ -149,11 +169,26 @@ const FileCabinet = () => {
       const filteredFolders = FOLDER_LIST.filter(folder => {
         return folder.azureFolderName !== "Temporary Folder" && folder.azureRenameFolderName1 !== "";
       });
-    
+
       setFilteredReq(filteredFolders)
-      console.log(filteredFolders,'filteredFolders')    }
+      console.log(filteredFolders, 'filteredFolders')
+    }
   }, [FOLDER_LIST])
-  
+
+
+  const documentTypes = (item) => {
+    setLoader(true);
+    // Alert.alert(item?.documentTypeIds)
+    dispatch(
+      documentInfobyFolder(item?.documentTypeIds, navigation)
+    )
+    setDocTypeById(DOCUMENT_INFO_FOLDER)
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }
+
+
   useEffect(() => {
     setLoader(true);
 
@@ -168,10 +203,10 @@ const FileCabinet = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ImageBackground
-        source={bgImage}
-        style={styles.bgImg}
-        resizeMode="cover">
+      <View
+
+        style={{ backgroundColor: '#d5e3e5' }}
+      >
         <ScrollView>
 
           <Loader flag={loader} />
@@ -259,7 +294,7 @@ const FileCabinet = () => {
                   renderItem={({ item, index }) => (
                     <DataTable.Row
                       key={item.id}
-                      onPress={() =>{ handleRow(item)}}
+                      onPress={() => { handleRow(item) }}
                       style={{
                         backgroundColor:
                           idRow == item.id && press == true ? '#fff' : null,
@@ -272,7 +307,7 @@ const FileCabinet = () => {
                               idRow == item.id && press == true
                                 ? '#2F4050'
                                 : '#676A6C',
-                                fontWeight:'700'
+                            fontWeight: '700'
                           }}>
                           {item?.azureRenameFolderName1}
                         </Text>
@@ -339,7 +374,7 @@ const FileCabinet = () => {
                     <DataTable.Title>
                       <Text style={styles.headerText1}>CreatedAt</Text>
                     </DataTable.Title>
-                  
+
 
                   </DataTable.Header>
                   <FlatList
@@ -366,7 +401,7 @@ const FileCabinet = () => {
                             {item?.documentType}
                           </Text>
                         </DataTable.Cell>
-                        
+
                         <DataTable.Cell >
                           <Text
                             style={{
@@ -380,7 +415,7 @@ const FileCabinet = () => {
                             {moment(item?.createdAt).format('MM-DD-YYYY')}
                           </Text>
                         </DataTable.Cell>
-                     
+
 
                       </DataTable.Row>
                     )}
@@ -445,17 +480,19 @@ const FileCabinet = () => {
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
-                      data={data1}
+                      data={filteredReq}
                       maxHeight={200}
-                      labelField="label"
-                      valueField="value"
+                      labelField="azureRenameFolderName1"
+                      valueField="azureRenameFolderName1"
                       placeholder={!isFocus ? 'Select item' : '...'}
-                      value={value}
+                      value={value?.azureRenameFolderName1}
                       onFocus={() => setIsFocus(true)}
                       onBlur={() => setIsFocus(false)}
                       onChange={item => {
-                        setValue(item.value);
+                        setValue(item);
                         setIsFocus(false);
+                        documentTypes(item)
+
                       }}
                     //   renderLeftIcon={() => (
                     //     <AntDesign
@@ -478,32 +515,37 @@ const FileCabinet = () => {
                       placeholderStyle={styles.placeholderStyle}
                       selectedTextStyle={styles.selectedTextStyle}
                       iconStyle={styles.iconStyle}
-                      data={data1}
+                      data={dataArray}
                       maxHeight={200}
-                      labelField="label"
-                      valueField="value"
+                      labelField="documentType"
+                      valueField="documentType"
                       placeholder={!isFocus ? 'Select item' : '...'}
-                      value={value}
+                      value={value1}
                       onFocus={() => setIsFocus(true)}
                       onBlur={() => setIsFocus(false)}
                       onChange={item => {
-                        setValue(item.value);
+                        setValue1(item.documentType);
                         setIsFocus(false);
                       }}
-                    //   renderLeftIcon={() => (
-                    //     <AntDesign
-                    //       style={styles.icon}
-                    //       color={isFocus ? 'blue' : 'black'}
-                    //       name="Safety"
-                    //       size={20}
-                    //     />
-                    //   )}
+
                     />
                   </View>
-                  <Text
-                    style={{ alignSelf: 'flex-start', padding: 5, color: '#fff' }}>
-                    Attachments*
-                  </Text>
+                  <View style={{ marginBottom: 10 }}>
+                    <Text
+                      style={{ alignSelf: 'flex-start', padding: 5, color: '#fff' }}>
+                      Attachments*
+                    </Text>
+                    {fileResponse.map((file, index) => (
+                      <Text
+                        key={index.toString()}
+                        style={styles.uri}
+                        numberOfLines={1}
+                        ellipsizeMode={'middle'}>
+                        {file?.uri}
+                      </Text>
+                    ))}
+                    <Button title="Select 📑" onPress={handleDocumentSelection} />
+                  </View>
                   <View style={{ marginBottom: 10 }}>
                     <TouchableOpacity
                       style={[styles.button, styles.buttonClose]}
@@ -517,7 +559,7 @@ const FileCabinet = () => {
             </View>
           </Modal>
         </ScrollView>
-      </ImageBackground>
+      </View>
     </SafeAreaView>
   );
 };

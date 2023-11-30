@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,18 +17,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Carousel from 'react-native-reanimated-carousel';
 import Icon1 from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
-import {Dropdown} from 'react-native-element-dropdown';
-import {Loader} from '../Component/Loader';
+import { Dropdown } from 'react-native-element-dropdown';
+import { Loader } from '../Component/Loader';
 
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {Color} from '../Style';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { Color } from '../Style';
 
-const ClientDetails = ({route}) => {
+const ClientDetails = ({ route }) => {
   const width = Dimensions.get('window').width;
   const navigation = useNavigation();
   const [showwhat1, setshowwhat1] = useState('Message');
@@ -38,9 +38,9 @@ const ClientDetails = ({route}) => {
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const bgImage = require('../Assets/img/guest_shape.png');
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {MANAGER_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {CLIENT_DETAIL} = useSelector(state => state.TaxLeafReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { CLIENT_DETAIL } = useSelector(state => state.TaxLeafReducer);
 
   const ClientData = route.params.clientdetail;
 
@@ -86,14 +86,14 @@ const ClientDetails = ({route}) => {
     setDatePicker(false);
   };
   const data1 = [
-    {label: 'Item 1', value: '1'},
-    {label: 'Item 2', value: '2'},
-    {label: 'Item 3', value: '3'},
-    {label: 'Item 4', value: '4'},
-    {label: 'Item 5', value: '5'},
-    {label: 'Item 6', value: '6'},
-    {label: 'Item 7', value: '7'},
-    {label: 'Item 8', value: '8'},
+    { label: 'Item 1', value: '1' },
+    { label: 'Item 2', value: '2' },
+    { label: 'Item 3', value: '3' },
+    { label: 'Item 4', value: '4' },
+    { label: 'Item 5', value: '5' },
+    { label: 'Item 6', value: '6' },
+    { label: 'Item 7', value: '7' },
+    { label: 'Item 8', value: '8' },
   ];
   const radioButtons = useMemo(
     () => [
@@ -121,14 +121,14 @@ const ClientDetails = ({route}) => {
             flexDirection: 'row',
             alignSelf: 'center',
           }}>
-          <View style={{width: wp(50)}}>
+          <View style={{ width: wp(50) }}>
             <Text style={styles.heading}>
               {infoData?.individualInfo?.lastName},{' '}
               {infoData?.individualInfo?.firstName}
             </Text>
           </View>
 
-          <View style={{width: wp(40)}}>
+          <View style={{ width: wp(40) }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -139,7 +139,7 @@ const ClientDetails = ({route}) => {
               <TouchableOpacity
                 onPress={() => navigation.navigate('FileCabinet')}
                 style={styles.btnPrev}
-                // onPress={() => { onPageChange(4) }}
+              // onPress={() => { onPageChange(4) }}
               >
                 {/* <Icon
                                                 style={[
@@ -163,7 +163,7 @@ const ClientDetails = ({route}) => {
                     //alignSelf: 'center',
                   }}
                 />
-                <Text style={{color: Color.darkGreen, fontSize: 8}}>
+                <Text style={{ color: Color.darkGreen, fontSize: 8 }}>
                   FILE CABINET
                 </Text>
               </TouchableOpacity>
@@ -179,7 +179,7 @@ const ClientDetails = ({route}) => {
                     //alignSelf: 'center',
                   }}
                 />
-                <Text style={{color: Color.darkGreen, fontSize: 8}}>
+                <Text style={{ color: Color.darkGreen, fontSize: 8 }}>
                   REQUEST
                 </Text>
                 {/* 
@@ -200,10 +200,7 @@ const ClientDetails = ({route}) => {
         </View>
 
         <Text style={styles.subheading}>Hello Welcome To TaxLeaf</Text>
-        <ImageBackground
-          source={bgImage}
-          style={styles.bgImg}
-          resizeMode="cover">
+       
           <View style={styles.slideContainer}>
             <View style={styles.contentView}>
               <Text style={styles.subHead1}>Status:</Text>
@@ -307,7 +304,7 @@ const ClientDetails = ({route}) => {
           </View>
           <View style={styles.slideContainerClient}>
             <Text style={styles.headingClient}>Contact Information</Text>
-            <View style={styles.contentView}>
+            <View style={[styles.contentView,{height:hp(6)}]}>
               <Text style={styles.subHead}>Email:</Text>
               <Text
                 style={styles.LIstText2}
@@ -346,7 +343,7 @@ const ClientDetails = ({route}) => {
 
           <View style={styles.slideContainerClient}>
             <Text style={styles.headingClient}>Internal Data</Text>
-            <View style={styles.contentView}>
+            <View style={[styles.contentView,{height:hp(6)}]}>
               <Text style={styles.subHead}>Office:</Text>
               <Text style={styles.LIstText2}>
                 {' '}
@@ -372,7 +369,6 @@ const ClientDetails = ({route}) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
       </ScrollView>
     </View>
   );
@@ -383,6 +379,7 @@ export default ClientDetails;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#d5e3e5'
   },
   heading: {
     fontSize: 16,
@@ -606,7 +603,7 @@ const styles = StyleSheet.create({
     color: 'red',
   },
 
-  icon: {alignSelf: 'center'},
+  icon: { alignSelf: 'center' },
   dropdown: {
     height: 50,
     borderColor: 'gray',
@@ -712,6 +709,8 @@ const styles = StyleSheet.create({
   },
   LIstText2: {
     color: '#000',
+    width:wp(40),
+    height:hp(10)
   },
   LIstText21: {
     color: '#fff',

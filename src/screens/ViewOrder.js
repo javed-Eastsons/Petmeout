@@ -53,10 +53,10 @@ const ViewOrder = ({ route }) => {
     return (
         <View>
             <Loader flag={loader} />
-            <ImageBackground
-          source={bgImage}
-          style={styles.bgImg}
-          resizeMode="cover">
+            <View
+
+          style={{backgroundColor:'#d5e3e5'}}
+          >
             <ScrollView>
                 <TouchableOpacity
                     onPress={() => { navigation.navigate('HomeScreen') }}
@@ -275,7 +275,7 @@ const ViewOrder = ({ route }) => {
                 </View>
 
             </ScrollView>
-            </ImageBackground>
+            </View>
         </View>
     )
 }
