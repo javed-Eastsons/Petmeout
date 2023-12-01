@@ -39,6 +39,7 @@ import ContactUs from '../screens/ContactUs';
 import ViewOrder from '../screens/ViewOrder';
 import InvoiceView from '../screens/InvoiceView';
 import ViewRequest from '../screens/ViewRequest';
+import InvoiceDetails from '../screens/InvoiceDetails';
 
 enableScreens();
 
@@ -496,6 +497,13 @@ function PaymentScreenStack() {
       <Stack.Screen
         name="InvoiceView"
         component={InvoiceView}
+        options={{
+          header: () => <CustomHeader />, // Include the custom header
+        }}
+      />
+      <Stack.Screen
+        name="InvoiceDetails"
+        component={InvoiceDetails}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}

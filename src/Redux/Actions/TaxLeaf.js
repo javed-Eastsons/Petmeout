@@ -7,7 +7,8 @@ import {
   REQUEST_INFO,
   REQUEST_INFO_BY_ID,
   FOLDER_LIST,
-  DOCUMENT_INFO_FOLDER
+  DOCUMENT_INFO_FOLDER,
+  FILE_UPLOAD_TOKEN,
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
@@ -182,7 +183,7 @@ export const ManagerInfo = (clientId, clientType, navigation) => dispatch => {
       },
     };
     const response = await logistical.post('/Staff/GetManagerInfo', data);
-       console.log(response.managerInfo, 'managerInfomanagerInfomanagerInfo');
+    console.log(response.managerInfo, 'managerInfomanagerInfomanagerInfo');
 
     if (response) {
       // AsyncStorage.setItem('login', JSON.stringify(response.token));
@@ -453,50 +454,190 @@ export const folderNameList =
     });
   };
 
- 
-  export const documentInfobyFolder = (documentId, navigation) => dispatch => {
-    // dispatch({
-    //   type: 'LOADING',
-    //   payload: true,
-    // });
-  
-    return new Promise(async (resolve, reject) => {
-      let data = {
-        FolderInfo: {
-          DocumentTypeIds: documentId
-        }
-      };
-      console.log(data,'ddd')
-      const response = await logistical.post('/FileCabinet/GetDocumentTypes', data);
-         console.log(response.documentInfo, 'hilllloooo');
-  
-      if (response) {
-        // AsyncStorage.setItem('login', JSON.stringify(response.token));
-  
-        dispatch({
-          type: DOCUMENT_INFO_FOLDER,
-          payload: response.documentInfo,
-        });
 
-  
-        //   Alert.alert(response.response[0])
-        resolve(response);
-  
-        // Alert.alert(response.massage);
-        // navigation.navigate('ClientInfo');
-  
-        // dispatch({
-        //   type: 'LOADING',
-        //   payload: false,
-        // });
-      } else {
-        Alert.alert('No data found');
-        //Alert.alert(response.massage);
-        // dispatch({
-        //   type: 'LOADING',
-        //   payload: false,
-        // });
-        reject(response);
+export const documentInfobyFolder = (documentId, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+
+  return new Promise(async (resolve, reject) => {
+    let data = {
+      FolderInfo: {
+        DocumentTypeIds: documentId
       }
-    });
-  };
+    };
+    console.log(data, 'ddd')
+    const response = await logistical.post('/FileCabinet/GetDocumentTypes', data);
+    console.log(response.documentInfo, 'hilllloooo');
+
+    if (response) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      dispatch({
+        type: DOCUMENT_INFO_FOLDER,
+        payload: response.documentInfo,
+      });
+
+
+      //   Alert.alert(response.response[0])
+      resolve(response);
+
+      // Alert.alert(response.massage);
+      // navigation.navigate('ClientInfo');
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+      Alert.alert('No data found');
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};
+
+
+export const uploadFile = (MY_INFO, FolderName, documentType, year, period, description, base64File, accessToken, documentsLibraryId, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+  return new Promise(async (resolve, reject) => {
+    // let data = {
+    //   "FileListModel": [
+    //     {
+    //       "FileModel":
+    //       {
+    //         "Brand": MY_INFO?.staffview?.clientBrand,
+    //         "OfficeId": MY_INFO?.officeInfo?.officeId,
+    //         "ClientType": MY_INFO?.guestInfo?.clientType,
+    //         "ClientId": MY_INFO?.guestInfo?.client,
+    //         "SharepointFolderName": FolderName,
+    //         "DocumentType": documentType,
+    //         "FileType": "pdf",
+    //         "Period": "1",
+    //         "PeriodText": period,
+    //         "Year": year,
+    //         "Description": description,
+    //         "UploadedByName": MY_INFO?.staffview?.firstName + ' ' + MY_INFO?.staffview?.lastName,
+    //         "UploadedBy": MY_INFO?.staffview?.id,
+    //       },
+    //       "FileData":base64File
+
+    //     }
+    //   ],
+    //   "result": {
+    //     "accessToken": accessToken,
+    //     "LibraryId": documentsLibraryId
+    //   }
+    // };
+
+    let data = {
+      "FileListModel": [
+        {
+          "FileModel": {
+            "Brand": MY_INFO?.staffview?.clientBrand,
+            "OfficeId": "CORP",
+            "ClientType": "COMPANY",
+            "ClientId": "MREALESTATE",
+            "SharepointFolderName": "Mailing Correspondence",
+            "DocumentType": "IRS",
+            "FileType": "pdf",
+            "Period": "1",
+            "PeriodText": period,
+            "Year": year,
+            "Description": description,
+            "UploadedByName": "Karla Pereira",
+            "UploadedBy": "520"
+          },
+          "FileData": base64File
+        }
+      ],
+      "result": {
+        "accessToken": accessToken,
+        "LibraryId": documentsLibraryId
+      }
+    };
+
+    console.log(data?.FileListModel[0]?.FileModel, 'uplaodPayload')
+    const response = await logistical.post('/FileCabinet/UploadFiles', data);
+    // console.log(response, 'UploadFilesResp');
+
+    if (response && response?.statusCode == 200) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      // dispatch({
+      //   type: DOCUMENT_INFO_FOLDER,
+      //   payload: response.documentInfo,
+      // });
+
+
+      resolve(response);
+
+      Alert.alert(response.massage)
+      navigation.navigate('FileCabinet');
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+      Alert.alert('No data found');
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};
+
+
+export const generateFileToken = (documentId, navigation) => dispatch => {
+  // dispatch({
+  //   type: 'LOADING',
+  //   payload: true,
+  // });
+
+  return new Promise(async (resolve, reject) => {
+
+    const response = await logistical.post('/FileCabinet/GenerateToken');
+    console.log(response, 'AccessToken');
+
+    if (response) {
+      // AsyncStorage.setItem('login', JSON.stringify(response.token));
+
+      dispatch({
+        type: FILE_UPLOAD_TOKEN,
+        payload: response,
+      });
+
+
+      //   Alert.alert(response.response[0])
+      resolve(response);
+
+      // Alert.alert(response.massage);
+      // navigation.navigate('ClientInfo');
+
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+    } else {
+      Alert.alert('No data found');
+      //Alert.alert(response.massage);
+      // dispatch({
+      //   type: 'LOADING',
+      //   payload: false,
+      // });
+      reject(response);
+    }
+  });
+};

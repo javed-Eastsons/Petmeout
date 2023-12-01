@@ -14,7 +14,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import CustomBottomTab from '../Component/CustomBottomTab';
 import HeadTabs from './HeadTabs';
 
-export default InvoiceView = ({ route }) => {
+export default InvoiceDetails = ({ route }) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -88,195 +88,151 @@ export default InvoiceView = ({ route }) => {
     return (
         <View style={styles.container}>
             <Loader flag={loader} />
+
             <ScrollView style={{ paddingBottom: 80 }}>
             <HeadTabs/>
 
-                <View style={styles.header}>
-                    <Text style={styles.title}>Invoice</Text>
-                </View>
+
                 <View style={styles.invoiceInfoContainer}>
-                    <View style={styles.invoiceInfo}>
-                        <Text style={styles.label}>Order Id:</Text>
-                        <Text style={styles.text}>{collectionInfo?.orderId}</Text>
+                    <View style={[styles.header, { flexDirection: 'row', justifyContent: 'space-between', width: '100%' }]}>
+                        <Text style={styles.title}>Invoice</Text>
+                        <View style={styles.invoiceInfo}>
+                            <Text style={{ fontSize: 15, fontWeight: '700', marginTop: 12 }}>Back To Dashboard</Text>
+                        </View>
                     </View>
-                    <View style={styles.invoiceInfo}>
-                        <Text style={styles.label}>Invoice Date:</Text>
-                        <Text style={styles.text}>{collectionInfo?.creationDate}</Text>
-                    </View>
+                        <View style={styles.invoiceInfo}>
+                            <Text style={[styles.label,{marginLeft:5}]}>Order Id:</Text>
+                            <Text style={styles.text}>{collectionInfo?.orderId}</Text>
+                        </View>
+
+
                 </View>
                 {/* <View style={styles.divider} /> */}
                 <View style={styles.slideContainerClient}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center', marginBottom: 10 }}>
-                        <Text style={styles.headingClient}>Invoice To</Text>
+                        <Text style={styles.headingClient}>Invoice Details</Text>
 
                     </View>
 
                     <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Created Time:</Text>
                         <Text style={styles.LIstText2}>
+                            {collectionInfo?.creationDate}
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Invoice Type:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            {collectionInfo?.clientType}
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Creted by Staff:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            {serviceList[0]?.requesetedStaffInfo?.firstName + ' ' + serviceList[0]?.requesetedStaffInfo?.lastName}
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Incorporated Date:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            2021-01-01
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Client Id:</Text>
+
+                        <Text style={styles.LIstText2}>
+
                             {collectionInfo?.clientId}
                         </Text>
                     </View>
                     <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Federal Id:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            81-3900350
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>State of Incorporation:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            Florida
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Type Of Company:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            S Corporation
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Fiscal Year End:</Text>
+
+                        <Text style={styles.LIstText2}>
+
+                            December
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.slideContainerClient1}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center', marginBottom: 10 }}>
+                        <Text style={styles.headingClient}>Invoice Details</Text>
+
+                    </View>
+
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Contact Type:</Text>
+
+                        <Text style={styles.LIstText2}>
+                            Main
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Name:</Text>
+
+                        <Text style={styles.LIstText2}>
+                            {companyClientContactInfo?.firstName + ' ' + managerInfo?.lastName}
+                        </Text>
+                    </View>
+                    <View style={styles.contentView}>
+                        <Text style={styles.subHead}>Phone:</Text>
+
                         <Text style={styles.LIstText2}>
                             {companyClientContactInfo?.phone1}
                         </Text>
                     </View>
-                    <View style={styles.contentView}>
+                    <View style={[styles.contentView, { height: hp(6) }]}>
+                        <Text style={styles.subHead}>Email:</Text>
+
                         <Text style={styles.LIstText2}>
-                            {companyClientContactInfo?.address1}, {companyClientContactInfo?.city}, {companyClientContactInfo?.zip}
+                            {companyClientContactInfo?.email1}
                         </Text>
                     </View>
-                </View>
-                <View style={[styles.slideContainerClient1,{backgroundColor:'#098d95'}]}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center', marginBottom: 10 }}>
-                        <Text style={styles.headingClient}>Invoice From</Text>
+                    <View style={[styles.contentView, { height: hp(8) }]}>
+                        <Text style={styles.subHead}>Address:</Text>
 
-                    </View>
-
-                    <View style={styles.contentView}>
                         <Text style={styles.LIstText2}>
-                            {officeInfo?.name}
+                            {companyClientContactInfo?.address1}, {companyClientContactInfo?.city},{companyClientContactInfo?.zip}, {companyClientContactInfo?.zip}
                         </Text>
-                    </View>
-                    <View style={styles.contentView}>
-                        <Text style={styles.LIstText2}>
-                            {managerInfo?.firstName + ' ' + managerInfo?.lastName}
-                        </Text>
-                    </View>
-                    <View style={styles.contentView}>
-                        <Text style={styles.LIstText2}>
-                            {officeInfo?.phone}
-                        </Text>
-                    </View>
-                    <View style={styles.contentView}>
-                        <Text style={styles.LIstText2}>
-                            {officeInfo?.address}, {officeInfo?.city}, {officeInfo?.zip}
-                        </Text>
-                    </View>
-                </View>
-
-                <View style={styles.slideContainerClient1}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center', marginBottom: 10 }}>
-                        <Text style={styles.headingClient}>Invoice Items</Text>
-
-                    </View>
-
-                    <View style={styles.contentView1}>
-                        <View style={styles.item} >
-                            <Text style={[styles.itemName, {
-                                fontWeight: 'bold', color: '#fff', padding: 8
-                            }]}>#Order</Text>
-                            <Text style={[styles.itemDetails, {
-                                fontWeight: 'bold', color: '#fff', padding: 8
-                            }]}>
-                                Period
-                            </Text>
-                            <Text style={[styles.Price, {
-                                fontWeight: 'bold', color: '#fff', padding: 8
-                            }]}>Price</Text>
-                            <Text style={[styles.Quantity, {
-                                fontWeight: 'bold', color: '#fff', padding: 8
-                            }]}>Quantity</Text>
-                            <Text style={[styles.Final, {
-                                fontWeight: 'bold', color: '#fff'
-
-                            }]}>Final Price</Text>
-
-                        </View>
-                    </View>
-                    <View style={styles.contentView2}>
-                        {
-                            GET_ORDER_DETAILS[0] && GET_ORDER_DETAILS[0]?.serviceListModel.map((item, index) => (
-                                <View style={styles.item}>
-                                    <Text style={styles.itemName}>{item?.serviceInfo?.description}</Text>
-                                    <Text style={styles.itemDetails}>
-                                        N/A
-                                    </Text>
-                                    <Text style={styles.Price}>${item?.reqInfo?.priceCharged}</Text>
-                                    <Text style={styles.Quantity}>{item?.reqInfo?.quantity}</Text>
-
-                                    <Text style={styles.itemTotal}>${item?.reqInfo?.priceCharged}</Text>
-
-                                </View>
-                            ))
-                        }
                     </View>
 
                 </View>
 
-                <View style={styles.divider} />
-                <View style={styles.totalContainer}>
-                    <Text style={styles.label}>Total:</Text>
-                    <Text style={styles.total1}>${totalPriceCharged}</Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
-                    <TouchableOpacity
-                        style={{
-                            color: Color.darkGreen,
-                            fontSize: 12,
-                            backgroundColor: '#fff',
-                            padding: 5,
-                            textAlign: 'center',
-                            width: wp(28),
-                            height: hp(5.5),
-                            borderRadius: 20,
-                            alignItems: 'center',
-                            padding: 12,
-                            flexDirection: 'row',
-                        }}
-                    >
-                        <Image source={require('../Assets/img/icons/printInvoice.png')} style={{ marginRight: 6 }} />
 
-                        <Text >
-                            Print
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{
-                            color: Color.white,
-                            fontSize: 12,
-                            backgroundColor: '#8AB645',
-                            padding: 10,
-                            textAlign: 'center',
-                            width: wp(30),
-                            height: hp(5.5),
-                            borderRadius: 20,
-                            marginLeft: 5,
-                            marginRight: 5,
-                            flexDirection:'row'
-                        }}
-                    >
-                        <Image source={require('../Assets/img/icons/downloadInvoice.png')} style={{marginRight:3}}/>
-
-                        <Text style={{marginTop:2,color:'#fff'}} >
-
-                            Download
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{
-                            color: Color.darkGreen,
-                            fontSize: 12,
-                            backgroundColor: '#fff',
-                            padding: 5,
-                            textAlign: 'center',
-                            width: wp(28),
-                            height: hp(5.5),
-                            borderRadius: 20,
-                            alignItems: 'center',
-                            padding: 12,
-                            flexDirection: 'row',
-                        }}
-                    >
-                        <Image source={require('../Assets/img/icons/payInvoice.png')} style={{ marginRight: 2 }} />
-
-                        <Text >
-                            Pay Now
-                        </Text>
-                    </TouchableOpacity>
-                </View>
             </ScrollView>
             <CustomBottomTab />
+
         </View>
     );
 };
@@ -298,9 +254,9 @@ const styles = StyleSheet.create({
 
     },
     invoiceInfoContainer: {
-        flexDirection: 'row',
+        // flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 10,
+        // marginTop: 10,
     },
     invoiceInfo: {
         flexDirection: 'row',
@@ -397,7 +353,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     slideContainerClient1: {
-        backgroundColor: '#254768',
+        backgroundColor: Color.headerIconBG,
         width: wp(90),
         justifyContent: 'center',
         alignSelf: 'center',
@@ -406,25 +362,28 @@ const styles = StyleSheet.create({
         // paddingBottom: 20,
         marginTop: 15,
     },
+
     LIstText2: {
-        color: '#6a6a6a',
+        color: 'rgba(106,106,106,255)',
+        width: wp(40),
+        height: hp(10)
     },
 
     subHead: {
         width: 150,
         fontSize: 15,
         fontWeight: '600',
-        color: '#000'
+        color: Color.headerIconBG
     },
     headingClient: {
-        fontSize: 17,
+        fontSize: 15,
         fontFamily: 'Poppins-Bold',
         // maxWidth:'80%',
         color: '#fff',
         // height:40,
         marginTop: 10,
         // marginLeft: 20,
-        fontWeight: '700',
+        fontWeight: '600',
 
         // textAlign: 'center',
     },

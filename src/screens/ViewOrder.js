@@ -10,6 +10,7 @@ import { Color } from '../Style';
 import { GetDetailsbyOrderId } from '../Redux/Actions/PaymentAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../Component/Loader';
+import CustomBottomTab from '../Component/CustomBottomTab';
 
 const ViewOrder = ({ route }) => {
     const navigation = useNavigation();
@@ -276,6 +277,7 @@ const ViewOrder = ({ route }) => {
 
             </ScrollView>
             </View>
+            <CustomBottomTab/>
         </View>
     )
 }
