@@ -28,7 +28,7 @@ import Icon2 from 'react-native-vector-icons/Fontisto';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
 import { Dropdown } from 'react-native-element-dropdown';
 import Editor from './editor';
-import { RequestSubmit,ManagerInfo } from '../Redux/Actions/TaxLeaf';
+import { RequestSubmit, ManagerInfo } from '../Redux/Actions/TaxLeaf';
 import { Color } from '../Style';
 import { Loader } from '../Component/Loader';
 
@@ -57,6 +57,8 @@ const CreateNewAction = () => {
   const managerInfo = MANAGER_INFO.managerInfo;
   const partnerInfo = MANAGER_INFO.partnerInfo;
   const jsonData = MY_INFO.guestInfo;
+
+  console.log(MY_INFO, 'MY_INFO')
 
   const showwhatfunc1 = data => {
     setshowwhat1(data);
@@ -111,26 +113,68 @@ const CreateNewAction = () => {
     dispatch(ManagerInfo(jsonData?.clientId, jsonData?.clientType, navigation));
 
   }, [])
-  
+
   const onSubmit = () => {
     let data = {
-      // moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')
-      actionModel: {
-        // createdOffice: 17,
-        assignTo: selectedId,
-        clientId: jsonData?.client,
-        subject: actionSubject,
-        // message: notes,
-        priority: value,
-        // status: 0,
-        // addedByUser: 910,
-        dueDate: moment(date).format('YYYY-MM-DD'),
-        // isCreatedFromAction: "n",
-        // clientIdForGuest: "128110",
-        assignWhom: selectedId == 1 ? 'Manager' : 'Partner'
+      "actionTime": "2023-10-20T05:05:54.895Z",
+      "actionModel": {
+        "createdOffice": 17,
+        "assignTo": 1,
+        "clientId": jsonData?.client,
+        "subject": actionSubject,
+        "message": "This Is Test Meassage",
+        "priority": value,
+        "status": jsonData?.status,
+        "addedByUser": 973,
+        "dueDate": moment(date).format('YYYY-MM-DD'),
+        "isCreatedFromAction": "n",
+        "clientIdForGuest": "38419",
+        "assignWhom": selectedId == 1 ? 'Manager' : 'Partner'
       },
+      "actionStaffModel": {
+        "staffId": jsonData?.staffId
+      },
+      "actionClientListModel": {
+      },
+      "actionNoteListModel": [
+        {
+          "note": "E"
+        }, {
+          "note": "F"
+        }
+      ]
+    }
 
-    };
+    // let data = {
+    //   "actionTime": "2023-10-20T05:05:54.895Z",
+    //   "actionModel": {
+    //     "createdOffice": 17,
+    //     "assignTo": 1,
+    //     "clientId": jsonData?.client,
+    //     "subject": actionSubject,
+    //     "message": "Who Are You?",
+    //     "priority": value,
+    //     "status": jsonData?.status,
+    //     "addedByUser": MY_INFO?.individualInfo?.addedByUser,
+    //     "dueDate": moment(date).format('YYYY-MM-DD'),
+    //     "isCreatedFromAction": "n",
+    //     "clientIdForGuest": jsonData?.clientId.toString(),
+    //     "assignWhom": selectedId == 1 ? 'Manager' : 'Partner'
+    //   },
+    //   "actionStaffModel": {
+    //     "staffId": jsonData?.staffId
+    //   },
+    //   "actionClientListModel": {
+    //   },
+    //   "actionNoteListModel": [
+    //     {
+    //       "note": "E"
+    //     }, {
+    //       "note": "F"
+    //     }
+    //   ]
+    // }
+    console.log(data, 'datatatatatatat')
     dispatch(RequestSubmit(data, navigation));
 
 
@@ -142,45 +186,45 @@ const CreateNewAction = () => {
 
         style={{ backgroundColor: '#d5e3e5' }}
       >
-      <ScrollView>
-        <Text style={styles.heading}>Create New Action</Text>
+        <ScrollView>
+          <Text style={styles.heading}>Create New Action</Text>
 
-        <View style={styles.slideContainerFrom}>
-          <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>
-            From
-          </Text>
-          <View style={styles.part}></View>
-          <Text
-            style={{
-              alignSelf: 'flex-start',
-              padding: 5,
-              color: '#000',
-              marginLeft: 12,
-            }}>
-            Name
-          </Text>
-          <TextInput
-            placeholder="First Name"
-            style={[styles.input]}
-            editable={false}
-            value={staffview?.firstName + ' ' + staffview?.lastName}
-          />
-          <Text
-            style={{
-              alignSelf: 'flex-start',
-              padding: 5,
-              color: '#000',
-              marginLeft: 12,
-            }}>
-            My Office *
-          </Text>
-          <TextInput
-            placeholder="First Name"
-            style={[styles.input]}
-            editable={false}
-            value={officeInfo?.name}
-          />
-          {/* <Dropdown
+          <View style={styles.slideContainerFrom}>
+            <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>
+              From
+            </Text>
+            <View style={styles.part}></View>
+            <Text
+              style={{
+                alignSelf: 'flex-start',
+                padding: 5,
+                color: '#000',
+                marginLeft: 12,
+              }}>
+              Name
+            </Text>
+            <TextInput
+              placeholder="First Name"
+              style={[styles.input]}
+              editable={false}
+              value={staffview?.firstName + ' ' + staffview?.lastName}
+            />
+            <Text
+              style={{
+                alignSelf: 'flex-start',
+                padding: 5,
+                color: '#000',
+                marginLeft: 12,
+              }}>
+              My Office *
+            </Text>
+            <TextInput
+              placeholder="First Name"
+              style={[styles.input]}
+              editable={false}
+              value={officeInfo?.name}
+            />
+            {/* <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -199,123 +243,123 @@ const CreateNewAction = () => {
             }}
          
           /> */}
-        </View>
-        <View style={styles.slideContainerTo}>
-          <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>
-            To
-          </Text>
-          <View style={styles.part}></View>
-          <View
-            style={{
-              alignItems: 'flex-start',
-              //alignSelf: 'center',
-              //alignItems: 'center',
-              //justifyContent: 'center',
-            }}>
-            <RadioGroup
-              radioButtons={radioButtons}
-              onPress={setSelectedId}
-              selectedId={selectedId}
+          </View>
+          <View style={styles.slideContainerTo}>
+            <Text style={{ textAlign: 'center', fontSize: 18, marginTop: 10 }}>
+              To
+            </Text>
+            <View style={styles.part}></View>
+            <View
+              style={{
+                alignItems: 'flex-start',
+                //alignSelf: 'center',
+                //alignItems: 'center',
+                //justifyContent: 'center',
+              }}>
+              <RadioGroup
+                radioButtons={radioButtons}
+                onPress={setSelectedId}
+                selectedId={selectedId}
+              />
+            </View>
+          </View>
+
+          <View style={{ width: '95%', alignSelf: 'center' }}>
+            <Text
+              style={{
+                alignSelf: 'flex-start',
+                padding: 5,
+                color: '#000',
+                marginLeft: 12,
+                marginTop: 10,
+              }}>
+              Action Subject *
+            </Text>
+            <TextInput
+              onChangeText={(text) => setActionSubject(text)}
+              // placeholder='First Name'
+              style={[styles.input]}
             />
           </View>
-        </View>
-
-        <View style={{ width: '95%', alignSelf: 'center' }}>
-          <Text
-            style={{
-              alignSelf: 'flex-start',
-              padding: 5,
-              color: '#000',
-              marginLeft: 12,
-              marginTop: 10,
-            }}>
-            Action Subject *
-          </Text>
-          <TextInput
-            onChangeText={(text) => setActionSubject(text)}
-            // placeholder='First Name'
-            style={[styles.input]}
-          />
-        </View>
-        <View style={styles.slideContainerEdit}>
-          <Text style={{ alignSelf: 'flex-start', padding: 5, color: '#000' }}>
-            Action Message *
-          </Text>
-          <Editor />
-        </View>
-        <View style={styles.slideContainer}>
-          <View style={{}}>
-            <Text
-              style={{
-                alignSelf: 'flex-start',
-                padding: 5,
-                color: '#000',
-                marginLeft: 12,
-                marginTop:10
-
-              }}>
-              Priority *
+          <View style={styles.slideContainerEdit}>
+            <Text style={{ alignSelf: 'flex-start', padding: 5, color: '#000' }}>
+              Action Message *
             </Text>
-            <Dropdown
-              style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              iconStyle={styles.iconStyle}
-              data={data1}
-              maxHeight={200}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Select item' : '...'}
-              value={value}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setValue(item.value);
-                setIsFocus(false);
-              }}
-            //   renderLeftIcon={() => (
-            //     <AntDesign
-            //       style={styles.icon}
-            //       color={isFocus ? 'blue' : 'black'}
-            //       name="Safety"
-            //       size={20}
-            //     />
-            //   )}
-            />
-            <Text
-              style={{
-                alignSelf: 'flex-start',
-                padding: 5,
-                color: '#000',
-                marginLeft: 12,
-                marginTop:10
-              }}>
-              Due Date
-            </Text>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => setDatePicker(true)}>
-              {date ? (
-                <Text style={{ color: '#fff', fontSize: 15 }}>
-                  {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
-                </Text>
-              ) : (
-                <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
-              )}
-            </TouchableOpacity>
+            <Editor />
+          </View>
+          <View style={styles.slideContainer}>
+            <View style={{}}>
+              <Text
+                style={{
+                  alignSelf: 'flex-start',
+                  padding: 5,
+                  color: '#000',
+                  marginLeft: 12,
+                  marginTop: 10
 
-            {datePicker && (
-              <DateTimePicker
-                value={date}
-                mode={'date'}
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                //   is24Hour={false}
-                onChange={onDateSelected}
-              //   style={styles.datePicker}
+                }}>
+                Priority *
+              </Text>
+              <Dropdown
+                style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                iconStyle={styles.iconStyle}
+                data={data1}
+                maxHeight={200}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Select item' : '...'}
+                value={value}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  setValue(item.value);
+                  setIsFocus(false);
+                }}
+              //   renderLeftIcon={() => (
+              //     <AntDesign
+              //       style={styles.icon}
+              //       color={isFocus ? 'blue' : 'black'}
+              //       name="Safety"
+              //       size={20}
+              //     />
+              //   )}
               />
-            )}
+              <Text
+                style={{
+                  alignSelf: 'flex-start',
+                  padding: 5,
+                  color: '#000',
+                  marginLeft: 12,
+                  marginTop: 10
+                }}>
+                Due Date
+              </Text>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => setDatePicker(true)}>
+                {date ? (
+                  <Text style={{ color: '#fff', fontSize: 15 }}>
+                    {moment(date, 'MM-DD-YYYY').format('ddd,DD MMM YYYY')}
+                  </Text>
+                ) : (
+                  <Text style={{ color: '#fff', fontSize: 15 }}>Select</Text>
+                )}
+              </TouchableOpacity>
 
-            {/* <Text
+              {datePicker && (
+                <DateTimePicker
+                  value={date}
+                  mode={'date'}
+                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  //   is24Hour={false}
+                  onChange={onDateSelected}
+                //   style={styles.datePicker}
+                />
+              )}
+
+              {/* <Text
               style={{
                 alignSelf: 'flex-start',
                 padding: 5,
@@ -330,19 +374,19 @@ const CreateNewAction = () => {
               onChangeText={(text) => setNotes(text)}
               style={styles.textArea}
             /> */}
+            </View>
           </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-            marginTop: 40,
-          }}>
-          <TouchableOpacity
-            style={styles.btnPrev}
-          // onPress={() => { onPageChange(4) }}
-          >
-            {/* <Icon
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              marginTop: 40,
+            }}>
+            <TouchableOpacity
+              style={styles.btnPrev}
+            // onPress={() => { onPageChange(4) }}
+            >
+              {/* <Icon
                                                 style={[
                                                     styles.icon,
                                                     {
@@ -353,13 +397,13 @@ const CreateNewAction = () => {
                                                 size={20}
                                                 color="#fff"
                                             /> */}
-            <Text style={{ color: '#fff' }}>Cancel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnSubmit}
-            onPress={() => { onSubmit() }}
-          >
-            <Text style={{ color: '#fff', marginLeft: 10 }}>Submit</Text>
-            {/* 
+              <Text style={{ color: '#fff' }}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnSubmit}
+              onPress={() => { onSubmit() }}
+            >
+              <Text style={{ color: '#fff', marginLeft: 10 }}>Submit</Text>
+              {/* 
                                             <Icon
                                                 style={[
                                                     styles.icon,
@@ -371,9 +415,9 @@ const CreateNewAction = () => {
                                                 size={20}
                                                 color="#fff"
                                             /> */}
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );

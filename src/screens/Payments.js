@@ -104,15 +104,15 @@ const Payments = () => {
   const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
-    console.log(data);
+    //console.log(data);
   };
-  console.log(orderIDAcc, 'orderIDAcc')
-  console.log(GET_PAYMENT_LIST, 'GET_PAYMENT_LIST')
+  //console.log(orderIDAcc, 'orderIDAcc')
+  //console.log(GET_PAYMENT_LIST, 'GET_PAYMENT_LIST')
   const jsonData = MY_INFO.guestInfo;
   const officeInfo = MY_INFO.officeInfo;
 
-  console.log(GET_ORDER_DETAILS, 'orderInfoPAymentScreen')
-  
+  //console.log(GET_ORDER_DETAILS, 'orderInfoPAymentScreen')
+
   useEffect(() => {
     setLoader(true);
     dispatch(
@@ -128,12 +128,12 @@ const Payments = () => {
         navigation,
       ),
     );
-   
+
     setTimeout(() => {
       setLoader(false);
     }, 2000);
   }, []);
-  console.log(infoData, 'infoData');
+  // console.log(infoData, 'infoData');
   useEffect(() => {
     setInfoData(GET_PAYMENT_LIST);
   }, [GET_PAYMENT_LIST]);
@@ -146,11 +146,11 @@ const Payments = () => {
     // }, 2000);
     getorderbyId()
   }, [GET_PAYMENT_LIST]);
-// useEffect(() => {
-//   infoData?.collectionInfo.map((item)=>{
-//     getorderbyId(item?.orderId)
-//   })
-// }, [infoData])
+  // useEffect(() => {
+  //   infoData?.collectionInfo.map((item)=>{
+  //     getorderbyId(item?.orderId)
+  //   })
+  // }, [infoData])
 
 
   const getorderbyId = (orderId) => {
@@ -165,10 +165,10 @@ const Payments = () => {
     //     setLoader(false);
     // }, 2000);
   }
-  console.log(
-    infoData.length,
-    'GET_PAYMENT_LISTGET_PAYMENT_LISTGET_PAYMENT_LIST',
-  );
+  // console.log(
+  //   infoData.length,
+  //   'GET_PAYMENT_LISTGET_PAYMENT_LISTGET_PAYMENT_LIST',
+  // );
   const SECTIONS = [
     {
       title: 'First',
@@ -212,12 +212,14 @@ const Payments = () => {
               isActive ? styles.active : styles.inactive,
               {
                 width: wp(90),
-                backgroundColor: Color.geen,
+                backgroundColor: Color.green,
                 alignItems: 'center',
                 alignSelf: 'center',
                 // marginBottom: 10,
                 flexDirection: 'row',
-                height: wp(10),
+                height: wp(15),
+
+
                 opacity: 10,
                 paddingLeft: 10,
                 paddingRight: 10,
@@ -307,13 +309,14 @@ const Payments = () => {
                 color: '#fff',
                 textAlign: 'center',
                 // marginTop: 4,
-                paddingTop: 6,
+                alignSelf: "center",
                 width: wp(17),
 
                 backgroundColor: Color.darkGreen,
                 // borderTopLeftRadius: 10,
                 // borderTopRightRadius: 10,
-                height: wp(10),
+                height: wp(15),
+                paddingTop: 15,
                 fontSize: 12,
                 fontWeight: '700',
                 justifyContent: 'center',
@@ -458,15 +461,15 @@ const Payments = () => {
               animation={isActive ? 'bounceIn' : undefined}
               style={{
                 color: '#000',
-                textAlign: 'center',
-                marginTop: 10,
-                paddingTop: 3,
-                width: wp(18),
+                // textAlign: 'center',
+                marginTop: wp(6),
+                //paddingTop: 10,
+                //width: wp(18),
                 // backgroundColor: '#2F5597',
                 borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
+                //borderTopRightRadius: 10,
                 height: wp(10),
-                fontSize: 10,
+                fontSize: 8,
                 fontWeight: '700',
                 justifyContent: 'center',
               }}>
@@ -482,11 +485,13 @@ const Payments = () => {
                 <Text
                   style={{
                     color: Color.white,
-                    fontSize: 8,
+                    fontSize: 10,
                     backgroundColor: '#1c84c6',
+
+
                     padding: 5,
                     textAlign: 'center',
-                    width: wp(15),
+                    width: wp(12),
                   }}>
                   Active
                 </Text>
@@ -606,13 +611,15 @@ const Payments = () => {
           style={styles.bgImg}
           resizeMode="cover"> */}
 
-        <ScrollView nestedScrollEnabled={true}>
+        <ScrollView nestedScrollEnabled={true}
 
-         <HeadTabs/>
+        >
+
+          <HeadTabs />
           {/* <View style={styles.headerView}>
           <Text style={styles.header}>Plan Invoices</Text>
         </View> */}
-          <Text style={{ fontSize: 19, marginLeft: 20, color: '#2F4050', fontWeight: 700, marginTop: 20 }}>Payments</Text>
+          <Text style={{ fontSize: 19, marginLeft: 20, color: Color.headerIconBG, fontWeight: 700, marginTop: 5 }}>Payments</Text>
           <View style={{ width: wp(95), alignSelf: 'center', height: hp(46) }}>
             {(() => {
               if (showwhat == 'Experience') {
@@ -623,7 +630,7 @@ const Payments = () => {
                         styles.emailtoch1,
                         {
                           backgroundColor:
-                            showwhat == 'Experience' ? Color.geen : '#fff',
+                            showwhat == 'Experience' ? Color.green : '#fff',
                           flexDirection: 'row',
                           paddingTop: 12,
 
@@ -838,7 +845,7 @@ const Payments = () => {
                     Pending Invoices ({infoData.length})
                     </Text> */}
 
-                    <ScrollView style={{ height: hp(40) ,paddingBottom:30}}>
+                    <ScrollView style={{ height: hp(40), paddingBottom: 30 }}>
 
 
                       <Accordion
@@ -1110,9 +1117,12 @@ const styles = StyleSheet.create({
   ButtonText1: {
     color: '#000',
     textAlign: 'center',
+    fontWeight: '700',
   },
   ButtonTextW: {
     color: '#fff',
+    fontWeight: '700',
+
     textAlign: 'center',
   },
   mobiletochP: {

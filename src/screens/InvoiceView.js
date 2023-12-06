@@ -88,8 +88,11 @@ export default InvoiceView = ({ route }) => {
     return (
         <View style={styles.container}>
             <Loader flag={loader} />
-            <ScrollView style={{ paddingBottom: 80 }}>
-            <HeadTabs/>
+            <ScrollView style={{ paddingBottom: 80 }}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+            >
+                <HeadTabs />
 
                 <View style={styles.header}>
                     <Text style={styles.title}>Invoice</Text>
@@ -127,7 +130,7 @@ export default InvoiceView = ({ route }) => {
                         </Text>
                     </View>
                 </View>
-                <View style={[styles.slideContainerClient1,{backgroundColor:'#098d95'}]}>
+                <View style={[styles.slideContainerClient1, { backgroundColor: '#098d95' }]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center', marginBottom: 10 }}>
                         <Text style={styles.headingClient}>Invoice From</Text>
 
@@ -243,12 +246,12 @@ export default InvoiceView = ({ route }) => {
                             borderRadius: 20,
                             marginLeft: 5,
                             marginRight: 5,
-                            flexDirection:'row'
+                            flexDirection: 'row'
                         }}
                     >
-                        <Image source={require('../Assets/img/icons/downloadInvoice.png')} style={{marginRight:3}}/>
+                        <Image source={require('../Assets/img/icons/downloadInvoice.png')} style={{ marginRight: 3 }} />
 
-                        <Text style={{marginTop:2,color:'#fff'}} >
+                        <Text style={{ marginTop: 2, color: '#fff' }} >
 
                             Download
                         </Text>
@@ -283,9 +286,12 @@ export default InvoiceView = ({ route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        flex: 1,
+        backgroundColor: Color.screenBg,
+        paddingLeft: 20,
+        paddingRight: 20,
         // marginTop: 80,
-        backgroundColor: '#d5e3e5',
+        //   backgroundColor: '#d5e3e5',
         paddingBottom: 80
     },
     header: {

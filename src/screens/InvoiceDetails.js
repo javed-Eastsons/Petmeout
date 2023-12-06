@@ -22,8 +22,8 @@ export default InvoiceDetails = ({ route }) => {
     const { GET_ORDER_DETAILS } = useSelector(state => state.PaymentReducer);
     const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
 
-    console.log(GET_ORDER_DETAILS, 'orderInfoInvoice')
-    console.log(MANAGER_INFO, 'MANAGER_INFO')
+    // console.log(GET_ORDER_DETAILS, 'orderInfoInvoice')
+    // console.log(MANAGER_INFO, 'MANAGER_INFO')
 
     const [loader, setLoader] = useState(false);
     const orderId = route.params.orderId;
@@ -42,9 +42,9 @@ export default InvoiceDetails = ({ route }) => {
         // Add the current priceCharged to the sum
         return sum + priceCharged;
     }, 0); // Initialize sum with 0
-    console.log("Total Price Charged:", totalPriceCharged);
+    // console.log("Total Price Charged:", totalPriceCharged);
 
-    console.log("route.params.orderId", route.params.orderId);
+    // console.log("route.params.orderId", route.params.orderId);
     const invoiceData = {
         invoiceNumber: '12345',
         invoiceDate: '01/01/2022',
@@ -89,8 +89,11 @@ export default InvoiceDetails = ({ route }) => {
         <View style={styles.container}>
             <Loader flag={loader} />
 
-            <ScrollView style={{ paddingBottom: 80 }}>
-            <HeadTabs/>
+            <ScrollView style={{ paddingBottom: 80 }}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+            >
+                <HeadTabs />
 
 
                 <View style={styles.invoiceInfoContainer}>
@@ -100,10 +103,10 @@ export default InvoiceDetails = ({ route }) => {
                             <Text style={{ fontSize: 15, fontWeight: '700', marginTop: 12 }}>Back To Dashboard</Text>
                         </View>
                     </View>
-                        <View style={styles.invoiceInfo}>
-                            <Text style={[styles.label,{marginLeft:5}]}>Order Id:</Text>
-                            <Text style={styles.text}>{collectionInfo?.orderId}</Text>
-                        </View>
+                    <View style={styles.invoiceInfo}>
+                        <Text style={[styles.label, { marginLeft: 5 }]}>Order Id:</Text>
+                        <Text style={styles.text}>{collectionInfo?.orderId}</Text>
+                    </View>
 
 
                 </View>

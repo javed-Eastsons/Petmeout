@@ -152,10 +152,10 @@ const HomeScreen = () => {
     // }, 2000);
   }, [MY_INFO, MANAGER_INFO, DASHBOARD_LIST, DASHBOARD_MESSAGE_LIST]);
 
-  console.log(
-    dashboardList,
-    'newsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelist',
-  );
+  // console.log(
+  //   dashboardList,
+  //   'newsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelistnewsandupdatelist',
+  // );
 
   const desiredNewsType = 'Holidays ';
   const TaxNewsType = 'Tax Deadlines';
@@ -167,7 +167,7 @@ const HomeScreen = () => {
     dashboardList &&
     dashboardList.filter(item => item.newsType === TaxNewsType);
 
-  console.log(TaxfilteredList, 'TaxfilteredListt');
+  // console.log(TaxfilteredList, 'TaxfilteredListt');
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -177,34 +177,38 @@ const HomeScreen = () => {
       <View style={styles.cardShadow}>
         <Image
           source={item.img}
-          style={
-            item.id == 1 || item.id == 2
-              ? styles.Slidericons1
-              : styles.Slidericons
-          }
+          style={styles.Slidericons1}
+        // style={
+        //   item.id == 1 || item.id == 2
+        //     ? styles.Slidericons1
+        //     : styles.Slidericons
+        // }
         />
       </View>
       <View>
         <Text style={styles.postText}>{item.Title}</Text>
       </View>
-      <View style={{ padding: 5 }}>
-        <Text numberOfLines={3} style={styles.sliderText}>
+      <View style={{ padding: 1 }}>
+        <Text style={styles.sliderText}>
           {item.subHead}
         </Text>
         <Text style={styles.info}>{item.footHead}</Text>
         <TouchableOpacity style={styles.btn}>
-          <Icon1
-            style={[
-              styles.icon,
-              {
-                color: '#fff',
-              },
-            ]}
-            name="phone-in-talk"
-            size={20}
-            color="#fff"
-          />
-          <Text style={{ color: '#fff', marginLeft: 10 }}>987654</Text>
+          <View style={{ width: wp(10), }}>
+            <Icon1
+              style={[
+                styles.icon,
+                {
+                  color: '#fff',
+                },
+              ]}
+              name="phone-in-talk"
+              size={25}
+              color="#fff"
+            />
+          </View>
+
+          <Text style={{ color: '#fff', fontFamily: 'Poppins-SemiBold', width: wp(30), fontSize: 12 }}>888-Y-TAXLEAF</Text>
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -216,36 +220,48 @@ const HomeScreen = () => {
           style={styles.bgImg}
           resizeMode="cover"> */}
       <Loader flag={loader} />
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
         {/* <Text style={styles.heading}>
           Thank you for being our client since 2023
         </Text> */}
 
-      <HeadTabs/>
+        <HeadTabs />
 
         <View style={{ flex: 1, marginTop: 20, marginLeft: 20 }}>
+
           <Carousel
             loop
             width={width}
-            height={width}
+            height={wp(90)}
             autoPlay={true}
             data={data}
             scrollAnimationDuration={3000}
             // onSnapToItem={index => console.log('current index:', index)}
             renderItem={renderItem}
+            style={{
+              borderRadius: 20,
+              // backgroundColor: 'red'
+              // Adjust the value as needed
+              //overflow: 'hidden',
+            }}
+
           />
+
         </View>
 
         <View style={styles.slideContainer}>
           <Image
-            source={require('../Assets/profileBlank.png')}
+            source={require('../Assets/profileBlank1.png')}
             style={styles.profileImg}
           />
           <Text style={styles.headText}>
             {MANAGER_INFO?.managerInfo?.firstName}{' '}
             {MANAGER_INFO?.managerInfo?.lastName}
           </Text>
-          <Text style={styles.headText1}>Get in Touch !</Text>
+          <Text style={styles.headText1}>Get in Touch!</Text>
           <ScrollView nestedScrollEnabled={true}>
             <View style={styles.infoHead}>
               <Text style={styles.infoHeadText}> Office Information</Text>
@@ -261,7 +277,7 @@ const HomeScreen = () => {
               {MANAGER_INFO?.officeInfo?.phone}
             </Text>
             <Text style={styles.ofcInfotxt}>
-              <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
+              <Icon style={styles.icon} name="mail" size={16} color="#000" />{' '}
               {MANAGER_INFO?.officeInfo?.email}
             </Text>
             <View style={styles.infoHead}>
@@ -275,18 +291,18 @@ const HomeScreen = () => {
                 size={20}
                 color="#000"
               />{' '}
-              {MANAGER_INFO?.managerInfo?.phone ? MANAGER_INFO?.managerInfo?.phone :'N/A'}
+              {MANAGER_INFO?.managerInfo?.phone ? MANAGER_INFO?.managerInfo?.phone : 'N/A'}
             </Text>
             <Text style={styles.ofcInfotxt}>
-              <Icon style={styles.icon} name="mail" size={20} color="#000" />{' '}
+              <Icon style={styles.icon} name="mail" size={16} color="#000" />{' '}
               {MANAGER_INFO?.managerInfo?.user}
             </Text>
           </ScrollView>
         </View>
         <View style={{ height: wp(5) }}></View>
-      </ScrollView>
+      </ScrollView >
       {/* </ImageBackground> */}
-    </View>
+    </View >
   );
 };
 
@@ -295,7 +311,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#d5e3e5'
+    backgroundColor: Color.screenBg
   },
   heading: {
     fontSize: 16,
@@ -316,12 +332,14 @@ const styles = StyleSheet.create({
   slideContainer: {
     backgroundColor: '#fff',
     width: wp(90),
+
     justifyContent: 'center',
     alignSelf: 'center',
+
     /// height: 420,
     opacity: 2,
     paddingBottom: 20,
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 20,
     // width:'62%'
   },
@@ -338,57 +356,60 @@ const styles = StyleSheet.create({
     // width:'62%'
   },
   Slidericons: {
-    width: '80%',
-    height: 160,
-    resizeMode: 'contain',
+    width: wp(60),
+    height: wp(40),
+    marginTop: 10,
 
-    // marginTop: 10,
+    resizeMode: 'contain',
     // marginLeft: 20,
     alignSelf: 'center',
   },
   Slidericons1: {
-    width: '60%',
-    height: 140,
+    width: wp(60),
+    height: wp(40),
+    marginTop: 10,
+
     resizeMode: 'contain',
     // marginLeft: 20,
     alignSelf: 'center',
   },
   postText: {
     alignSelf: 'center',
-    color: Color.geen,
-    fontSize: 20,
-    fontWeight: '600',
+    color: Color.green,
+    fontSize: 19,
+    fontFamily:'Poppins-Bold',
     // marginTop: 20,
   },
   sliderText: {
-    color: Color.darkGreen,
-    fontSize: 14,
+    color: Color.headerIconBG,
+    fontSize: 12,
     textAlign: 'center',
-    marginTop: 10,
-    fontWeight:'700'
+    marginTop: 2,
+    fontFamily:'Poppins-SemiBold'
   },
   cardSlider: {
-    flex: 1,
+    // flex: 1,
     //borderWidth: 1,
+    borderRadius: 20,
     backgroundColor: '#fff',
     width: wp(90),
     justifyContent: 'center',
   },
   info: {
-    color: Color.geen,
+    color: Color.green,
     alignSelf: 'center',
-    fontSize: 14,
-    marginTop: 10,
-    fontWeight:'700'
+    fontSize: 16,
+    marginTop: 2,
+    fontFamily: 'Poppins-SemiBold'
   },
   btn: {
-    width: wp(40),
+    width: wp(45),
     alignSelf: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     marginBottom: 30,
     marginTop: 10,
-    backgroundColor: Color.darkGreen,
+    backgroundColor: Color.headerIconBG,
     borderRadius: 30,
     padding: 10,
     alignItems: 'center',
@@ -406,17 +427,20 @@ const styles = StyleSheet.create({
     // marginLeft:110,
     color: Color.darkGreen,
     marginTop: 10,
-    fontWeight: '600',
+fontFamily:'Poppins-SemiBold'
   },
   headText1: {
-    color: Color.darkGreen,
-    marginTop: 30,
-    fontWeight: '600',
+    color: Color.green,
+    marginTop: 10,
+    // fontWeight: '700',
     fontSize: 20,
-    marginLeft: 30,
+    textAlign: "center",
+    fontFamily:'Poppins-Bold'
+
+    //marginLeft: 30,
   },
   infoHead: {
-    backgroundColor: Color.geen,
+    backgroundColor: Color.green,
     padding: 7,
     marginTop: 20,
     width: '82%',
@@ -428,18 +452,20 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     padding: 5,
-    fontWeight: '600',
+    fontFamily: 'Poppins-SemiBold',
   },
   ofcInfotxt: {
     color: Color.darkGreen,
     marginLeft: 30,
     fontSize: 14,
+    fontFamily:'Poppins-Regular',
   },
   ofcInfotxt1: {
     color: '#1F3E50',
     marginLeft: 30,
     justifyContent: 'center',
     margin: 10,
+    fontFamily:'Poppins-Regular'
   },
   moblieSec: {
     // backgroundColor: "lightgrey",
@@ -493,7 +519,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     borderRadius: 50,
     // justifyContent: 'center',
-    marginLeft:5
+    marginLeft: 5
   },
   mobiletoch1: {
     // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
@@ -515,7 +541,7 @@ const styles = StyleSheet.create({
   cardShadow: {
     // backgroundColor: 'red',
     // height: 300,
-    paddingTop: 20,
+    paddingTop: 0,
   },
   bgImg: {
     height: hp(85)

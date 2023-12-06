@@ -140,7 +140,7 @@ const HeadTabs = () => {
         dashboardList &&
         dashboardList.filter(item => item.newsType === TaxNewsType);
 
-    console.log(TaxfilteredList, 'TaxfilteredListt')
+    // console.log(TaxfilteredList, 'TaxfilteredListt')
     return (
         <View>
             <View style={styles.tabsContainer}>
@@ -196,11 +196,11 @@ const HeadTabs = () => {
                                                 {
                                                     color:
                                                         showwhat1 == 'Message'
-                                                            ? Color.headerIconBG
-                                                            : Color.headerIconBG,
+                                                            ? Color.IconTextColor
+                                                            : Color.IconTextColor,
                                                 },
                                             ]}>
-                                            Tax
+                                            Deadlines
                                         </Text>
                                     </View>
                                     <View>
@@ -426,7 +426,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Tax
+                                            Deadlines
                                         </Text>
                                     </View>
                                     <View>
@@ -634,7 +634,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Tax
+                                            Deadlines
                                         </Text>
                                     </View>
                                     <View>
@@ -842,7 +842,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Tax
+                                            Deadlines
                                         </Text>
                                     </View>
                                     <View>
@@ -1057,7 +1057,7 @@ const HeadTabs = () => {
                                             Orders
                                         </Text>
                                     </View>
-                                    <View>
+                                    <View >
                                         <TouchableOpacity
                                             style={[
                                                 styles.mobiletoch,
@@ -1113,7 +1113,7 @@ const HeadTabs = () => {
                                             Tax Returns
                                         </Text>
                                     </View>
-                                    <View>
+                                    <View >
                                         <TouchableOpacity
                                             style={[
                                                 styles.mobiletoch,
@@ -1143,18 +1143,18 @@ const HeadTabs = () => {
                                             />
 
 
-                                            {/* <Text
-                      style={[
-                        styles.ButtonText,
-                        {
-                          color:
-                            showwhat1 == 'Signature'
-                              ? Color.white
-                              : Color.headerIconBG,
-                        },
-                      ]}>
-                      (0)
-                    </Text> */}
+                                                                        {/* <Text
+                                                style={[
+                                                    styles.ButtonText,
+                                                    {
+                                                    color:
+                                                        showwhat1 == 'Signature'
+                                                        ? Color.white
+                                                        : Color.headerIconBG,
+                                                    },
+                                                ]}>
+                                                (0)
+                                                </Text> */}
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -1166,10 +1166,10 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Book Keeping
+                                            BookKeeping
                                         </Text>
                                     </View>
-                                    <View>
+                                    <View >
                                         <TouchableOpacity
                                             style={[
                                                 styles.mobiletoch,
@@ -1191,6 +1191,7 @@ const HeadTabs = () => {
                                                             showwhat2 == 'Gov'
                                                                 ? Color.white
                                                                 : Color.white,
+
                                                     },
                                                 ]}
                                                 name="hand-holding-dollar"
@@ -1199,18 +1200,18 @@ const HeadTabs = () => {
                                             />
 
 
-                                            {/* <Text
-                      style={[
-                        styles.ButtonText,
-                        {
-                          color:
-                            showwhat1 == 'Reminders'
-                              ? Color.white
-                              : Color.headerIconBG,
-                        },
-                      ]}>
-                      (1)
-                    </Text> */}
+                                                                        {/* <Text
+                                                style={[
+                                                    styles.ButtonText,
+                                                    {
+                                                    color:
+                                                        showwhat1 == 'Reminders'
+                                                        ? Color.white
+                                                        : Color.headerIconBG,
+                                                    },
+                                                ]}>
+                                                (1)
+                                                </Text> */}
                                         </TouchableOpacity>
                                         <Text
                                             style={[
@@ -1394,7 +1395,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Book Keeping
+                                            Bookkeeping
                                         </Text>
                                     </View>
                                     <View>
@@ -1621,7 +1622,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Book Keeping
+                                            Bookkeeping
                                         </Text>
                                     </View>
                                     <View>
@@ -1849,7 +1850,7 @@ const HeadTabs = () => {
                                                             : Color.headerIconBG,
                                                 },
                                             ]}>
-                                            Book Keeping
+                                            Bookkeeping
                                         </Text>
                                     </View>
                                     <View>
@@ -2110,7 +2111,7 @@ const HeadTabs = () => {
                 })()}
 
             </View>
-            </View>
+        </View>
     )
 }
 
@@ -2149,63 +2150,67 @@ const styles = StyleSheet.create({
         // alignItems: "center",
         marginTop: 20,
         // marginBottom: 30,
-    
+
         flexDirection: 'row',
         // alignSelf: "center",
-      },
-      emailtoch: {
+    },
+    emailtoch: {
         //  backgroundColor: "lightgray",
-        width: wp(13),
-        height: wp(13),
+        width: wp(12),
+        height: wp(12),
+        paddingTop: 5,
+
+        //  justifyContent: 'center',
+        borderRadius: 50,
+        //marginRight: 6,
+        //marginTop: 10,
+    },
+    emailtochO: {
+        //  backgroundColor: "lightgray",
+        width: wp(12),
+        height: wp(12),
         paddingTop: 5,
         //  justifyContent: 'center',
         borderRadius: 50,
         //marginRight: 6,
         //marginTop: 10,
-      },
-      emailtochO: {
-        //  backgroundColor: "lightgray",
-        width: wp(13),
-        height: wp(13),
-        paddingTop: 5,
-        //  justifyContent: 'center',
-        borderRadius: 50,
-        //marginRight: 6,
-        //marginTop: 10,
-      },
-      ButtonText: {
-        color: '#fff',
+    },
+    ButtonText: {
+
         textAlign: 'center',
-        fontSize: 9,
-      },
-      mobiletoch: {
+
+        fontSize: 8,
+        fontFamily: 'Poppins-Regular'
+    },
+    mobiletoch: {
         // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
         // width: 70,
         // height: 45,
-        width: wp(13),
-        height: wp(13),
+        width: wp(12),
+        height: wp(12),
         //marginTop: 10,
         paddingTop: 5,
         borderRadius: 50,
         // justifyContent: 'center',
-        marginLeft:5
-      },
-      mobiletoch1: {
+        marginLeft: 10
+    },
+    mobiletoch1: {
         // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
         // width: 70,
         // height: 45,
-        width: wp(13),
-        height: wp(13),
+        width: wp(12),
+        height: wp(12),
         //marginTop: 10,
         paddingTop: 5,
         borderRadius: 50,
         // justifyContent: 'center',
         marginRight: 5,
-      },
-      subHead: {
+    },
+    subHead: {
         marginLeft: 30,
         marginTop: 20,
-      },
-        icon: { alignSelf: 'center', marginTop: 5 },
+    },
+    icon: { alignSelf: 'center', marginTop: 5 },
+
 
 })

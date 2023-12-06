@@ -305,8 +305,8 @@ function MyTabBar({state, descriptors, navigation}) {
                   // borderBottomWidth: 2,
                   // borderBottomColor: isFocused ? Color.geen : Color.white,
                   paddingBottom: 5,
-                  fontSize: 10,
-                  fontWeight: 'bold',
+                  fontSize: 9,
+                  fontFamily: 'Poppins-SemiBold',
                 }}>
                 {showlabel}
               </Text>

@@ -23,7 +23,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import CustomHeader from '../Component/CustomHeader';
 import CustomBottomTab from '../Component/CustomBottomTab';
 import { Color } from '../Style';
-import { folderNameList, documentInfobyFolder, uploadFile, generateFileToken, getFileInfo } from '../Redux/Actions/TaxLeaf';
+import { folderNameList, documentInfobyFolder, uploadFile, generateFileToken } from '../Redux/Actions/TaxLeaf';
 import { Loader } from '../Component/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
@@ -60,16 +60,13 @@ const FileCabinet = () => {
   const { FOLDER_LIST } = useSelector(state => state.TaxLeafReducer);
   const { DOCUMENT_INFO_FOLDER } = useSelector(state => state.TaxLeafReducer)
   const { FILE_UPLOAD_TOKEN } = useSelector(state => state.TaxLeafReducer)
-  const { FILE_INFO } = useSelector(state => state.TaxLeafReducer)
-  console.log(FILE_UPLOAD_TOKEN, 'FILE_UPLOAD_TOKEN')
-  console.log(FILE_INFO, 'FILE_INFO')
 
+  console.log(FILE_UPLOAD_TOKEN, 'FILE_UPLOAD_TOKEN')
   const bgImage = require('../Assets/img/guest_shape.png');
   // console.log(docTypeById, 'docTypeById')
   // console.log(value, 'kkkkkk')
   // console.log(FOLDER_LIST, 'FOLDER_LIST')
   // console.log(DOCUMENT_INFO_FOLDER, 'DOCUMENT_INFO_FOLDER')
-  console.log(selectedData, 'selectedData')
   // console.log(value1, 'value1')
   const jsonData = MY_INFO.guestInfo;
   const dataArray = DOCUMENT_INFO_FOLDER ? Object.values(DOCUMENT_INFO_FOLDER) : [];
@@ -86,10 +83,6 @@ const FileCabinet = () => {
 
   // console.log(Array.isArray(dataArray), 'isArray');
   const [fileResponse, setFileResponse] = useState();
-
-
-
-
   async function convertUriToBase64(uri) {
     try {
       // Use RNFS to read the file content
@@ -132,7 +125,7 @@ const FileCabinet = () => {
     return null;
   };
 
-  console.log(filteredReq, 'filteredReq');
+  // console.log(filteredReq, 'filteredReq');
 
   // console.log(selectedData, 'selll');
   const data = [
@@ -259,20 +252,6 @@ const FileCabinet = () => {
 
     // setInfoData(CLIENT_LIST);
   }, []);
-
-  useEffect(() => {
-    setLoader(true);
-
-
-    dispatch(
-      getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation),
-    );
-    setTimeout(() => {
-      setLoader(false);
-    }, 2000);
-
-    // setInfoData(CLIENT_LIST);
-  }, [filteredReq]);
   useEffect(() => {
     if (Array.isArray(FOLDER_LIST)) {
       const filteredFolders = FOLDER_LIST.filter(folder => {
@@ -284,11 +263,6 @@ const FileCabinet = () => {
     }
   }, [FOLDER_LIST])
 
-
-  useEffect(() => {
-
-
-  }, [FILE_INFO])
 
   const documentTypes = (item) => {
     console.log(item, 'itemitemitemitemitem')
@@ -318,7 +292,7 @@ const FileCabinet = () => {
 
   const submitUpload = () => {
     dispatch(
-      uploadFile(MY_INFO, value?.azureFolderName, value1?.documentType, year, period, description, base64File, FILE_UPLOAD_TOKEN?.accessToken, documentsLibraryId, navigation),
+      uploadFile(MY_INFO, value?.azureRenameFolderName1, value1?.documentType, year, period, description, base64File, FILE_UPLOAD_TOKEN?.accessToken, documentsLibraryId, navigation),
     );
     // cancelModal()
   }
@@ -339,215 +313,85 @@ const FileCabinet = () => {
     )
   }, [])
 
-  const renderItem = ({ item }) => {
-
-    const referenceFiles = FILE_INFO[0]?.referenceFiles
-    const matchingReferenceFiles = referenceFiles?.filter(
-      (file) => file.sharepointFolderName === item?.azureFolderName
-    );
-    const numberOfMatchingResults = matchingReferenceFiles?.length;
-    console.log(numberOfMatchingResults, 'numberOfMatchingResults')
-    return (
-      <>
-        {
-          press == true && idRow == item.id ? null :
-            <DataTable.Row
-              key={item.id}
-              onPress={() => { handleRow(item) }}
-
-              style={{
-                backgroundColor:
-                  idRow == item.id && press == true ? '#fff' : '#fff', borderBottomWidth: 1, borderColor: '#d0e4e6'
-              }}>
-              <DataTable.Cell style={{ flex: 3 }}  >
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color:
-                      idRow == item.id && press == true
-                        ? '#2F4050'
-                        : '#676A6C',
-                    fontWeight: '700'
-                  }}>
-                  {item?.azureRenameFolderName1}
-                </Text>
-              </DataTable.Cell>
-              <DataTable.Cell  style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    width: 20,
-                    color:
-                      idRow == item.id && press == true
-                        ? '#2F4050'
-                        : '#676A6C',
-                  }}>
-                   {numberOfMatchingResults}
-                </Text>
-              </DataTable.Cell>
-              <DataTable.Cell  style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color:
-                      idRow == item.id && press == true
-                        ? '#2F4050'
-                        : '#676A6C',
-                  }}>
-                  {/* {idRow == item.id && press == true && DOCUMENT_INFO_FOLDER ? DOCUMENT_INFO_FOLDER.length : '0'} */}
-                 
-                  {item?.status}
-                </Text>
-              </DataTable.Cell>
-            </DataTable.Row>
-
-        }
-
-        {press == true && idRow == item.id ? (
-          <View style={styles.popup}>
-            <TouchableOpacity onPress={() => { handleRowOFF(item) }}>
-              <Text style={styles.popupHead}>{selectedData.azureRenameFolderName1}</Text>
-
-            </TouchableOpacity>
-
-            {/* <View style={styles.row}>
-                          <Text style={styles.popupYear}>2023</Text>
-                          <Text style={{ alignSelf: 'center', marginLeft: 10, fontSize: 14 }}>
-                            (Total :  {DOCUMENT_INFO_FOLDER && DOCUMENT_INFO_FOLDER.length})
-                          </Text>
-                        </View> */}
-
-
-
-
-
-            <DataTable style={styles.container}>
-              <DataTable.Header style={styles.tableHeader1}>
-                <DataTable.Title style={{ flex: 3 }}>
-                  <Text style={styles.headerText1}>Document Type</Text>
-                </DataTable.Title>
-                <DataTable.Title style={{ flex: 1 }}>
-                  <Text style={styles.headerText1}>CreatedAt</Text>
-                </DataTable.Title>
-
-
-              </DataTable.Header>
-              <FlatList
-                contentContainerStyle={{ paddingBottom: 200 }}
-                data={DOCUMENT_INFO_FOLDER}
-                // numColumns={5}
-                keyExtractor={(item, index) => index}
-                renderItem={({ item, index }) => (
-                  <DataTable.Row
-                    key={item.id}
-                    style={{
-                      backgroundColor:
-                        idRow == item.id && press == true ? '#e8f1f2' : '#e8f1f2',
-                    }}>
-                    <DataTable.Cell style={{ flex: 3 }}  >
-                      <Image source={require('../Assets/img/icons/smallFile.png')} />&nbsp;&nbsp;
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          color:
-                            idRow == item.id && press == true
-                              ? '#2F4050'
-                              : '#676A6C',
-                        }}>
-                        {item?.documentType}
-                      </Text>
-                    </DataTable.Cell>
-
-                    <DataTable.Cell style={{ flex: 1 }}>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          width: 20,
-                          color:
-                            idRow == item.id && press == true
-                              ? '#2F4050'
-                              : '#676A6C',
-                        }}>
-                        {moment(item?.createdAt).format('MM-DD-YYYY')}
-                      </Text>
-                    </DataTable.Cell>
-
-
-                  </DataTable.Row>
-                )}
-              />
-
-
-            </DataTable>
-          </View>
-        ) : null}
-      </>
-    )
-  }
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
 
         style={{ backgroundColor: '#d5e3e5' }}
       >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <HeadTabs />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
+
           <Loader flag={loader} />
+
+          <HeadTabs />
 
           {/* <CustomHeader /> */}
           <View style={{ opacity: modalVisible == true ? 0.2 : null }}>
             {/* <Text style={styles.header}>
-                    File{' '}
-                    <Text style={{backgroundColor: '#9DB436', padding: 2}}>Cabinet</Text>
-                  </Text> */}
+          File{' '}
+          <Text style={{backgroundColor: '#9DB436', padding: 2}}>Cabinet</Text>
+        </Text> */}
             <View
               style={{
-                width: '91%',
+                width: wp(90),
                 //     justifyContent: 'center',
                 //  alignSelf: 'center',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                // marginBottom: 20,
+                marginBottom: 20,
                 marginTop: 20,
               }}>
-
-
-              <View
-                style={{
-                  flexDirection: 'column',
-                  justifyContent: 'flex-end',
-                  width: wp(65),
-                  marginTop: 5,
-                  marginLeft: 10,
-                  // marginBottom: wp(5),
-                }}>
-                {/* <Image source={usericon} style={{ width: 20, height: 20 }} /> */}
-                <Text style={{ fontSize: 22, fontWeight: '700', marginBottom: 7 }}>File Cabinet</Text>
-                <Text style={styles.client}>Client ID : EASTSONSPRI</Text>
-              </View>
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'center',
-                  // width: wp(27),
+                  width: wp(25),
+                  borderWidth: 1,
                   padding: 5,
-                  borderRadius: 20,
+                  borderRadius: 10,
                   marginLeft: 15,
-                  // marginBottom: wp(2),
-                  backgroundColor: '#fff',
-                  paddingHorizontal: 10,
-                  height: hp(5),
-                  marginTop: 10
+                  marginBottom: wp(5),
                 }}>
-                <Image source={require('../Assets/img/icons/createAction.png')} style={{ width: 20, height: 20, alignSelf: 'center' }} />
-                <Text style={[styles.client, { alignSelf: 'center', marginLeft: 5, fontWeight: '700' }]}>Add File</Text>
+                <Image source={iconNm} style={{ width: 20, height: 20 }} />
+                <Text style={styles.client}>Add File</Text>
               </TouchableOpacity>
+              {/* <View
+            style={{
+              width: '40%',
+            }}>
+            <Button
+              title="+ Add File"
+              color="#8AB645"
+              onPress={() => setModalVisible(true)}
+            />
+          </View> */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  width: wp(65),
+                  marginTop: 5,
+                  marginLeft: 15,
+                  marginBottom: wp(5),
+                }}>
+                <Image source={usericon} style={{ width: 20, height: 20 }} />
+                <Text style={styles.client}>Client ID : EASTSONSPRI</Text>
+              </View>
+              {/* <View style={{width: '40%', marginLeft: 20}}>
+            <Button
+              title="Back To Home"
+              color="#2F4050"
+              // onPress={() => setModalVisible(true)}
+            />
+          </View> */}
             </View>
 
             <View>
-              <DataTable style={styles.container1}>
+              <DataTable style={styles.container}>
                 <DataTable.Header style={styles.tableHeader}>
                   <DataTable.Title style={{ flex: 3 }}>
                     <Text style={styles.headerText}>Folder Name</Text>
@@ -564,14 +408,140 @@ const FileCabinet = () => {
                   data={filteredReq}
                   // numColumns={5}
                   keyExtractor={(item, index) => index}
-                  renderItem={renderItem}
+                  renderItem={({ item, index }) => (
+                    <DataTable.Row
+                      key={item.id}
+                      onPress={() => { handleRow(item) }}
+                      style={{
+                        backgroundColor:
+                          idRow == item.id && press == true ? '#fff' : null,
+                      }}>
+                      <DataTable.Cell style={{ flex: 3 }}  >
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color:
+                              idRow == item.id && press == true
+                                ? '#2F4050'
+                                : '#676A6C',
+                            fontWeight: '700'
+                          }}>
+                          {item?.azureRenameFolderName1}
+                        </Text>
+                      </DataTable.Cell>
+                      <DataTable.Cell >
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            width: 20,
+                            color:
+                              idRow == item.id && press == true
+                                ? '#2F4050'
+                                : '#676A6C',
+                          }}>
+                          {item?.status}
+                        </Text>
+                      </DataTable.Cell>
+                      <DataTable.Cell>
+                        <Text
+                          style={{
+                            fontSize: 12,
+                            color:
+                              idRow == item.id && press == true
+                                ? '#2F4050'
+                                : '#676A6C',
+                          }}>
+                          {/* {idRow == item.id && press == true && DOCUMENT_INFO_FOLDER ? DOCUMENT_INFO_FOLDER.length : '0'} */}
+                          {item.documentTypeIds.split(',').length}
 
+                        </Text>
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                  )}
                 />
 
 
               </DataTable>
             </View>
+            {press == true ? (
+              <View style={styles.popup}>
+                <Text style={styles.popupHead}>{selectedData.azureFolderName}</Text>
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#3B71CA',
+                    marginVertical: 10,
+                  }}></View>
+                <View style={styles.row}>
+                  <Text style={styles.popupYear}>2023</Text>
+                  <Text style={{ alignSelf: 'center', marginLeft: 10, fontSize: 14 }}>
+                    (Total :  {DOCUMENT_INFO_FOLDER && DOCUMENT_INFO_FOLDER.length})
+                  </Text>
+                </View>
 
+
+
+
+
+                <DataTable style={styles.container}>
+                  <DataTable.Header style={styles.tableHeader1}>
+                    <DataTable.Title style={{ flex: 4 }}>
+                      <Text style={styles.headerText1}>Document Type</Text>
+                    </DataTable.Title>
+                    <DataTable.Title>
+                      <Text style={styles.headerText1}>CreatedAt</Text>
+                    </DataTable.Title>
+
+
+                  </DataTable.Header>
+                  <FlatList
+                    contentContainerStyle={{ paddingBottom: 200 }}
+                    data={DOCUMENT_INFO_FOLDER}
+                    // numColumns={5}
+                    keyExtractor={(item, index) => index}
+                    renderItem={({ item, index }) => (
+                      <DataTable.Row
+                        key={item.id}
+                        style={{
+                          backgroundColor:
+                            idRow == item.id && press == true ? '#fff' : null,
+                        }}>
+                        <DataTable.Cell style={{ flex: 4 }}  >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              color:
+                                idRow == item.id && press == true
+                                  ? '#2F4050'
+                                  : '#676A6C',
+                            }}>
+                            {item?.documentType}
+                          </Text>
+                        </DataTable.Cell>
+
+                        <DataTable.Cell >
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              width: 20,
+                              color:
+                                idRow == item.id && press == true
+                                  ? '#2F4050'
+                                  : '#676A6C',
+                            }}>
+                            {moment(item?.createdAt).format('MM-DD-YYYY')}
+                          </Text>
+                        </DataTable.Cell>
+
+
+                      </DataTable.Row>
+                    )}
+                  />
+
+
+                </DataTable>
+              </View>
+            ) : null}
           </View>
           {/* <CustomBottomTab /> */}
           <Modal
@@ -795,14 +765,6 @@ const FileCabinet = () => {
 
 export default FileCabinet;
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignSelf: 'center'
-  },
-  container1: {
-    width: '95%',
-    alignSelf: 'center'
-  },
   popupHead: {
     fontSize: 14,
     color: '#fff',
@@ -810,8 +772,7 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
     backgroundColor: '#2F4050',
     padding: 10,
-    height: wp(12),
-    fontWeight: '700'
+    height: wp(10),
   },
   Subheading: {
     fontSize: 20,
@@ -824,12 +785,13 @@ const styles = StyleSheet.create({
     color: '#2F4050',
   },
   popup: {
-    width: '100%',
+    width: wp(100),
     alignSelf: 'center',
     //height: 90,
-    // padding: 10,
+    backgroundColor: '#fff',
+    padding: 10,
     opacity: 10,
-    // marginTop: 50,
+    marginTop: 50,
   },
   formContainer: {
     backgroundColor: '#2F4050',
@@ -842,8 +804,7 @@ const styles = StyleSheet.create({
 
   row: { flexDirection: 'row', alignItems: 'baseline', width: wp(100) },
   tableHeader: {
-    backgroundColor: '#8fc461',
-
+    backgroundColor: '#2F4050',
   },
   tableHeader1: {
     backgroundColor: 'lightblue',
@@ -851,14 +812,9 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: '#fff',
-    fontWeight: '700',
-    width:wp(30),
-    alignItems:'center',
-    justifyContent:'center'
   },
   headerText1: {
-    color: '#444747',
-    fontWeight: '700'
+    color: '#000',
   },
   header: {
     fontSize: 28,
@@ -871,8 +827,8 @@ const styles = StyleSheet.create({
   },
 
   client: {
+    marginLeft: 10,
     fontSize: 12,
-    fontWeight: '700'
   },
 
   centeredView: {

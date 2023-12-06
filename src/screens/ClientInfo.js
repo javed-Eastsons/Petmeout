@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,20 +10,21 @@ import {
   ScrollView,
   ImageBackground
 } from 'react-native';
-import {DataTable} from 'react-native-paper';
+import { DataTable } from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   clientInfo,
   ClientInfoList,
   client_Detail,
 } from '../Redux/Actions/TaxLeaf';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {Loader} from '../Component/Loader';
-import {Color} from '../Style';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { Loader } from '../Component/Loader';
+import { Color } from '../Style';
+import HeadTabs from './HeadTabs';
 
 const data = [
   {
@@ -81,9 +82,9 @@ const data = [
 const ClientInfo = () => {
   const [showwhat, setshowwhat] = useState('Experience');
 
-  const {MY_INFO} = useSelector(state => state.TaxLeafReducer);
-  const {CLIENT_LIST} = useSelector(state => state.TaxLeafReducer);
-  const {LOGIN_DATA} = useSelector(state => state.TaxLeafReducer);
+  const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
+  const { CLIENT_LIST } = useSelector(state => state.TaxLeafReducer);
+  const { LOGIN_DATA } = useSelector(state => state.TaxLeafReducer);
   console.log(LOGIN_DATA.staffview.user, 'Login_DataLogin_DataLogin_Data');
   // console.log(MY_INFO.guestInfo, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
   // console.log(MY_INFO.guestInfo, 'CLIENT_LISTCLIENT_LISTCLIENT_LIST');
@@ -170,80 +171,81 @@ const ClientInfo = () => {
     <View style={[styles.main]}>
       <View
 
-style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
->
-      <Loader flag={loader} />
-      {/* <Text
+        style={{ backgroundColor: '#d5e3e5', height: hp(85) }}
+      >
+        <HeadTabs />
+        <Loader flag={loader} />
+        {/* <Text
         style={{fontSize: 28, color: '#000', marginTop: 10, marginLeft: 20}}>
         Clients
       </Text> */}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: 10,
-          width: wp(100),
-        }}>
         <View
           style={{
-            width: wp(30),
-            height: 50,
-            borderWidth: 1,
-            borderRadius: 10,
-            borderColor: Color.geen,
+            flexDirection: 'row',
             justifyContent: 'center',
-            backgroundColor: Color.white,
-            alignItems: 'center',
+            marginTop: 10,
+            width: wp(100),
           }}>
-          <Text style={[styles.head]}>
-            Total Clients {infoData.length}
-            {/* <View style={[styles.headNum]}>
+          <View
+            style={{
+              width: wp(30),
+              height: 50,
+              borderWidth: 1,
+              borderRadius: 10,
+              borderColor: Color.geen,
+              justifyContent: 'center',
+              backgroundColor: Color.white,
+              alignItems: 'center',
+            }}>
+            <Text style={[styles.head]}>
+              Total Clients {infoData.length}
+              {/* <View style={[styles.headNum]}>
               <Text style={[styles.textNum]}>3</Text>
             </View> */}
-          </Text>
-        </View>
-        <View
-          style={{
-            width: wp(30),
-            height: 50,
-            marginLeft: 10,
-            marginRight: 10,
-            justifyContent: 'center',
-            borderWidth: 1,
-            borderRadius: 10,
-            borderColor: Color.geen,
-            justifyContent: 'center',
-            backgroundColor: Color.white,
-            alignItems: 'center',
-          }}>
-          <Text style={[styles.head]}>
-            Business {countBusiness}
-            {/* <View style={[styles.headNum]}>
+            </Text>
+          </View>
+          <View
+            style={{
+              width: wp(30),
+              height: 50,
+              marginLeft: 10,
+              marginRight: 10,
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderRadius: 10,
+              borderColor: Color.geen,
+              justifyContent: 'center',
+              backgroundColor: Color.white,
+              alignItems: 'center',
+            }}>
+            <Text style={[styles.head]}>
+              Business {countBusiness}
+              {/* <View style={[styles.headNum]}>
               <Text style={[styles.textNum]}>3</Text>
             </View> */}
-          </Text>
-        </View>
-        <View
-          style={{
-            width: wp(30),
-            height: 50,
-            justifyContent: 'center',
-            borderWidth: 1,
-            borderRadius: 10,
-            borderColor: Color.geen,
-            justifyContent: 'center',
-            backgroundColor: Color.white,
-            alignItems: 'center',
-          }}>
-          <Text style={[styles.head]}>
-            Individual {countIndividuals}
-            {/* <View style={[styles.headNum]}>
+            </Text>
+          </View>
+          <View
+            style={{
+              width: wp(30),
+              height: 50,
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderRadius: 10,
+              borderColor: Color.geen,
+              justifyContent: 'center',
+              backgroundColor: Color.white,
+              alignItems: 'center',
+            }}>
+            <Text style={[styles.head]}>
+              Individual {countIndividuals}
+              {/* <View style={[styles.headNum]}>
               <Text style={[styles.textNum]}>3</Text>
             </View> */}
-          </Text>
-        </View>
+            </Text>
+          </View>
 
-        {/* <Text style={[styles.head]}>
+          {/* <Text style={[styles.head]}>
           Business{' '}
           <View style={[styles.headNum1]}>
             <Text style={[styles.textNum]}>2</Text>
@@ -256,19 +258,19 @@ style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
             <Text style={[styles.textNum]}>0</Text>
           </View>
         </Text> */}
-      </View>
-      <View
-        style={{
-          width: wp(90),
-          backgroundColor: Color.geen,
-          alignItems: 'center',
-          alignSelf: 'center',
-          elevation: 10,
-          marginTop: 30,
-          flexDirection: 'row',
-          height: wp(10),
-        }}>
-        {/* <View
+        </View>
+        <View
+          style={{
+            width: wp(90),
+            backgroundColor: Color.geen,
+            alignItems: 'center',
+            alignSelf: 'center',
+            elevation: 10,
+            marginTop: 30,
+            flexDirection: 'row',
+            height: wp(10),
+          }}>
+          {/* <View
           style={{
             width: wp(15),
 
@@ -284,60 +286,60 @@ style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
             }}
           />
         </View> */}
-        <View
-          style={{
-            width: wp(20),
-
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#fff', fontSize: 12}}>Client ID</Text>
-        </View>
-        <View
-          style={{
-            width: wp(25),
-
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#fff', fontSize: 12}}> Client Name</Text>
-        </View>
-        <View
-          style={{
-            width: wp(25),
-
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#fff', fontSize: 12}}> Type</Text>
-        </View>
-
-        <View
-          style={{
-            width: wp(20),
-
-            alignItems: 'center',
-          }}>
-          <Text style={{color: '#fff', fontSize: 12}}>Client</Text>
-        </View>
-      </View>
-
-      <FlatList
-        data={infoData}
-        // numColumns={5}
-        keyExtractor={(item, index) => index}
-        renderItem={({item, index}) => (
           <View
             style={{
-              width: wp(90),
-              backgroundColor: '#fff',
+              width: wp(20),
 
               alignItems: 'center',
-              alignSelf: 'center',
-              elevation: 10,
-
-              marginBottom: 10,
-              flexDirection: 'row',
-              height: wp(15),
             }}>
-            {/* <View
+            <Text style={{ color: '#fff', fontSize: 12 }}>Client ID</Text>
+          </View>
+          <View
+            style={{
+              width: wp(25),
+
+              alignItems: 'center',
+            }}>
+            <Text style={{ color: '#fff', fontSize: 12 }}> Client Name</Text>
+          </View>
+          <View
+            style={{
+              width: wp(25),
+
+              alignItems: 'center',
+            }}>
+            <Text style={{ color: '#fff', fontSize: 12 }}> Type</Text>
+          </View>
+
+          <View
+            style={{
+              width: wp(20),
+
+              alignItems: 'center',
+            }}>
+            <Text style={{ color: '#fff', fontSize: 12 }}>Client</Text>
+          </View>
+        </View>
+
+        <FlatList
+          data={infoData}
+          // numColumns={5}
+          keyExtractor={(item, index) => index}
+          renderItem={({ item, index }) => (
+            <View
+              style={{
+                width: wp(90),
+                backgroundColor: '#fff',
+
+                alignItems: 'center',
+                alignSelf: 'center',
+                elevation: 10,
+
+                marginBottom: 10,
+                flexDirection: 'row',
+                height: wp(15),
+              }}>
+              {/* <View
               style={{
                 width: wp(15),
 
@@ -353,68 +355,68 @@ style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
                 }}
               />
             </View> */}
-            <View
-              style={{
-                width: wp(20),
-                paddingLeft: 10,
-                //  backgroundColor: 'red',
-                //   alignItems: 'center',
-              }}>
-              <Text
-                numberOfLines={1}
-                style={{color: Color.darkGreen, fontSize: 10}}>
-                {item?.subClientInfo?.subClientPracticeId}
-              </Text>
-            </View>
-            <View
-              style={{
-                width: wp(25),
+              <View
+                style={{
+                  width: wp(20),
+                  paddingLeft: 10,
+                  //  backgroundColor: 'red',
+                  //   alignItems: 'center',
+                }}>
+                <Text
+                  numberOfLines={1}
+                  style={{ color: Color.darkGreen, fontSize: 10 }}>
+                  {item?.subClientInfo?.subClientPracticeId}
+                </Text>
+              </View>
+              <View
+                style={{
+                  width: wp(25),
 
-                alignItems: 'center',
-              }}>
-              <Text style={{color: Color.darkGreen, fontSize: 10}}>
-                {item?.subClientInfo?.subClientName}
-              </Text>
-            </View>
+                  alignItems: 'center',
+                }}>
+                <Text style={{ color: Color.darkGreen, fontSize: 10 }}>
+                  {item?.subClientInfo?.subClientName}
+                </Text>
+              </View>
 
-            <View
-              style={{
-                width: wp(25),
+              <View
+                style={{
+                  width: wp(25),
 
-                alignItems: 'center',
-              }}>
-              <Text style={{color: Color.darkGreen, fontSize: 10}}>
-                {item?.subClientInfo?.subClientType}
-              </Text>
-            </View>
+                  alignItems: 'center',
+                }}>
+                <Text style={{ color: Color.darkGreen, fontSize: 10 }}>
+                  {item?.subClientInfo?.subClientType}
+                </Text>
+              </View>
 
-            <View
-              style={{
-                width: wp(20),
+              <View
+                style={{
+                  width: wp(20),
 
-                alignItems: 'center',
-              }}>
-              {/* <Text style={{color: '#2F4050', fontSize: 12}}>
+                  alignItems: 'center',
+                }}>
+                {/* <Text style={{color: '#2F4050', fontSize: 12}}>
                 {item.associationType}
               </Text> */}
-              <TouchableOpacity onPress={() => GetClientDetail(item)}>
-                <Image
-                  source={require('../Assets/img/icons/view.png')}
-                  style={{
-                    width: 20,
-                    height: 20,
-                    alignSelf: 'center',
-                    borderRadius: 50,
-                    //alignSelf: 'center',
-                  }}
-                />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => GetClientDetail(item)}>
+                  <Image
+                    source={require('../Assets/img/icons/view.png')}
+                    style={{
+                      width: 20,
+                      height: 20,
+                      alignSelf: 'center',
+                      borderRadius: 50,
+                      //alignSelf: 'center',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
 
-      {/* {(() => {
+        {/* {(() => {
         if (showwhat == 'Experience') {
           return (
             <View style={styles.moblieSec}>
@@ -501,7 +503,7 @@ style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
         }
       })()} */}
 
-      {/* {(() => {
+        {/* {(() => {
         if (showwhat == 'Experience') {
           return (
             <View
@@ -659,12 +661,12 @@ style={{ backgroundColor: '#d5e3e5',height:hp(85) }}
             </View>
           );
         } else { */}
-      {/* return ( */}
-      <ScrollView></ScrollView>
-      {/* //       );
+        {/* return ( */}
+        <ScrollView></ScrollView>
+        {/* //       );
         // }
     //   })()} */}
-    </View>
+      </View>
     </View>
   );
 };
@@ -835,7 +837,7 @@ const styles = StyleSheet.create({
     // elevation:2
   },
   shadowPropCenter: {
-    shadowOffset: {width: 8, height: 10},
+    shadowOffset: { width: 8, height: 10 },
     shadowColor: 'grey',
     shadowOpacity: 0.5,
     shadowRadius: 3,
@@ -949,7 +951,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  bgImg:{
-    height:hp(85)
+  bgImg: {
+    height: hp(85)
   }
 });
