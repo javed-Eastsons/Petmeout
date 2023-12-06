@@ -338,13 +338,29 @@ const FileCabinet = () => {
       generateFileToken()
     )
   }, [])
-
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setLoader(true);
+      dispatch(
+        getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation),
+      );
+      setTimeout(() => {
+        setLoader(false);
+      }, 2000);
+    });
+    return unsubscribe;
+  }, [navigation]);
   const renderItem = ({ item }) => {
 
     const referenceFiles = FILE_INFO[0]?.referenceFiles
     const matchingReferenceFiles = referenceFiles?.filter(
-      (file) => file.sharepointFolderName === item?.azureFolderName
+      (file) => {file.sharepointFolderName === item?.azureFolderName
+
+      }
+
     );
+    
+    console.log(matchingReferenceFiles,'JKJKJKJKJK')
     const numberOfMatchingResults = matchingReferenceFiles?.length;
     console.log(numberOfMatchingResults, 'numberOfMatchingResults')
     return (
@@ -454,7 +470,7 @@ const FileCabinet = () => {
                               ? '#2F4050'
                               : '#676A6C',
                         }}>
-                        {item?.documentType}
+                        {numberOfMatchingResults[0]?.fileName}
                       </Text>
                     </DataTable.Cell>
 
