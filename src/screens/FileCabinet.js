@@ -51,6 +51,7 @@ const FileCabinet = () => {
 
   const [isFocus, setIsFocus] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [FilesInFolder , setFIlesInFolder]= useState()
   const [filteredReq, setFilteredReq] = useState();
   const [docTypeById, setDocTypeById] = useState();
   const [base64File, setBase64File] = useState();
@@ -77,7 +78,7 @@ const FileCabinet = () => {
   const isPeriodPresent = value1?.variables.includes("period");
   const isdescriptionPresent = value1?.variables.includes("description");
   const documentsLibraryId = FILE_UPLOAD_TOKEN?.librarylist?.find(library => library?.name === 'Documents')?.id;
-
+  const referenceFiles = FILE_INFO[0]?.referenceFiles
   console.log(documentsLibraryId, 'documentsLibraryId')
   // console.log(MY_INFO, 'jsonData')
 
@@ -316,12 +317,52 @@ const FileCabinet = () => {
     // setInfoData(CLIENT_LIST);
   }, [documentId]);
 
-  const submitUpload = () => {
-    dispatch(
-      uploadFile(MY_INFO, value?.azureFolderName, value1?.documentType, year, period, description, base64File, FILE_UPLOAD_TOKEN?.accessToken, documentsLibraryId, navigation),
+  // const submitUpload = () => {
+  //   setLoader(true);
+  //   dispatch(
+  //     uploadFile(MY_INFO, value?.azureFolderName, value1?.documentType, year, period, description, base64File, FILE_UPLOAD_TOKEN?.accessToken, documentsLibraryId, navigation),
+  //   );
+  //   dispatch(
+  //     getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation),
+  //   );
+  //   cancelModal()
+   
+  //   setTimeout(() => {
+  //     setLoader(false);
+  //   }, 2000);
+  //   // cancelModal()
+  // }
+
+
+  const submitUpload = async () => {
+    setLoader(true);
+    await dispatch(
+      uploadFile(
+        MY_INFO,
+        value?.azureFolderName,
+        value1?.documentType,
+        year,
+        period,
+        description,
+        base64File,
+        FILE_UPLOAD_TOKEN?.accessToken,
+        documentsLibraryId,
+        navigation
+      )
     );
-    // cancelModal()
-  }
+  
+    await dispatch(getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+  
+    // Access numberOfMatchingResults after getFileInfo has completed
+    const numberOfMatchingResults = FILE_INFO[0]?.referenceFiles
+      ?.filter(file => file.sharepointFolderName === selectedData?.azureFolderName)?.length;
+  
+    console.log(numberOfMatchingResults, 'numberOfMatchingResults');
+  
+      setLoader(false);
+    cancelModal();
+  };
+
   useEffect(() => {
     documentTypes(value)
   }, [value])
@@ -347,22 +388,35 @@ const FileCabinet = () => {
       setTimeout(() => {
         setLoader(false);
       }, 2000);
+      
     });
     return unsubscribe;
   }, [navigation]);
+
+  function getFilesByFolder(azureFolderName, referenceFiles) {
+    const matchingFiles = referenceFiles?.filter(file => file.sharepointFolderName === azureFolderName)?.map(file => file?.fileName);
+
+    return matchingFiles;
+  }
+  useEffect(() => {
+    const filesInFolder = getFilesByFolder(selectedData?.azureFolderName, referenceFiles);
+    setFIlesInFolder(filesInFolder)
+    console.log(filesInFolder, 'filesInFolder')
+  }, [selectedData])
+
+
   const renderItem = ({ item }) => {
 
     const referenceFiles = FILE_INFO[0]?.referenceFiles
+
+
     const matchingReferenceFiles = referenceFiles?.filter(
-      (file) => {file.sharepointFolderName === item?.azureFolderName
-
-      }
-
+      (file) => file.sharepointFolderName.trim().toLowerCase() === item?.azureFolderName.trim().toLowerCase()
     );
-    
-    console.log(matchingReferenceFiles,'JKJKJKJKJK')
+
     const numberOfMatchingResults = matchingReferenceFiles?.length;
-    console.log(numberOfMatchingResults, 'numberOfMatchingResults')
+
+
     return (
       <>
         {
@@ -378,17 +432,17 @@ const FileCabinet = () => {
               <DataTable.Cell style={{ flex: 3 }}  >
                 <Text
                   style={{
-                    fontSize: 12,
+                    fontSize: 11,
                     color:
                       idRow == item.id && press == true
                         ? '#2F4050'
                         : '#676A6C',
-                    fontWeight: '700'
+                    fontFamily:'Poppins-SemiBold'
                   }}>
                   {item?.azureRenameFolderName1}
                 </Text>
               </DataTable.Cell>
-              <DataTable.Cell  style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
+              <DataTable.Cell style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
                 <Text
                   style={{
                     fontSize: 12,
@@ -398,10 +452,11 @@ const FileCabinet = () => {
                         ? '#2F4050'
                         : '#676A6C',
                   }}>
-                   {numberOfMatchingResults}
+
+                  {item?.status}
                 </Text>
               </DataTable.Cell>
-              <DataTable.Cell  style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
+              <DataTable.Cell style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
                 <Text
                   style={{
                     fontSize: 12,
@@ -411,8 +466,8 @@ const FileCabinet = () => {
                         : '#676A6C',
                   }}>
                   {/* {idRow == item.id && press == true && DOCUMENT_INFO_FOLDER ? DOCUMENT_INFO_FOLDER.length : '0'} */}
-                 
-                  {item?.status}
+                  {numberOfMatchingResults}
+
                 </Text>
               </DataTable.Cell>
             </DataTable.Row>
@@ -440,17 +495,17 @@ const FileCabinet = () => {
             <DataTable style={styles.container}>
               <DataTable.Header style={styles.tableHeader1}>
                 <DataTable.Title style={{ flex: 3 }}>
-                  <Text style={styles.headerText1}>Document Type</Text>
+                  <Text style={styles.headerText1}>File Name</Text>
                 </DataTable.Title>
-                <DataTable.Title style={{ flex: 1 }}>
+                {/* <DataTable.Title style={{ flex: 1 }}>
                   <Text style={styles.headerText1}>CreatedAt</Text>
-                </DataTable.Title>
+                </DataTable.Title> */}
 
 
               </DataTable.Header>
               <FlatList
                 contentContainerStyle={{ paddingBottom: 200 }}
-                data={DOCUMENT_INFO_FOLDER}
+                data={FilesInFolder}
                 // numColumns={5}
                 keyExtractor={(item, index) => index}
                 renderItem={({ item, index }) => (
@@ -469,12 +524,13 @@ const FileCabinet = () => {
                             idRow == item.id && press == true
                               ? '#2F4050'
                               : '#676A6C',
+                              fontFamily:'Poppins-Regular'
                         }}>
-                        {numberOfMatchingResults[0]?.fileName}
+                        {item}
                       </Text>
                     </DataTable.Cell>
 
-                    <DataTable.Cell style={{ flex: 1 }}>
+                    {/* <DataTable.Cell style={{ flex: 1 }}>
                       <Text
                         style={{
                           fontSize: 12,
@@ -486,7 +542,7 @@ const FileCabinet = () => {
                         }}>
                         {moment(item?.createdAt).format('MM-DD-YYYY')}
                       </Text>
-                    </DataTable.Cell>
+                    </DataTable.Cell> */}
 
 
                   </DataTable.Row>
@@ -539,7 +595,7 @@ const FileCabinet = () => {
                   // marginBottom: wp(5),
                 }}>
                 {/* <Image source={usericon} style={{ width: 20, height: 20 }} /> */}
-                <Text style={{ fontSize: 22, fontWeight: '700', marginBottom: 7 }}>File Cabinet</Text>
+                <Text style={{ fontSize: 20, fontFamily:'Poppins-Bold', marginBottom: 5 }}>File Cabinet</Text>
                 <Text style={styles.client}>Client ID : EASTSONSPRI</Text>
               </View>
               <TouchableOpacity
@@ -558,7 +614,7 @@ const FileCabinet = () => {
                   marginTop: 10
                 }}>
                 <Image source={require('../Assets/img/icons/createAction.png')} style={{ width: 20, height: 20, alignSelf: 'center' }} />
-                <Text style={[styles.client, { alignSelf: 'center', marginLeft: 5, fontWeight: '700' }]}>Add File</Text>
+                <Text style={[styles.client, { alignSelf: 'center', marginLeft: 5, fontFamily:'Poppins-Bold' ,marginTop:3}]}>Add File</Text>
               </TouchableOpacity>
             </View>
 
@@ -571,7 +627,7 @@ const FileCabinet = () => {
                   <DataTable.Title>
                     <Text style={styles.headerText}>Leafcloud</Text>
                   </DataTable.Title>
-                  <DataTable.Title>
+                  <DataTable.Title style={{marginLeft:10,width:wp(30)}}>
                     <Text style={styles.headerText}>My Files</Text>
                   </DataTable.Title>
                 </DataTable.Header>
@@ -827,7 +883,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2F4050',
     padding: 10,
     height: wp(12),
-    fontWeight: '700'
+    fontFamily:'Poppins-SemiBold'
   },
   Subheading: {
     fontSize: 20,
@@ -867,14 +923,14 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: '#fff',
-    fontWeight: '700',
-    width:wp(30),
-    alignItems:'center',
-    justifyContent:'center'
+    fontFamily:'Poppins-SemiBold',
+    width: wp(30),
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   headerText1: {
     color: '#444747',
-    fontWeight: '700'
+    fontFamily:'Poppins-SemiBold'
   },
   header: {
     fontSize: 28,
@@ -888,7 +944,7 @@ const styles = StyleSheet.create({
 
   client: {
     fontSize: 12,
-    fontWeight: '700'
+    fontFamily:'Poppins-SemiBold'
   },
 
   centeredView: {

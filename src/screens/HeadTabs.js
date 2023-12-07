@@ -1164,6 +1164,7 @@ const HeadTabs = () => {
                                                         showwhat1 == 'Message'
                                                             ? Color.headerIconBG
                                                             : Color.headerIconBG,
+                                                            marginLeft:5
                                                 },
                                             ]}>
                                             BookKeeping
@@ -1393,6 +1394,7 @@ const HeadTabs = () => {
                                                         showwhat1 == 'Message'
                                                             ? Color.headerIconBG
                                                             : Color.headerIconBG,
+                                                            marginLeft:5
                                                 },
                                             ]}>
                                             Bookkeeping
@@ -1620,6 +1622,7 @@ const HeadTabs = () => {
                                                         showwhat1 == 'Message'
                                                             ? Color.headerIconBG
                                                             : Color.headerIconBG,
+                                                            marginLeft:5
                                                 },
                                             ]}>
                                             Bookkeeping
@@ -1848,6 +1851,7 @@ const HeadTabs = () => {
                                                         showwhat1 == 'Message'
                                                             ? Color.headerIconBG
                                                             : Color.headerIconBG,
+                                                            marginLeft:5
                                                 },
                                             ]}>
                                             Bookkeeping
@@ -2180,7 +2184,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
 
         fontSize: 8,
-        fontFamily: 'Poppins-Regular'
+        fontFamily: 'Poppins-Regular',
     },
     mobiletoch: {
         // backgroundColor: showwhat == "My Schools" ? "#2F5597" : "lightgray",
