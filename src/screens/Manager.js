@@ -25,6 +25,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Loader } from '../Component/Loader';
 import CustomBottomTab from '../Component/CustomBottomTab';
 import { Color } from '../Style';
+import HeadTabs from './HeadTabs';
 
 const Manager = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,51 +68,87 @@ const Manager = () => {
       <Loader flag={loader} />
       <CustomHeader />
       <ScrollView style={{ height: hp(80) }}>
+       
         <View style={{ backgroundColor: '#d5e3e5' }}>
-          {/* <Text
-          style={{fontSize: 16, color: '#000', marginTop: 10, marginLeft: 20}}>
-          Client Manager Profile
-        </Text> */}
+        <HeadTabs/>
 
           <View
             style={modalVisible ? styles.mainContainer1 : styles.mainContainer}>
-            <View style={{ textAlign: 'center' }}>
-              <View style={{ textAlign: 'center' }}>
-                <Image
-                  source={require('../Assets/profileBlank.png')}
-                  style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: 50,
-                    alignSelf: 'center',
-                  }}
-                />
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    color: '#000',
-                    margin: 10,
-                    fontWeight: '700',
-                    fontSize: 16,
-                  }}>
-                  {infoData?.managerInfo?.firstName}{' '}
-                  {infoData?.managerInfo?.lastName}
-                </Text>
-              </View>
-              {/* <Text
-              style={{textAlign: 'center', color: '#000', marginBottom: 10}}>
-              Prince Eastsons
-            </Text> */}
-              <View style={{ width: '60%', alignSelf: 'center', marginBottom: 20 }}>
-                <Button
-                  title="+ Submit Your Request"
-                  color="#2F4050"
-                  onPress={() => setModalVisible(true)}
-                />
-              </View>
+            <View
+              style={{
+                width: '90%',
+                // marginTop: 10,
+                // marginBottom: 20,
+                marginLeft: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-between'
+              }}>
+              <Text style={{ fontSize: 22, fontFamily: 'Poppins-Bold', marginTop: 10, color: Color.headerIconBG }}>Manager</Text>
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  // width: wp(27),
+                  padding: 5,
+                  borderRadius: 20,
+                  // marginLeft: 15,
+                  // marginBottom: wp(2),
+                  backgroundColor: '#fff',
+                  paddingHorizontal: 10,
+                  height: hp(6),
+                  marginTop: 4
+                }}>
+                <Image source={require('../Assets/img/icons/createAction.png')} style={{ width: 25, height: 25, alignSelf: 'center' }} />
+                <Text style={[styles.client, { alignSelf: 'center', marginLeft: 5, fontFamily: 'Poppins-Bold', fontSize: 13, marginTop: 5 }]}>Submit Your Request</Text>
+              </TouchableOpacity>
+              {/* <Button
+            title="+ New Request"
+            color="#2F4050"
+
+            // onPress={() => setModalVisible(true)}
+          /> */}
             </View>
             <View>
               <View style={styles.infoSec}>
+                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                  <Image
+                    source={require('../Assets/profileBlank.png')}
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: 50,
+                      alignSelf: 'center',
+                      marginLeft: 10
+                    }}
+                  />
+                  <View>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: '#fff',
+                        marginTop: 10,
+                        fontFamily: 'Poppins-Bold',
+                        fontSize: 18,
+                        marginLeft: 10
+                      }}>
+                      {infoData?.managerInfo?.firstName}{' '}
+                      {infoData?.managerInfo?.lastName}
+                    </Text>
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        color: '#90c460',
+
+                        fontFamily: 'Poppins-SemiBold',
+                        fontSize: 14,
+                        marginRight:25
+                      }}>
+                      Manager
+                    </Text>
+                  </View>
+
+                </View>
                 <Text style={styles.infoSecText}>
                   Hi! My name is{' '}
                   <Text style={{ fontWeight: '800' }}>
@@ -132,23 +169,22 @@ const Manager = () => {
                 elevation: 10,
                 marginBottom: 20,
                 alignSelf: 'center',
-                borderRadius: 10,
+                // borderRadius: 10,
                 paddingBottom: 20,
               }}>
               <View
                 style={{
-                  height: 50,
-                  borderTopStartRadius: 10,
-                  borderTopRightRadius: 10,
+                  height: 40,
+
                   width: wp(90),
                   paddingLeft: 10,
                   alignSelf: 'center',
                   justifyContent: 'center',
-                  backgroundColor: Color.darkGreen,
+                  backgroundColor: Color.green,
                 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff' }}>
-                    MY INFO:
+                  <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold', color: '#fff' }}>
+                    MY INFO
                   </Text>
                 </Text>
               </View>
@@ -156,20 +192,23 @@ const Manager = () => {
                 style={{
                   height: 40,
                   backgroundColor: '#fff',
-                  marginTop: 10,
+
                   padding: 10,
                 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Phone:</Text>{' '}
-                  {infoData?.managerInfo?.cell ? infoData?.managerInfo?.cell :'N/A'}
+                  <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Phone:</Text>{' '}
+                  {infoData?.managerInfo?.cell ? infoData?.managerInfo?.cell : 'N/A'}
                 </Text>
               </View>
-              <View style={{ height: 40, marginTop: 10, padding: 10 }}>
+              <View style={styles.partition}></View>
+              <View style={{ height: 40, padding: 10 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Email:</Text>{' '}
+                  <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Email:</Text>{' '}
                   {infoData?.managerInfo?.user}
                 </Text>
               </View>
+              <View style={styles.partition}></View>
+
               <View style={styles.progress}>
                 <Progress.Bar
                   progress={0.3}
@@ -190,23 +229,21 @@ const Manager = () => {
                 elevation: 10,
                 marginBottom: 20,
                 alignSelf: 'center',
-                borderRadius: 10,
                 paddingBottom: 20,
               }}>
               <View
                 style={{
-                  height: 50,
-                  borderTopStartRadius: 10,
-                  borderTopRightRadius: 10,
+                  height: 40,
+
                   width: wp(90),
                   paddingLeft: 10,
                   alignSelf: 'center',
                   justifyContent: 'center',
-                  backgroundColor: Color.darkGreen,
+                  backgroundColor: Color.green,
                 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff' }}>
-                    OFFICE INFO:
+                  <Text style={{ fontSize: 14, fontFamily: 'Poppins-Bold', color: '#fff' }}>
+                    OFFICE INFO
                   </Text>
                 </Text>
               </View>
@@ -215,39 +252,45 @@ const Manager = () => {
                 style={{
                   height: 40,
                   backgroundColor: '#fff',
-                  marginTop: 10,
+
                   padding: 10,
                 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Name:</Text>{' '}
+                  <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Name:</Text>{' '}
                   {infoData?.officeInfo?.name}
                 </Text>
               </View>
+              <View style={styles.partition}></View>
 
-              <View style={{ height: 40, marginTop: 10, padding: 10 }}>
+              <View style={{ height: 40, padding: 10 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Email:</Text>{' '}
+                  <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Email:</Text>{' '}
                   {infoData?.officeInfo?.email}
                 </Text>
               </View>
+              <View style={styles.partition}></View>
+
               <View
                 style={{
                   height: 40,
                   backgroundColor: '#fff',
-                  marginTop: 10,
                   padding: 10,
                 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Phone:</Text>{' '}
+                  <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Phone:</Text>{' '}
                   {infoData?.officeInfo?.phone}
                 </Text>
               </View>
-              <View style={{ height: 40, marginTop: 10, padding: 10 }}>
+              <View style={styles.partition}></View>
+
+              <View style={{ height: 40, padding: 10 }}>
                 <Text style={styles.LIstText2}>
-                  <Text style={{ fontSize: 15, fontWeight: '600' }}>Office:</Text>{' '}
+                  <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Office:</Text>{' '}
                   {infoData?.officeInfo?.address} {infoData?.officeInfo?.city}, {infoData?.officeInfo?.zip}
                 </Text>
               </View>
+              <View style={styles.partition}></View>
+
               <View style={styles.progress}>
                 <Progress.Bar
                   progress={0.5}
@@ -364,17 +407,17 @@ const Manager = () => {
 export default Manager;
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: '#d5e3e5',
+    // padding: 20,
     opacity: 2,
     borderRadius: 10,
   },
   mainContainer1: {
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: '#d5e3e5',
+    // padding: 20,
     opacity: 0.2,
     borderRadius: 10,
-    marginLeft: 20,
+    // marginLeft: 20,
     marginTop: 20,
   },
   input: {
@@ -433,7 +476,7 @@ const styles = StyleSheet.create({
   },
   LIstText2: {
     fontSize: 14,
-    fontFamily: 'Poppins-BoldItalic',
+    fontFamily: 'Poppins-Regular',
     color: 'black',
   },
   title: {
@@ -460,13 +503,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   partition: {
-    borderWidth: 1,
-    borderColor: 'grey',
-    marginTop: 30,
-    marginBottom: 30,
+    borderWidth: 0.5,
+    borderColor: '#A7B1C2',
+
   },
   infoSec: {
-    backgroundColor: '#8ab645',
+    backgroundColor: Color.darkGreen,
     borderRadius: 10,
     padding: 10,
     //height: 190,
@@ -477,9 +519,10 @@ const styles = StyleSheet.create({
   },
   infoSecText: {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 11,
     lineHeight: 18,
-    fontFamily: 'Italic',
+    fontFamily: 'Poppins-SemiBold',
+    marginLeft: 10
   },
   progress: {
     marginLeft: 11,

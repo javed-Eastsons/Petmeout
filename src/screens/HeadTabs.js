@@ -44,11 +44,11 @@ const HeadTabs = () => {
 
     const showwhatfunc1 = data => {
         setshowwhat1(data);
-        console.log(data);
+        // console.log(data);
     };
     const showwhatfunc2 = data => {
         setshowwhat2(data);
-        console.log(data);
+        // console.log(data);
     };
     useEffect(() => {
         if (showwhat1) {

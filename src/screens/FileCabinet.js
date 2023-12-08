@@ -45,13 +45,15 @@ const FileCabinet = () => {
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [period, setPeriod] = useState(null);
+  const [periodValue ,setPeriodValue]= useState(null)
   const [year, setYear] = useState(null);
   const [yearText, setYearText] = useState(null);
   const [description, setDescription] = useState(null);
 
   const [isFocus, setIsFocus] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [FilesInFolder , setFIlesInFolder]= useState()
+  const [FilesInFolder, setFIlesInFolder] = useState()
+  const [LeafCloudInFolder, setLeafCloudInFolder] = useState()
   const [filteredReq, setFilteredReq] = useState();
   const [docTypeById, setDocTypeById] = useState();
   const [base64File, setBase64File] = useState();
@@ -62,15 +64,15 @@ const FileCabinet = () => {
   const { DOCUMENT_INFO_FOLDER } = useSelector(state => state.TaxLeafReducer)
   const { FILE_UPLOAD_TOKEN } = useSelector(state => state.TaxLeafReducer)
   const { FILE_INFO } = useSelector(state => state.TaxLeafReducer)
-  console.log(FILE_UPLOAD_TOKEN, 'FILE_UPLOAD_TOKEN')
-  console.log(FILE_INFO, 'FILE_INFO')
-
+  // console.log(FILE_UPLOAD_TOKEN, 'FILE_UPLOAD_TOKEN')
+  // console.log(FILE_INFO, 'FILE_INFO')
+  
   const bgImage = require('../Assets/img/guest_shape.png');
   // console.log(docTypeById, 'docTypeById')
   // console.log(value, 'kkkkkk')
   // console.log(FOLDER_LIST, 'FOLDER_LIST')
   // console.log(DOCUMENT_INFO_FOLDER, 'DOCUMENT_INFO_FOLDER')
-  console.log(selectedData, 'selectedData')
+  // console.log(selectedData, 'selectedData')
   // console.log(value1, 'value1')
   const jsonData = MY_INFO.guestInfo;
   const dataArray = DOCUMENT_INFO_FOLDER ? Object.values(DOCUMENT_INFO_FOLDER) : [];
@@ -79,11 +81,14 @@ const FileCabinet = () => {
   const isdescriptionPresent = value1?.variables.includes("description");
   const documentsLibraryId = FILE_UPLOAD_TOKEN?.librarylist?.find(library => library?.name === 'Documents')?.id;
   const referenceFiles = FILE_INFO[0]?.referenceFiles
-  console.log(documentsLibraryId, 'documentsLibraryId')
+  const UploadedByName = MY_INFO?.staffview?.firstName + ' ' + MY_INFO?.staffview?.lastName
+const UploadedBy = MY_INFO?.staffview?.id
+  console.log(MY_INFO?.staffview?.firstName + ' ' + MY_INFO?.staffview?.lastName,'UploadedBy')
+  console.log(MY_INFO?.staffview?.id,'UploadedBy')
+  // console.log(documentsLibraryId, 'documentsLibraryId')
   // console.log(MY_INFO, 'jsonData')
 
   // console.log(base64File,'baseeee')
-
 
   // console.log(Array.isArray(dataArray), 'isArray');
   const [fileResponse, setFileResponse] = useState();
@@ -133,7 +138,7 @@ const FileCabinet = () => {
     return null;
   };
 
-  console.log(filteredReq, 'filteredReq');
+  // console.log(filteredReq, 'filteredReq');
 
   // console.log(selectedData, 'selll');
   const data = [
@@ -292,7 +297,7 @@ const FileCabinet = () => {
   }, [FILE_INFO])
 
   const documentTypes = (item) => {
-    console.log(item, 'itemitemitemitemitem')
+    // console.log(item, 'itemitemitemitemitem')
     setLoader(true);
     // Alert.alert(item?.documentTypeIds)
     setdocumentId(item?.documentTypeIds)
@@ -326,7 +331,7 @@ const FileCabinet = () => {
   //     getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation),
   //   );
   //   cancelModal()
-   
+
   //   setTimeout(() => {
   //     setLoader(false);
   //   }, 2000);
@@ -347,19 +352,22 @@ const FileCabinet = () => {
         base64File,
         FILE_UPLOAD_TOKEN?.accessToken,
         documentsLibraryId,
+        periodValue,
+        UploadedByName,
+        UploadedBy,
         navigation
       )
     );
-  
+
     await dispatch(getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation));
-  
+
     // Access numberOfMatchingResults after getFileInfo has completed
     const numberOfMatchingResults = FILE_INFO[0]?.referenceFiles
       ?.filter(file => file.sharepointFolderName === selectedData?.azureFolderName)?.length;
-  
-    console.log(numberOfMatchingResults, 'numberOfMatchingResults');
-  
-      setLoader(false);
+
+    // console.log(numberOfMatchingResults, 'numberOfMatchingResults');
+
+    setLoader(false);
     cancelModal();
   };
 
@@ -388,7 +396,7 @@ const FileCabinet = () => {
       setTimeout(() => {
         setLoader(false);
       }, 2000);
-      
+
     });
     return unsubscribe;
   }, [navigation]);
@@ -401,7 +409,7 @@ const FileCabinet = () => {
   useEffect(() => {
     const filesInFolder = getFilesByFolder(selectedData?.azureFolderName, referenceFiles);
     setFIlesInFolder(filesInFolder)
-    console.log(filesInFolder, 'filesInFolder')
+    // console.log(filesInFolder, 'filesInFolder')
   }, [selectedData])
 
 
@@ -416,7 +424,9 @@ const FileCabinet = () => {
 
     const numberOfMatchingResults = matchingReferenceFiles?.length;
 
+      const matchingLeafCloud = referenceFiles?.filter(file => file.sharepointFolderName.trim().toLowerCase() === item?.azureFolderName.trim().toLowerCase())?.map(file => file?.uploadedFrom);
 
+    
     return (
       <>
         {
@@ -437,7 +447,7 @@ const FileCabinet = () => {
                       idRow == item.id && press == true
                         ? '#2F4050'
                         : '#676A6C',
-                    fontFamily:'Poppins-SemiBold'
+                    fontFamily: 'Poppins-SemiBold'
                   }}>
                   {item?.azureRenameFolderName1}
                 </Text>
@@ -453,7 +463,7 @@ const FileCabinet = () => {
                         : '#676A6C',
                   }}>
 
-                  {item?.status}
+                  {matchingLeafCloud?.includes("Admin") ? 1 :0}
                 </Text>
               </DataTable.Cell>
               <DataTable.Cell style={{ width: wp(30), alignItems: "center", justifyContent: "center" }}>
@@ -524,7 +534,7 @@ const FileCabinet = () => {
                             idRow == item.id && press == true
                               ? '#2F4050'
                               : '#676A6C',
-                              fontFamily:'Poppins-Regular'
+                          fontFamily: 'Poppins-Regular'
                         }}>
                         {item}
                       </Text>
@@ -595,8 +605,8 @@ const FileCabinet = () => {
                   // marginBottom: wp(5),
                 }}>
                 {/* <Image source={usericon} style={{ width: 20, height: 20 }} /> */}
-                <Text style={{ fontSize: 20, fontFamily:'Poppins-Bold', marginBottom: 5 }}>File Cabinet</Text>
-                <Text style={styles.client}>Client ID : EASTSONSPRI</Text>
+                <Text style={{ fontSize: 20, fontFamily: 'Poppins-Bold', marginBottom: 5 }}>File Cabinet</Text>
+                <Text style={styles.client}>Client ID : {jsonData?.client}</Text>
               </View>
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
@@ -614,7 +624,7 @@ const FileCabinet = () => {
                   marginTop: 10
                 }}>
                 <Image source={require('../Assets/img/icons/createAction.png')} style={{ width: 20, height: 20, alignSelf: 'center' }} />
-                <Text style={[styles.client, { alignSelf: 'center', marginLeft: 5, fontFamily:'Poppins-Bold' ,marginTop:3}]}>Add File</Text>
+                <Text style={[styles.client, { alignSelf: 'center', marginLeft: 5, fontFamily: 'Poppins-Bold', marginTop: 3 }]}>Add File</Text>
               </TouchableOpacity>
             </View>
 
@@ -627,7 +637,7 @@ const FileCabinet = () => {
                   <DataTable.Title>
                     <Text style={styles.headerText}>Leafcloud</Text>
                   </DataTable.Title>
-                  <DataTable.Title style={{marginLeft:10,width:wp(30)}}>
+                  <DataTable.Title style={{ marginLeft: 10, width: wp(30) }}>
                     <Text style={styles.headerText}>My Files</Text>
                   </DataTable.Title>
                 </DataTable.Header>
@@ -776,6 +786,7 @@ const FileCabinet = () => {
                           onBlur={() => setIsFocus(false)}
                           onChange={item => {
                             setPeriod(item.label);
+                            setPeriodValue(item.value);
                             setIsFocus(false);
                           }}
 
@@ -883,7 +894,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2F4050',
     padding: 10,
     height: wp(12),
-    fontFamily:'Poppins-SemiBold'
+    fontFamily: 'Poppins-SemiBold'
   },
   Subheading: {
     fontSize: 20,
@@ -923,14 +934,14 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: '#fff',
-    fontFamily:'Poppins-SemiBold',
+    fontFamily: 'Poppins-SemiBold',
     width: wp(30),
     alignItems: 'center',
     justifyContent: 'center'
   },
   headerText1: {
     color: '#444747',
-    fontFamily:'Poppins-SemiBold'
+    fontFamily: 'Poppins-SemiBold'
   },
   header: {
     fontSize: 28,
@@ -944,7 +955,7 @@ const styles = StyleSheet.create({
 
   client: {
     fontSize: 12,
-    fontFamily:'Poppins-SemiBold'
+    fontFamily: 'Poppins-SemiBold'
   },
 
   centeredView: {

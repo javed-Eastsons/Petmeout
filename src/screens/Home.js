@@ -49,7 +49,7 @@ const HomeScreen = () => {
   const jsonData = MY_INFO.guestInfo;
   const officeInfo = MY_INFO.officeInfo;
 
-  console.log(dashboardMessageList?.length, 'messageList')
+  // console.log(dashboardMessageList?.length, 'messageList')
 
   const data = [
     {
