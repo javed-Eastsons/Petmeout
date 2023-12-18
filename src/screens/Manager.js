@@ -12,6 +12,7 @@ import {
   ScrollView,
   SafeAreaView,
   TextInput,
+  Linking
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 import CustomHeader from '../Component/CustomHeader';
@@ -68,9 +69,9 @@ const Manager = () => {
       <Loader flag={loader} />
       <CustomHeader />
       <ScrollView style={{ height: hp(80) }}>
-       
+
         <View style={{ backgroundColor: '#d5e3e5' }}>
-        <HeadTabs/>
+          <HeadTabs />
 
           <View
             style={modalVisible ? styles.mainContainer1 : styles.mainContainer}>
@@ -142,7 +143,7 @@ const Manager = () => {
 
                         fontFamily: 'Poppins-SemiBold',
                         fontSize: 14,
-                        marginRight:25
+                        marginRight: 25
                       }}>
                       Manager
                     </Text>
@@ -195,14 +196,24 @@ const Manager = () => {
 
                   padding: 10,
                 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2} onPress={() => {
+                  if (infoData?.managerInfo?.cell) {
+                    Linking.openURL(`tel:${infoData?.managerInfo?.cell}`)
+                  }
+
+                }}>
                   <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Phone:</Text>{' '}
                   {infoData?.managerInfo?.cell ? infoData?.managerInfo?.cell : 'N/A'}
                 </Text>
               </View>
               <View style={styles.partition}></View>
               <View style={{ height: 40, padding: 10 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2} onPress={() =>
+                  Linking.openURL(
+                    `mailto:${infoData?.managerInfo?.user}?subject=SendMail&body=Description`,
+                  )
+                }
+                  title={infoData?.managerInfo?.user}>
                   <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Email:</Text>{' '}
                   {infoData?.managerInfo?.user}
                 </Text>
@@ -263,7 +274,12 @@ const Manager = () => {
               <View style={styles.partition}></View>
 
               <View style={{ height: 40, padding: 10 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2} onPress={() =>
+                  Linking.openURL(
+                    `mailto:${infoData?.officeInfo?.email}?subject=SendMail&body=Description`,
+                  )
+                }
+                  title={infoData?.officeInfo?.email}>
                   <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Email:</Text>{' '}
                   {infoData?.officeInfo?.email}
                 </Text>
@@ -276,7 +292,9 @@ const Manager = () => {
                   backgroundColor: '#fff',
                   padding: 10,
                 }}>
-                <Text style={styles.LIstText2}>
+                <Text style={styles.LIstText2} onPress={() =>
+                  Linking.openURL(`tel:${infoData?.officeInfo?.phone}`)
+                }>
                   <Text style={{ fontSize: 15, fontFamily: 'Poppins-SemiBold' }}>Phone:</Text>{' '}
                   {infoData?.officeInfo?.phone}
                 </Text>

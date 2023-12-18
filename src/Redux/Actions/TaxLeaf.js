@@ -414,8 +414,8 @@ export const folderNameList =
     return new Promise(async (resolve, reject) => {
       let data = {
         GuestInfo: {
-          // clientType: clientType,
-          clientType: "Individual"
+          clientType: clientType,
+          // clientType: "Individual"
 
         },
       };
@@ -616,7 +616,7 @@ export const generateFileToken = (documentId, navigation) => dispatch => {
   });
 };
 
-export const getFileInfo = (clientId, clientType, navigation) => dispatch => {
+export const getFileInfo = (clientId, clientType,client, navigation) => dispatch => {
   // dispatch({
   //   type: 'LOADING',
   //   payload: true,
@@ -627,14 +627,14 @@ export const getFileInfo = (clientId, clientType, navigation) => dispatch => {
       "fileListViews": [
         {
           "guestInfo": {
-            "client": 'EASTSONSPRI',
-            "clientType": 'individual'
+            "client": client,
+            "clientType": clientType
           }
         }
       ]
     };
 
-    console.log(data, 'ddd')
+    console.log(data?.fileListViews[0]?.guestInfo, 'getFileInfo')
     const response = await logistical.post('/FileCabinet/GetFiles', data);
     console.log(response, 'fileResp');
 

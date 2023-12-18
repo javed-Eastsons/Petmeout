@@ -69,7 +69,7 @@ export const GetPaymentList =
     });
   };
 
-  export const GetDetailsbyOrderIdPayment =
+  export const GetDetailsbyOrderId =
   (clientId, clientType,orderId, navigation) => dispatch => {
     // dispatch({
     //   type: 'LOADING',
@@ -133,66 +133,66 @@ export const GetPaymentList =
     });
   };
 
-  export const GetDetailsbyOrderId =
-  (clientId, clientType,orderId, navigation) => dispatch => {
-    // dispatch({
-    //   type: 'LOADING',
-    //   payload: true,
-    // });
+  // export const GetDetailsbyOrderId =
+  // (clientId, clientType,orderId, navigation) => dispatch => {
+  //   // dispatch({
+  //   //   type: 'LOADING',
+  //   //   payload: true,
+  //   // });
 
-    console.log(
-      clientId,
-      clientType,
-      orderId,
-      'clientId,clientType,orderId',
-    );
+  //   console.log(
+  //     clientId,
+  //     clientType,
+  //     orderId,
+  //     'clientId,clientType,orderId',
+  //   );
 
-    return new Promise(async (resolve, reject) => {
-      let data = {
+  //   return new Promise(async (resolve, reject) => {
+  //     let data = {
       
-        collectionView: {
-          // orderId: orderId,
-          // clientType: clientType,
-          // client: clientId
-          "orderId": 197,
-          "clientType": "company",
-          "client": 769
-        }
-      };
-      console.log(data,'payloadOrderInfo')
-      const response = await logistical.post('/Staff/IndividualOrderInfo', data);
-       console.log(response, 'orderInfoResponse');
+  //       collectionView: {
+  //         // orderId: orderId,
+  //         // clientType: clientType,
+  //         // client: clientId
+  //         "orderId": 197,
+  //         "clientType": "company",
+  //         "client": 769
+  //       }
+  //     };
+  //     console.log(data,'payloadOrderInfo')
+  //     const response = await logistical.post('/Staff/IndividualOrderInfo', data);
+  //      console.log(response, 'orderInfoResponse');
 
-      if (response.failureStatus == false) {
-        // console.log(
-        //   response.paymentListInfoModel,
-        //   'guestInfoguestInfoguestInfoguestInfoguestInfoguestInfoguestInfoguestInfoguestInfo',
-        // );
-        // AsyncStorage.setItem('login', JSON.stringify(response.token));
+  //     if (response.failureStatus == false) {
+  //       // console.log(
+  //       //   response.paymentListInfoModel,
+  //       //   'guestInfoguestInfoguestInfoguestInfoguestInfoguestInfoguestInfoguestInfoguestInfo',
+  //       // );
+  //       // AsyncStorage.setItem('login', JSON.stringify(response.token));
 
-        dispatch({
-          type: GET_ORDER_DETAILS,
-          payload: response.paymentListInfoModel,
-        });
+  //       dispatch({
+  //         type: GET_ORDER_DETAILS,
+  //         payload: response.paymentListInfoModel,
+  //       });
 
-        //   Alert.alert(response.response[0])
-        resolve(response);
+  //       //   Alert.alert(response.response[0])
+  //       resolve(response);
 
-        // Alert.alert(response.massage);
-        // navigation.navigate('ClientInfo');
+  //       // Alert.alert(response.massage);
+  //       // navigation.navigate('ClientInfo');
 
-        // dispatch({
-        //   type: 'LOADING',
-        //   payload: false,
-        // });
-      } else {
-        // Alert.alert(response.message)
-        Alert.alert(response.massage);
-        // dispatch({
-        //   type: 'LOADING',
-        //   payload: false,
-        // });
-        reject(response);
-      }
-    });
-  };
+  //       // dispatch({
+  //       //   type: 'LOADING',
+  //       //   payload: false,
+  //       // });
+  //     } else {
+  //       // Alert.alert(response.message)
+  //       Alert.alert(response.massage);
+  //       // dispatch({
+  //       //   type: 'LOADING',
+  //       //   payload: false,
+  //       // });
+  //       reject(response);
+  //     }
+  //   });
+  // };

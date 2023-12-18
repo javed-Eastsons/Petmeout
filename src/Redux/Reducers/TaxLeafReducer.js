@@ -9,7 +9,8 @@ import {
   FOLDER_LIST,
   DOCUMENT_INFO_FOLDER,
   FILE_UPLOAD_TOKEN,
-  FILE_INFO
+  FILE_INFO,
+  EDITOR_TEXT
 } from '../Actions/types';
 
 const initialstate = {
@@ -23,7 +24,8 @@ const initialstate = {
   FOLDER_LIST: {},
   DOCUMENT_INFO_FOLDER:{},
   FILE_UPLOAD_TOKEN:{},
-  FILE_INFO:{}
+  FILE_INFO:{},
+  EDITOR_TEXT:{}
 };
 
 const TaxLeafReducer = (state = initialstate, action) => {
@@ -49,10 +51,7 @@ const TaxLeafReducer = (state = initialstate, action) => {
 
       return { ...state, REQUEST_INFO_BY_ID: action.payload };
     case FOLDER_LIST:
-      console.log(
-        'himmmm',
-        action.payload,
-      );
+     
       return { ...state, FOLDER_LIST: action.payload };
       case DOCUMENT_INFO_FOLDER:
         
@@ -63,6 +62,12 @@ const TaxLeafReducer = (state = initialstate, action) => {
         case FILE_INFO:
 
         return { ...state, FILE_INFO: action.payload };
+        case EDITOR_TEXT:
+          console.log(
+            'himmmm',
+            action.payload,
+          );
+        return { ...state, EDITOR_TEXT: action.payload };
   }
 
   return state;

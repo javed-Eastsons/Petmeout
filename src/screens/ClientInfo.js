@@ -166,7 +166,7 @@ const ClientInfo = () => {
       ),
     );
   };
-
+F
   return (
     <View style={[styles.main]}>
       <View

@@ -72,7 +72,7 @@ const FileCabinet = () => {
   // console.log(value, 'kkkkkk')
   // console.log(FOLDER_LIST, 'FOLDER_LIST')
   // console.log(DOCUMENT_INFO_FOLDER, 'DOCUMENT_INFO_FOLDER')
-  // console.log(selectedData, 'selectedData')
+  console.log(selectedData, 'selectedData')
   // console.log(value1, 'value1')
   const jsonData = MY_INFO.guestInfo;
   const dataArray = DOCUMENT_INFO_FOLDER ? Object.values(DOCUMENT_INFO_FOLDER) : [];
@@ -85,7 +85,7 @@ const FileCabinet = () => {
 const UploadedBy = MY_INFO?.staffview?.id
   console.log(MY_INFO?.staffview?.firstName + ' ' + MY_INFO?.staffview?.lastName,'UploadedBy')
   console.log(MY_INFO?.staffview?.id,'UploadedBy')
-  // console.log(documentsLibraryId, 'documentsLibraryId')
+  console.log(documentsLibraryId, 'documentsLibraryId')
   // console.log(MY_INFO, 'jsonData')
 
   // console.log(base64File,'baseeee')
@@ -271,7 +271,7 @@ const UploadedBy = MY_INFO?.staffview?.id
 
 
     dispatch(
-      getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation),
+      getFileInfo(jsonData?.clientId, jsonData?.clientType,jsonData?.client, navigation),
     );
     setTimeout(() => {
       setLoader(false);
@@ -359,7 +359,7 @@ const UploadedBy = MY_INFO?.staffview?.id
       )
     );
 
-    await dispatch(getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation));
+    await dispatch(getFileInfo(jsonData?.clientId, jsonData?.clientType,jsonData?.client, navigation));
 
     // Access numberOfMatchingResults after getFileInfo has completed
     const numberOfMatchingResults = FILE_INFO[0]?.referenceFiles
@@ -391,7 +391,7 @@ const UploadedBy = MY_INFO?.staffview?.id
     const unsubscribe = navigation.addListener('focus', () => {
       setLoader(true);
       dispatch(
-        getFileInfo(jsonData?.clientId, jsonData?.clientType, navigation),
+        getFileInfo(jsonData?.clientId, jsonData?.clientType,jsonData?.client, navigation),
       );
       setTimeout(() => {
         setLoader(false);

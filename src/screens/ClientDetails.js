@@ -113,7 +113,7 @@ const ClientDetails = ({ route }) => {
   return (
     <View style={styles.container}>
       <Loader flag={loader} />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View
           style={{
             width: wp(90),

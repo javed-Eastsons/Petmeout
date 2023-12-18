@@ -31,6 +31,7 @@ import Editor from './editor';
 import { RequestSubmit, ManagerInfo } from '../Redux/Actions/TaxLeaf';
 import { Color } from '../Style';
 import { Loader } from '../Component/Loader';
+import MyInfo from './MyInfo';
 
 const CreateNewAction = () => {
   const width = Dimensions.get('window').width;
@@ -44,12 +45,14 @@ const CreateNewAction = () => {
   const [datePicker, setDatePicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const [actionSubject, setActionSubject] = useState();
+  const [descriptionText, setDescriptionText] = useState()
   const [actionMessage, setActionMessage] = useState();
   const [notes, setNotes] = useState();
   const [loader, setLoader] = useState(false);
 
   const { MY_INFO } = useSelector(state => state.TaxLeafReducer);
   const { MANAGER_INFO } = useSelector(state => state.TaxLeafReducer);
+
   const bgImage = require('../Assets/img/guest_shape.png');
 
   const staffview = MY_INFO.staffview;
@@ -57,7 +60,6 @@ const CreateNewAction = () => {
   const managerInfo = MANAGER_INFO.managerInfo;
   const partnerInfo = MANAGER_INFO.partnerInfo;
   const jsonData = MY_INFO.guestInfo;
-
   console.log(MY_INFO, 'MY_INFO')
 
   const showwhatfunc1 = data => {
@@ -118,17 +120,17 @@ const CreateNewAction = () => {
     let data = {
       "actionTime": "2023-10-20T05:05:54.895Z",
       "actionModel": {
-        "createdOffice": 17,
+        "createdOffice": MY_INFO?.officeInfo?.id,
         "assignTo": 1,
         "clientId": jsonData?.client,
         "subject": actionSubject,
-        "message": "This Is Test Meassage",
-        "priority": value,
-        "status": jsonData?.status,
-        "addedByUser": 973,
+        "message": descriptionText,
+        "priority": parseInt(value, 10),
+        "status": parseInt(jsonData?.status, 10),
+        "addedByUser": MY_INFO?.staffview?.id,
         "dueDate": moment(date).format('YYYY-MM-DD'),
         "isCreatedFromAction": "n",
-        "clientIdForGuest": "38419",
+        "clientIdForGuest": jsonData?.clientId.toString(),
         "assignWhom": selectedId == 1 ? 'Manager' : 'Partner'
       },
       "actionStaffModel": {
@@ -186,7 +188,7 @@ const CreateNewAction = () => {
 
         style={{ backgroundColor: '#d5e3e5' }}
       >
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.heading}>Create New Action</Text>
 
           <View style={styles.slideContainerFrom}>
@@ -285,7 +287,11 @@ const CreateNewAction = () => {
             <Text style={{ alignSelf: 'flex-start', padding: 5, color: '#000' }}>
               Action Message *
             </Text>
-            <Editor />
+            <TextInput
+              onChangeText={(text) => setDescriptionText(text)}
+              // placeholder='First Name'
+              style={[styles.input]}
+            />
           </View>
           <View style={styles.slideContainer}>
             <View style={{}}>

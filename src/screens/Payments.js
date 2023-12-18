@@ -101,6 +101,8 @@ const Payments = () => {
   const serviceListModel = GET_ORDER_DETAILS[0]?.serviceListModel[0]
   const bgImage = require('../Assets/img/guest_shape.png');
   const [orderIDAcc, setOrderID] = useState()
+  const [idRow, setIdRow] = useState();
+
   const navigation = useNavigation();
   const showwhatfunc = data => {
     setshowwhat(data);
@@ -111,7 +113,7 @@ const Payments = () => {
   const jsonData = MY_INFO.guestInfo;
   const officeInfo = MY_INFO.officeInfo;
 
-  //console.log(GET_ORDER_DETAILS, 'orderInfoPAymentScreen')
+  console.log(GET_ORDER_DETAILS[0]?.serviceListModel, 'orderInfoPAymentScreen')
 
   useEffect(() => {
     setLoader(true);
@@ -120,14 +122,7 @@ const Payments = () => {
     );
 
     setInfoData(GET_PAYMENT_LIST);
-    dispatch(
-      dashboardlist(
-        jsonData?.clientId,
-        jsonData?.clientType,
-        officeInfo?.id,
-        navigation,
-      ),
-    );
+   
 
     setTimeout(() => {
       setLoader(false);
@@ -144,7 +139,6 @@ const Payments = () => {
     // setTimeout(() => {
     //   setLoader(false);
     // }, 2000);
-    getorderbyId()
   }, [GET_PAYMENT_LIST]);
   // useEffect(() => {
   //   infoData?.collectionInfo.map((item)=>{
@@ -198,133 +192,148 @@ const Payments = () => {
 
     );
   };
-
+  const handleRow = item => {
+    setIdRow(item?.collectionInfo?.orderId);
+    // setSelectedData(item);
+    getorderbyId(item?.collectionInfo?.orderId)
+  };
+  const handleRowOFF = item => {
+    setIdRow();
+    // setSelectedData(item);
+    // getorderbyId(item?.collectionInfo?.orderId)
+  };
   const renderContent = (section, _, isActive) => {
     setOrderID(section?.collectionInfo?.orderId)
+    console.log(isActive,'isActive')
 
     return (
       <>
         <Animatable.View style={{ marginBottom: 20, backgroundColor: '#fff' }}>
-          <Animatable.View
-            duration={400}
-            style={[
-              styles.content,
-              isActive ? styles.active : styles.inactive,
-              {
-                width: wp(90),
-                backgroundColor: Color.green,
-                alignItems: 'center',
-                alignSelf: 'center',
-                // marginBottom: 10,
-                flexDirection: 'row',
-                height: wp(15),
+          <TouchableOpacity onPress={()=>{idRow ? handleRowOFF(): handleRow(section)}}>
+            <Animatable.View
+              duration={400}
+              style={[
+                styles.content,
+                isActive ? styles.active : styles.inactive,
+                {
+                  width: wp(90),
+                  backgroundColor: Color.green,
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  // marginBottom: 10,
+                  flexDirection: 'row',
+                  height: wp(15),
 
 
-                opacity: 10,
-                paddingLeft: 10,
-                paddingRight: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              },
-            ]}
-            transition="backgroundColor">
-            <Animatable.Text
-              animation={isActive ? 'bounceIn' : undefined}
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-                marginTop: 4,
-                paddingTop: 3,
-                width: wp(15),
-                // backgroundColor: '#2F5597',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-                height: wp(10),
-                fontSize: 12,
-                fontWeight: '700',
-                justifyContent: 'center',
-              }}>
-              Category
-            </Animatable.Text>
-            <Animatable.Text
-              animation={isActive ? 'bounceIn' : undefined}
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-                marginTop: 4,
-                paddingTop: 3,
-                width: wp(20),
+                  opacity: 10,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                },
+              ]}
 
-                // backgroundColor: '#2F5597',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-                height: wp(10),
-                fontSize: 12,
-                fontWeight: '700',
-                justifyContent: 'center',
-              }}>
-              Service Name
-            </Animatable.Text>
-            <Animatable.Text
-              animation={isActive ? 'bounceIn' : undefined}
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-                marginTop: 4,
-                paddingTop: 3,
-                width: wp(17),
+              transition="backgroundColor">
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  marginTop: 4,
+                  paddingTop: 3,
+                  width: wp(15),
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  fontWeight: '700',
+                  justifyContent: 'center',
+                }}>
+                Category
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  marginTop: 4,
+                  paddingTop: 3,
+                  width: wp(20),
 
-                // backgroundColor: '#2F5597',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-                height: wp(10),
-                fontSize: 12,
-                fontWeight: '700',
-                justifyContent: 'center',
-              }}>
-              Retail Price
-            </Animatable.Text>
-            <Animatable.Text
-              animation={isActive ? 'bounceIn' : undefined}
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-                marginTop: 4,
-                paddingTop: 3,
-                width: wp(18),
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  fontWeight: '700',
+                  justifyContent: 'center',
+                }}>
+                Service Name
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  marginTop: 4,
+                  paddingTop: 3,
+                  width: wp(17),
 
-                // backgroundColor: '#2F5597',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-                height: wp(10),
-                fontSize: 12,
-                fontWeight: '700',
-                justifyContent: 'center',
-              }}>
-              Quantity
-            </Animatable.Text>
-            <Animatable.Text
-              animation={isActive ? 'bounceIn' : undefined}
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-                // marginTop: 4,
-                alignSelf: "center",
-                width: wp(17),
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  fontWeight: '700',
+                  justifyContent: 'center',
+                }}>
+                Retail Price
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  marginTop: 4,
+                  paddingTop: 3,
+                  width: wp(18),
 
-                backgroundColor: Color.darkGreen,
-                // borderTopLeftRadius: 10,
-                // borderTopRightRadius: 10,
-                height: wp(15),
-                paddingTop: 15,
-                fontSize: 12,
-                fontWeight: '700',
-                justifyContent: 'center',
-              }}>
-              Total Price
-            </Animatable.Text>
-          </Animatable.View>
-          <FlatList
+                  // backgroundColor: '#2F5597',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                  height: wp(10),
+                  fontSize: 12,
+                  fontWeight: '700',
+                  justifyContent: 'center',
+                }}>
+                Quantity
+              </Animatable.Text>
+              <Animatable.Text
+                animation={isActive ? 'bounceIn' : undefined}
+                style={{
+                  color: '#fff',
+                  textAlign: 'center',
+                  // marginTop: 4,
+                  alignSelf: "center",
+                  width: wp(17),
+
+                  backgroundColor: Color.darkGreen,
+                  // borderTopLeftRadius: 10,
+                  // borderTopRightRadius: 10,
+                  height: wp(15),
+                  paddingTop: 15,
+                  fontSize: 12,
+                  fontWeight: '700',
+                  justifyContent: 'center',
+                }}>
+                Total Price
+              </Animatable.Text>
+            </Animatable.View>
+          </TouchableOpacity>
+          {
+            idRow == section?.collectionInfo?.orderId  ?
+            <FlatList
             data={GET_ORDER_DETAILS[0]?.serviceListModel}
             keyExtractor={item => item.id}
             renderItem={({ item, index }) => (
@@ -363,7 +372,7 @@ const Payments = () => {
                     // backgroundColor: '#2F5597',
                     borderTopLeftRadius: 10,
                     borderTopRightRadius: 10,
-                    height: wp(10),
+                    height: wp(12),
                     fontSize: 12,
                     justifyContent: 'center',
                   }}>
@@ -436,6 +445,9 @@ const Payments = () => {
               </Animatable.View>
             )}
           />
+          : null
+          }
+         
           <Animatable.View
             duration={400}
             style={[

@@ -90,7 +90,7 @@ const Request = () => {
       <Loader flag={loader} />
 
       <View >
-        <ScrollView nestedScrollEnabled={true}>
+        <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
           <HeadTabs />
           {/* <View style={styles.headerView}>
           <Text style={styles.header}>Requests</Text>
@@ -105,8 +105,8 @@ const Request = () => {
                 // marginTop: 10,
                 // marginBottom: 20,
                 marginLeft: 20,
-                flexDirection:'row',
-                justifyContent:'space-between'
+                flexDirection: 'row',
+                justifyContent: 'space-between'
               }}>
               <Text style={{ fontSize: 22, fontFamily: 'Poppins-Bold', marginTop: 10, color: Color.headerIconBG }}>Requests</Text>
               <TouchableOpacity
@@ -633,7 +633,7 @@ const Request = () => {
               </View>
             </View>
 
-           
+
             <View style={styles.subContainer}>
 
               {(() => {
@@ -720,79 +720,80 @@ const Request = () => {
                       </View>
                       <View>
                         <View style={styles.subContainer}>
-
-                          <FlatList
-                            contentContainerStyle={{ paddingBottom: 200 }}
-                            data={REQUEST_INFO?.requestInfoListModel}
-                            showsVerticalScrollIndicator={false}
-                            // numColumns={5}
-                            keyExtractor={(item, index) => index}
-                            renderItem={({ item, index }) => (
-                              <>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    navigation.navigate('ViewRequest', {
-                                      actionId: item?.actionModel?.id
-                                    })
-                                  }}
-                                  style={{
-                                    width: wp(90),
-                                    backgroundColor: '#fff',
-
-                                    alignItems: 'center',
-                                    alignSelf: 'center',
-                                    // elevation: 10,
-
-                                    // marginBottom: 10,
-                                    flexDirection: 'row',
-                                    height: wp(15),
-                                  }}>
-
-
-
-
-
-                                  <View
+                          <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false}>
+                            <FlatList
+                              contentContainerStyle={{ paddingBottom: 200 }}
+                              data={REQUEST_INFO?.requestInfoListModel.reverse()}
+                              showsVerticalScrollIndicator={false}
+                              // numColumns={5}
+                              keyExtractor={(item, index) => index}
+                              renderItem={({ item, index }) => (
+                                <>
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      navigation.navigate('ViewRequest', {
+                                        actionId: item?.actionModel?.id
+                                      })
+                                    }}
                                     style={{
-                                      width: wp(25),
-                                      alignItems: 'center',
-                                    }}>
-                                    <Text style={{ color: '#2F4050', fontSize: 13, fontFamily: 'Poppins-Regular' }}>
-                                      {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
-                                    </Text>
-                                  </View>
-
-
-                                  <View
-                                    style={{
-                                      width: wp(25),
+                                      width: wp(90),
+                                      backgroundColor: '#fff',
 
                                       alignItems: 'center',
-                                    }}>
-                                    <Text style={{ color: '#2F4050', fontSize: 11, fontFamily: 'Poppins-SemiBold' }}>
-                                      {
-                                        moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
-                                    </Text>
-                                  </View>
-                                  <View
-                                    style={{
-                                      width: wp(35),
+                                      alignSelf: 'center',
+                                      // elevation: 10,
 
-                                      alignItems: 'center',
+                                      // marginBottom: 10,
+                                      flexDirection: 'row',
+                                      height: wp(15),
                                     }}>
-                                    <Text
+
+
+
+
+
+                                    <View
                                       style={{
-                                        color: '#2F4050', fontSize: 11, fontFamily: 'Poppins-SemiBold'
+                                        width: wp(25),
+                                        alignItems: 'center',
                                       }}>
-                                      {item?.actionModel?.subject}
-                                    </Text>
-                                  </View>
+                                      <Text style={{ color: '#2F4050', fontSize: 13, fontFamily: 'Poppins-Regular' }}>
+                                        {item?.actionStaffModel?.actionId ? item?.actionStaffModel?.actionId : 'N/A'}
+                                      </Text>
+                                    </View>
 
-                                </TouchableOpacity>
-                                <View style={styles.part}></View>
-                              </>
-                            )}
-                          />
+
+                                    <View
+                                      style={{
+                                        width: wp(25),
+
+                                        alignItems: 'center',
+                                      }}>
+                                      <Text style={{ color: '#2F4050', fontSize: 11, fontFamily: 'Poppins-SemiBold' }}>
+                                        {
+                                          moment(item?.actionModel?.creationDate).format('MM-DD-YYYY')}
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        width: wp(35),
+
+                                        alignItems: 'center',
+                                      }}>
+                                      <Text
+                                        style={{
+                                          color: '#2F4050', fontSize: 11, fontFamily: 'Poppins-SemiBold'
+                                        }}>
+                                        {item?.actionModel?.subject}
+                                      </Text>
+                                    </View>
+
+                                  </TouchableOpacity>
+                                  <View style={styles.part}></View>
+                                </>
+                              )}
+                            />
+                          </ScrollView>
                         </View>
                         {/* </View> */}
                       </View>
