@@ -1,0 +1,134 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 8192 bytes for Unable to commit Safepoint polling page
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (./open/src/hotspot/os/windows/os_windows.cpp:3292), pid=35288, tid=36964
+#
+# JRE version:  (11.0.18+9) (build )
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (11.0.18+9-LTS-195, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew org.gradle.wrapper.GradleWrapperMain tasks
+
+Host: AMD A9-9425 RADEON R5, 5 COMPUTE CORES 2C+3G   , 2 cores, 6G,  Windows 10 , 64 bit Build 19041 (10.0.19041.3636)
+Time: Fri Jan  5 15:33:54 2024 India Standard Time elapsed time: 3.164550 seconds (0d 0h 0m 3s)
+
+---------------  T H R E A D  ---------------
+
+Current thread is native thread
+
+Stack: [0x00000040c3d00000,0x00000040c3e00000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x65d8aa]
+
+
+---------------  P R O C E S S  ---------------
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+
+[error occurred during error reporting (printing compressed oops mode), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007ffd2abda157]
+
+
+Dynamic libraries:
+0x00007ff71e790000 - 0x00007ff71e7a0000 	C:\Program Files\Java\jdk-11\bin\java.exe
+0x00007ffd7b830000 - 0x00007ffd7ba28000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00007ffd79e20000 - 0x00007ffd79edd000 	C:\Windows\System32\KERNEL32.DLL
+0x00007ffd78f40000 - 0x00007ffd79236000 	C:\Windows\System32\KERNELBASE.dll
+0x00007ffd79400000 - 0x00007ffd79500000 	C:\Windows\System32\ucrtbase.dll
+0x00007ffd72180000 - 0x00007ffd72198000 	C:\Program Files\Java\jdk-11\bin\jli.dll
+0x00007ffd7a010000 - 0x00007ffd7a0bf000 	C:\Windows\System32\ADVAPI32.dll
+0x00007ffd7a4a0000 - 0x00007ffd7a53e000 	C:\Windows\System32\msvcrt.dll
+0x00007ffd79ee0000 - 0x00007ffd79f7c000 	C:\Windows\System32\sechost.dll
+0x00007ffd7a760000 - 0x00007ffd7a886000 	C:\Windows\System32\RPCRT4.dll
+0x00007ffd7a270000 - 0x00007ffd7a40e000 	C:\Windows\System32\USER32.dll
+0x00007ffd79670000 - 0x00007ffd79692000 	C:\Windows\System32\win32u.dll
+0x00007ffd79940000 - 0x00007ffd7996c000 	C:\Windows\System32\GDI32.dll
+0x00007ffd79500000 - 0x00007ffd7961a000 	C:\Windows\System32\gdi32full.dll
+0x00007ffd79360000 - 0x00007ffd793fd000 	C:\Windows\System32\msvcp_win.dll
+0x00007ffd72040000 - 0x00007ffd7205b000 	C:\Program Files\Java\jdk-11\bin\VCRUNTIME140.dll
+0x00007ffd6a520000 - 0x00007ffd6a7ba000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.3636_none_60b6a03d71f818d5\COMCTL32.dll
+0x00007ffd70820000 - 0x00007ffd7082a000 	C:\Windows\SYSTEM32\VERSION.dll
+0x00007ffd7a410000 - 0x00007ffd7a440000 	C:\Windows\System32\IMM32.DLL
+0x00007ffd74850000 - 0x00007ffd7485c000 	C:\Program Files\Java\jdk-11\bin\vcruntime140_1.dll
+0x00007ffd5bf00000 - 0x00007ffd5bf8e000 	C:\Program Files\Java\jdk-11\bin\msvcp140.dll
+0x00007ffd2a460000 - 0x00007ffd2afc8000 	C:\Program Files\Java\jdk-11\bin\server\jvm.dll
+0x00007ffd7a5b0000 - 0x00007ffd7a5b8000 	C:\Windows\System32\PSAPI.DLL
+0x00007ffd74860000 - 0x00007ffd74869000 	C:\Windows\SYSTEM32\WSOCK32.dll
+0x00007ffd79db0000 - 0x00007ffd79e1b000 	C:\Windows\System32\WS2_32.dll
+0x00007ffd707f0000 - 0x00007ffd70817000 	C:\Windows\SYSTEM32\WINMM.dll
+0x00007ffd723a0000 - 0x00007ffd723b0000 	C:\Program Files\Java\jdk-11\bin\verify.dll
+0x00007ffd70fe0000 - 0x00007ffd71008000 	C:\Program Files\Java\jdk-11\bin\java.dll
+0x00007ffd721f0000 - 0x00007ffd721fa000 	C:\Program Files\Java\jdk-11\bin\jimage.dll
+
+dbghelp: loading error: 1455
+symbol engine: initialization error.
+
+VM Arguments:
+jvm_args: -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew 
+java_command: org.gradle.wrapper.GradleWrapperMain tasks
+java_class_path (initial): D:\TLNew\PetMeOut\android\\gradle\wrapper\gradle-wrapper.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     uint G1ConcRefinementThreads                  = 2                                         {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 67108864                                  {product} {command line}
+   size_t MaxHeapSize                              = 67108864                                  {product} {command line}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk-11
+CLASSPATH=D:\TLNew\PetMeOut\android\\gradle\wrapper\gradle-wrapper.jar
+PATH=D:\TLNew\PetMeOut\node_modules\.bin;D:\TLNew\PetMeOut\node_modules\.bin;D:\TLNew\node_modules\.bin;D:\node_modules\.bin;C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;D:\TLNew\PetMeOut\node_modules\.bin;D:\TLNew\PetMeOut\node_modules\.bin;D:\TLNew\node_modules\.bin;D:\node_modules\.bin;C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Program Files\Java\jdk-11\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Users\Admin\AppData\Local\Android\Sdk\platform-tools;C:\Users\Admin\AppData\Local\Programs\Microsoft VS Code\bin
+USERNAME=Admin
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=AMD64 Family 21 Model 112 Stepping 0, AuthenticAMD
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 19041 (10.0.19041.3636)
+
+CPU:total 2 (initial active 2) 
+
+Memory: 4k page, system-wide physical 6766M (435M free)
+TotalPageFile size 21989M (AvailPageFile size 16M)
+current process WorkingSet (physical memory assigned to process): 6M, peak: 6M
+current process commit charge ("private bytes"): 2M, peak: 2M
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (11.0.18+9-LTS-195) for windows-amd64 JRE (11.0.18+9-LTS-195), built on Dec  6 2022 15:50:58 by "mach5one" with MS VC++ 17.1 (VS2022)
+
+END.

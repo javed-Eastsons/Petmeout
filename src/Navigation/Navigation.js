@@ -6,41 +6,51 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import HomeScreen from '../screens/Home';
-import ClientInfo from '../screens/ClientInfo';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {enableScreens} from 'react-native-screens';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { enableScreens } from 'react-native-screens';
 import Splash from '../screens/Splash';
 import Drawer from './Drawer';
-import Request from '../screens/Request';
-import MyInfo from '../screens/MyInfo';
-import Payments from '../screens/Payments';
-import ClientDetails from '../screens/ClientDetails';
-import CreateNewAction from '../screens/CreateNewAction';
-import FileCabinet from '../screens/FileCabinet';
-import Manager from '../screens/Manager';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomHeader from '../Component/CustomHeader';
-import {Color} from '../Style';
-import {Provider} from 'react-redux';
+import { Color } from '../Style';
+import { Provider } from 'react-redux';
 import store from '../Redux/Store/index';
 import Login from '../screens/Login';
-import ContactUs from '../screens/ContactUs';
-import ViewOrder from '../screens/ViewOrder';
-import InvoiceView from '../screens/InvoiceView';
-import ViewRequest from '../screens/ViewRequest';
-import InvoiceDetails from '../screens/InvoiceDetails';
-
+import Signup from '../screens/Signup';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import RegisterPet from '../screens/RegisterPet';
+import Posts from '../screens/Posts';
+import viewAllCategories from '../screens/viewAllCategories';
+import AllPetsCategories from '../screens/AllPetsCategories';
+import Profile from '../screens/profile';
+import ProfilePosts from '../screens/ProfilePosts';
+import profileGallery from '../screens/profileGallery';
+import About from '../screens/About';
+import PetStore from '../screens/PetStore';
+import Notification from '../screens/Notification';
+import ForgotPassword from '../screens/ForgotPassword';
+import VerifyOTPForget from '../screens/VerifyOTPForget';
+import CreateProfile from '../screens/CreateProfile';
+import OwnerProfile from '../screens/OwnerProfile';
+import productCategories from '../screens/productCategories';
+import ProductList from '../screens/ProductList';
+import ProductDetails from '../screens/ProductDetails';
+import Cart from '../screens/Cart';
+import Mating from '../screens/Mating';
+import Vaccination from '../screens/Vaccination';
+import BookVaccination from '../screens/BookVaccination';
+import VaccinationChart from '../screens/VaccinationChart';
 enableScreens();
 
 // const SignStack = createStackNavigator();
@@ -98,7 +108,7 @@ enableScreens();
 
 const Drawer3 = createDrawerNavigator();
 
-function MyDrawer3({navigation, route}) {
+function MyDrawer3({ navigation, route }) {
   return (
     <Drawer3.Navigator
       defaultStatus="closed"
@@ -114,27 +124,27 @@ function MyDrawer3({navigation, route}) {
         name="Home"
         component={MainNavigation1}
       />
-      <Drawer3.Screen
+      {/* <Drawer3.Screen
         navigation={navigation}
         name="Payments"
         component={PaymentScreenStack}
         
-      />
-      <Drawer3.Screen
+      /> */}
+      {/* <Drawer3.Screen
         navigation={navigation}
         name="MyInfo"
         component={MyInfo}
-      />
+      /> */}
       {/* <Drawer3.Screen
         navigation={navigation}
         name="FileCabinet"
         component={FileCabinet}
       /> */}
-      <Drawer3.Screen
+      {/* <Drawer3.Screen
         navigation={navigation}
         name="Manager"
         component={Manager}
-      />
+      /> */}
       {/* <Drawer.Screen name="Home2" component={MainNavigation2} /> */}
 
       {/* <Drawer.Screen name="Home" component={MainNavigation1} /> */}
@@ -142,7 +152,7 @@ function MyDrawer3({navigation, route}) {
   );
 }
 
-function MyTabBar({state, descriptors, navigation}) {
+function MyTabBar({ state, descriptors, navigation }) {
   return (
     <View
       style={{
@@ -154,19 +164,19 @@ function MyTabBar({state, descriptors, navigation}) {
         borderTopWidth: 1,
         width: wp(112),
         //   justifyContent: 'space-between',
-        backgroundColor:Color.darkGreen,    
+        backgroundColor: '#fff',
         height: 60,
-        color:'#fff',
-        paddingHorizontal:22
+        color: '#fff',
+        paddingHorizontal: 22
       }}>
       {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
+        const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
         let showlabel = '';
@@ -178,39 +188,39 @@ function MyTabBar({state, descriptors, navigation}) {
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/home-green.png'))
-              : (iconNm = require('../Assets/img/icons/home.png'));
+              ? (iconNm = require('../Assets/img/icons/pawprint-yellow.png'))
+              : (iconNm = require('../Assets/img/icons/pawprint-black.png'));
           }
         }
 
         if (label == 'ClientInfo') {
-          showlabel = 'Clients';
+          showlabel = 'Notify';
           // iconNm = require('../Assets/img/icons/group.png');
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/group-green.png'))
-              : (iconNm = require('../Assets/img/icons/group.png'));
+              ? (iconNm = require('../Assets/img/icons/bell-yellow.png'))
+              : (iconNm = require('../Assets/img/icons/bell-black.png'));
           }
         }
 
         if (label == 'FileCabinet') {
-          showlabel = 'File Cabinet';
+          showlabel = 'Store';
           // iconNm = require('../Assets/img/icons/profile-user.png');
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/files-green.png'))
-              : (iconNm = require('../Assets/img/icons/files-white.png'));
+              ? (iconNm = require('../Assets/img/icons/store-yellow.png'))
+              : (iconNm = require('../Assets/img/icons/store-black.png'));
           }
         }
         if (label == 'Requests') {
-          showlabel = 'Requests';
+          showlabel = 'Me';
           // iconNm = require('../Assets/img/icons/profile-user.png');
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/dots-green.png'))
-              : (iconNm = require('../Assets/img/icons/dots-white.png'));
+              ? (iconNm = require('../Assets/img/icons/user-yellow.png'))
+              : (iconNm = require('../Assets/img/icons/user-black.png'));
           }
         }
         // if (label == "Tab3") {
@@ -285,7 +295,7 @@ function MyTabBar({state, descriptors, navigation}) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{flex: 1, justifyContent: 'center'}}
+            style={{ flex: 1, justifyContent: 'center' }}
             key={route.key}>
             {/* <Icon size={24} name={iconNm} color={isFocused ? '#FFFFFF' : '#d3d3d3'} />  */}
             <View
@@ -295,16 +305,19 @@ function MyTabBar({state, descriptors, navigation}) {
                 justifyContent: 'center',
                 alignItems: 'center',
                 alignSelf: 'center',
+                // borderTopWidth: isFocused ? 2 : 0,
+                borderColor: '#fdd979',
+                borderBottomWidth: isFocused ? 2 : 0,
               }}>
-              <Image source={iconNm} style={{width: 25, height: 25}} />
+              <Image source={iconNm} style={{ width: showlabel == "Posts" ? 21 : showlabel == "Notify" ? 25 : 22, height: showlabel == "Notify" ? 25 : 21 }} />
 
               <Text
                 style={{
                   alignSelf: 'center',
-                  color: isFocused ? Color.geen : Color.white,
+                  color: isFocused ? '#fdd979' : '#000',
                   // borderBottomWidth: 2,
                   // borderBottomColor: isFocused ? Color.geen : Color.white,
-                  paddingBottom: 5,
+                  // paddingBottom: 5,
                   fontSize: 9,
                   fontFamily: 'Poppins-SemiBold',
                 }}>
@@ -336,24 +349,24 @@ function MainNavigation1() {
           header: () => <CustomHeader />, // Include the custom header
         }}
       />
-
-      <Tab.Screen
-        name="ClientInfo"
-        component={ClientScreenStack}
-        options={{
-          header: () => <CustomHeader />, // Include the custom header
-        }}
-      />
       <Tab.Screen
         name="FileCabinet"
-        component={FileCabinet}
+        component={productCategories}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
       />
       <Tab.Screen
+        name="ClientInfo"
+        component={Notification}
+        options={{
+          header: () => <CustomHeader />, // Include the custom header
+        }}
+      />
+
+      <Tab.Screen
         name="Requests"
-        component={RequestScreenStack}
+        component={OwnerProfile}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
@@ -383,8 +396,42 @@ function SignInScreen() {
           headerShown: false,
         }}
       />
-      
-       
+      <Stack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Posts"
+        component={Posts}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="VerifyOTPForget"
+        component={VerifyOTPForget}
+        options={{
+          headerShown: false,
+        }}
+      />
+
     </SignStack.Navigator>
   );
 }
@@ -397,6 +444,13 @@ function HomeScreenStack() {
     //  initialRouteName='AuthCheck'
     >
       <Stack.Screen
+        name="Posts"
+        component={Posts}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{
@@ -404,122 +458,252 @@ function HomeScreenStack() {
         }}
       />
       <Stack.Screen
-        name="MyInfo"
-        component={MyInfo}
+        name="RegisterPet"
+        component={RegisterPet}
         options={{
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="viewAllCategories"
+        component={viewAllCategories}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="productCategories"
+        component={productCategories}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ProductList"
+        component={ProductList}
+        options={{
+          headerShown: false,
+        }}
+      />
+   
+      <Stack.Screen
+        name="ProductDetails"
+        component={ProductDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="Mating"
+        component={Mating}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="Vaccination"
+        component={Vaccination}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="BookVaccination"
+        component={BookVaccination}
+        options={{
+          headerShown: false,
+        }}
+      />
+         <Stack.Screen
+        name="VaccinationChart"
+        component={VaccinationChart}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AllPetsCategories"
+        component={AllPetsCategories}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ProfilePosts"
+        component={ProfilePosts}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="profileGallery"
+        component={profileGallery}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="About"
+        component={About}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PetStore"
+        component={PetStore}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateProfile"
+        component={CreateProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="OwnerProfile"
+        component={OwnerProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+
     </HomeStack.Navigator>
   );
 }
 
-const ClientStack = createStackNavigator();
+// const ClientStack = createStackNavigator();
 
-function ClientScreenStack() {
-  return (
-    <ClientStack.Navigator
-    //  initialRouteName='AuthCheck'
-    >
-      <Stack.Screen
-        name="ClientHome"
-        component={ClientInfo}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ClientDetails"
-        component={ClientDetails}
-        options={{
-          headerShown: false,
-        }}
-      />
-      
-    
-    </ClientStack.Navigator>
-  );
-}
+// function ClientScreenStack() {
+//   return (
+//     <ClientStack.Navigator
+//     //  initialRouteName='AuthCheck'
+//     >
+//       <Stack.Screen
+//         name="ClientHome"
+//         component={ClientInfo}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <Stack.Screen
+//         name="ClientDetails"
+//         component={ClientDetails}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
 
-const RequestStack = createStackNavigator();
 
-function RequestScreenStack() {
-  return (
-    <RequestStack.Navigator
-    //  initialRouteName='AuthCheck'
-    >
-      <Stack.Screen
-        name="Request"
-        component={Request}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="CreateNewAction"
-        component={CreateNewAction}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ContactUs"
-        component={ContactUs}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="ViewRequest"
-        component={ViewRequest}
-        options={{
-          headerShown: false,
-        }}
-      />
-     
-    </RequestStack.Navigator>
-  );
-}
-const PaymentStack = createStackNavigator();
+//     </ClientStack.Navigator>
+//   );
+// }
 
-function PaymentScreenStack() {
-  return (
-    <PaymentStack.Navigator
-    //  initialRouteName='AuthCheck'
-    >
-       <Stack.Screen
-        name="Payments"
-        component={Payments}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="InvoiceView"
-        component={InvoiceView}
-        options={{
-          header: () => <CustomHeader />, // Include the custom header
-        }}
-      />
-      <Stack.Screen
-        name="InvoiceDetails"
-        component={InvoiceDetails}
-        options={{
-          header: () => <CustomHeader />, // Include the custom header
-        }}
-      />
-      <Stack.Screen
-        name="ViewOrder"
-        component={ViewOrder}
-        options={{
-          header: () => <CustomHeader />, // Include the custom header
-        }}
-      />
-      
-     
-    </PaymentStack.Navigator>
-  );
-}
+// const RequestStack = createStackNavigator();
+
+// function RequestScreenStack() {
+//   return (
+//     <RequestStack.Navigator
+//     //  initialRouteName='AuthCheck'
+//     >
+//       <Stack.Screen
+//         name="Request"
+//         component={Request}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <Stack.Screen
+//         name="CreateNewAction"
+//         component={CreateNewAction}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <Stack.Screen
+//         name="ContactUs"
+//         component={ContactUs}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <Stack.Screen
+//         name="ViewRequest"
+//         component={ViewRequest}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+
+//     </RequestStack.Navigator>
+//   );
+// }
+// const PaymentStack = createStackNavigator();
+
+// function PaymentScreenStack() {
+//   return (
+//     <PaymentStack.Navigator
+//     //  initialRouteName='AuthCheck'
+//     >
+//        <Stack.Screen
+//         name="Payments"
+//         component={Payments}
+//         options={{
+//           headerShown: false,
+//         }}
+//       />
+//       <Stack.Screen
+//         name="InvoiceView"
+//         component={InvoiceView}
+//         options={{
+//           header: () => <CustomHeader />, // Include the custom header
+//         }}
+//       />
+//       <Stack.Screen
+//         name="InvoiceDetails"
+//         component={InvoiceDetails}
+//         options={{
+//           header: () => <CustomHeader />, // Include the custom header
+//         }}
+//       />
+//       <Stack.Screen
+//         name="ViewOrder"
+//         component={ViewOrder}
+//         options={{
+//           header: () => <CustomHeader />, // Include the custom header
+//         }}
+//       />
+
+
+//     </PaymentStack.Navigator>
+//   );
+// }
 
 
 const Stack = createNativeStackNavigator();

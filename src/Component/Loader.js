@@ -17,7 +17,7 @@ export const Loader = props => {
   return (
     <Spinner
       visible={props.flag}
-      textContent={'Loading...'}
+      // textContent={'Loading...'}
       //textStyle={styles.spinnerTextStyle}
       //  customIndicator={<CustomIndicator/>}
     />

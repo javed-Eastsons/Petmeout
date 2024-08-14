@@ -1,15 +1,18 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Color} from '../Style';
+import { Color } from '../Style';
+import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon1 from 'react-native-vector-icons/Octicons'
+import LottieView from 'lottie-react-native';
 const CustomHeader = () => {
   const navigation = useNavigation();
   let iconNm = require('../Assets/img/icons/hamburger-green.png');
-  let logo = require('../Assets/img/logo.png');
+  let logo = require('../Assets/img/petmeout.png');
   let bell = require('../Assets/img/icons/bell-green.png');
   let profile = require('../Assets/img/icons/profile-green.png');
 
@@ -18,8 +21,7 @@ const CustomHeader = () => {
       style={{
         backgroundColor: Color.white,
         // backgroundColor: '',
-        borderBottomWidth: 1,
-        borderBottomColor: 'orange',
+       elevation:5,
         justifyContent: 'center',
         padding: 15,
       }}>
@@ -39,7 +41,8 @@ const CustomHeader = () => {
           }}>
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
             {/* Hamburger icon or any other icon you prefer */}
-            <Image source={iconNm} style={{width: 25, height: 25}} />
+            <Icon1 name='three-bars' size={25} color='#000'/>
+             {/* <Image source={iconNm} style={{ width: 25, height: 25 }} /> */}
           </TouchableOpacity>
         </View>
         <View
@@ -50,52 +53,39 @@ const CustomHeader = () => {
           }}>
           <Image
             source={logo}
-            style={{width: 200, height: 40}}
+            style={{ width: 200, height: 40 }}
             resizeMode="contain"
           />
         </View>
         <View
           style={{
             // backgroundColor: 'green',
-            width: wp(20),
+            width: wp(22),
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('MyInfo')}>
-            {/* Hamburger icon or any other icon you prefer */}
-            <Image source={profile} style={{width: 20, height: 20}} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginLeft: 10}}
-            onPress={() => navigation.openDrawer()}>
-            {/* Hamburger icon or any other icon you prefer */}
+          <TouchableOpacity style={{marginLeft:30}} onPress={()=>{navigation.navigate('Cart')}}>
+            <Icon
 
-            <Image source={bell} style={{width: 20, height: 20}} />
+              name="shopping-cart"
+              size={25}
+              
+              color="black"
+            />
           </TouchableOpacity>
-          <View
-            style={{
-              position: 'absolute',
-              top: -2,
-              right: 0,
-              height: 25,
+          {/* <LottieView
+                  source={require("../Assets/lottie/sms.json")}
+                  style={{
+                    width: 80,
+                    height: 0,
+                    alignSelf: 'center',
 
-              width: 25,
-              justifyContent: 'center',
-              borderWidth: 1,
-              borderColor: Color.white,
-              backgroundColor: Color.geen,
-              borderRadius: 50,
-            }}>
-            <Text
-              style={{
-                color: Color.white,
-                alignSelf: 'center',
-                fontSize: 12,
-              }}>
-              0
-            </Text>
-          </View>
+                  }}
+                  autoPlay loop
+                /> */}
+         
+
         </View>
       </View>
     </View>
