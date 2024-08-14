@@ -74,9 +74,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.taxleaf"
+    namespace "com.petmeout"
     defaultConfig {
-        applicationId "com.taxleaf"
+        applicationId "com.petmeout"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
