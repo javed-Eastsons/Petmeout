@@ -121,6 +121,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 
         width: '97%', height: 180, alignSelf: 'center', marginLeft: 10,
+        elevation: 15, // For Android shadow
+        shadowColor: '#000000', // For iOS shadow
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
        
 
     },

@@ -12,7 +12,9 @@ import {
   POSTS_BY_PETID,
   POSTS_COMMENTS,
   LOGIN_PET,
-  PET_DETAILS
+  PET_DETAILS,
+  MATING_LIST,
+  VACCINATION_LIST
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
@@ -49,7 +51,7 @@ export const LoginUser = (email, pass, navigation) => {
 
         if (responseJson.status == true) {
           AsyncStorage.setItem('token', responseJson.accessToken);
-          AsyncStorage.setItem('Login_Details', responseJson);
+          AsyncStorage.setItem('Login_Data', JSON.stringify(responseJson));
 
           console.log(responseJson.accessToken, 'token');
 
@@ -175,10 +177,10 @@ export const petDetailsbyId = (id, navigation) => {
       data: formData
     };
 
-   
-    return  axios.request(config)
+
+    return axios.request(config)
       .then((responseJson) => {
-        console.log(responseJson.data,'petDetailspetDetailspetDetailspetDetails');
+        console.log(responseJson.data, 'petDetailspetDetailspetDetailspetDetails');
 
         if (responseJson.data.status == true) {
 
@@ -638,19 +640,27 @@ export const AllPetsListingByCategory = cat_name => {
 };
 
 
-export const logout = (email, navigation) => {
-  return (dispatch, getState) => {
+export const logout = (email,navigation) => {
+  return async (dispatch) => {
+    try {
+      // Clear token and Login_Data from AsyncStorage
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('Login_Data');
+
+      // Update Redux state
+      dispatch({
+        type: LOGIN_DATA,
+        payload: null,
+      });
+
+      // Reset the navigation stack and navigate to the Login screen
+      navigation.navigate('Login');
 
 
-    AsyncStorage.setItem('token', null);
-
-
-    dispatch({
-      type: LOGIN_DATA,
-      payload: null,
-    });
-    navigation.navigate('Login');
-
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Handle the error (optional)
+    }
   };
 };
 
@@ -707,22 +717,22 @@ export const registerPet = (petName, gender, categoryName, breedName, color, wei
   };
 };
 
-export const petMatingRegister = (petName,age,categoryName,breedName,msg,imageBase64, navigation) => {
+export const petMatingRegister = (petName, age, categoryName, breedName, msg, imageBase64,gender, navigation) => {
   return (dispatch, getState) => {
     const url1 =
       Globals.baseUrl +
 
       "PetRegistration/PetRegistration.php";
     let data = new FormData();
- 
-    
 
-     data.append('petname', petName);
-    data.append('gender', 'Male');
+
+
+    data.append('petname', petName);
+    data.append('gender', gender);
     data.append('age', age);
     data.append('category', categoryName);
     data.append('breed', breedName);
-    data.append('message',msg);
+    data.append('message', msg);
     data.append('pet_image', imageBase64)
 
     console.log(data, 'formDattttaaa')
@@ -739,7 +749,8 @@ export const petMatingRegister = (petName,age,categoryName,breedName,msg,imageBa
       .then((response) => {
         console.log(response.data, 'responseresponseresponse')
         if (response.data.status == true) {
-          Alert.alert(response.data.message)
+          // Alert.alert(response.data.message)
+          dispatch(allMatingListing());
           // dispatch(petListing(email, navigation));
           // navigation.goBack()
 
@@ -1119,6 +1130,213 @@ export const likePost = (petId, postId, like, email, pet_name, navigation) => {
         console.log(error);
       });
     // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+export const allMatingListing = (email, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/PetMatListing/PetMatAllListing.php";
+
+
+    return fetch(url1, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+
+      // body: formData,
+    })
+      .then((response) => response.json())
+      .then(async (responseJson) => {
+        console.log("MAtingMatingMatingmAting", responseJson);
+
+        if (responseJson.status == true) {
+
+
+          dispatch({
+            type: MATING_LIST,
+            payload: responseJson?.Output?.reverse(),
+          });
+          resolve(responseJson);
+        } else {
+          // Alert.alert('Something Went Wrong');
+        }
+      })
+      .catch((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const petMatingSorting = (categoryName, breedName, gender, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+
+      "SortPetMating/SortPetMating.php";
+    let data = new FormData();
+
+
+
+    data.append('category', categoryName);
+    data.append('breed', breedName);
+    data.append('gender', gender);
+
+    console.log(data, 'formDattttaaa')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://refuel.site/projects/socialzoo/API/SortPetMating/SortPetMating.php',
+      headers: {
+        // ...data.getHeaders()
+      },
+      data: data
+    };
+    return axios.request(config)
+      .then((response) => {
+        console.log(response.data, 'responseresponseresponse')
+        if (response.data.status == true) {
+          dispatch({
+            type: MATING_LIST,
+            payload: response.data?.Output,
+          });
+          // dispatch(allMatingListing());
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          console.log('error')
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  };
+};
+
+export const vaccinationSorting = (categoryName, age,navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+
+      "SortBookVaccination/SortBookVaccination.php";
+    let data = new FormData();
+
+
+
+    data.append('category', categoryName);
+    data.append('age', age);
+
+
+    console.log(data, 'formDattttaaa')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://refuel.site/projects/socialzoo/API/SortBookVaccination/SortBookVaccination.php',
+      headers: {
+        // ...data.getHeaders()
+      },
+      data: data
+    };
+    return axios.request(config)
+      .then((response) => {
+        console.log(response.data, 'responseresponseresponse')
+        if (response.data.status == true) {
+          dispatch({
+            type: VACCINATION_LIST,
+            payload: response.data?.Output,
+          });
+          // dispatch(allMatingListing());
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          console.log('error')
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  };
+};
+
+export const bookVaccination = (formdata,pet_id, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "BookVaccination/BookVaccination.php";
+
+
+    console.log(formdata, 'formDattttaaa')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://refuel.site/projects/socialzoo/API/BookVaccination/BookVaccination.php',
+      headers: {
+        // ...data.getHeaders()
+      },
+      data: formdata
+    };
+    return axios.request(config)
+      .then((response) => {
+        console.log(response.data, 'responseresponseresponse')
+        if (response.data.status == true) {
+          Alert.alert(response.data.message)
+          dispatch(bookVaccinationList(pet_id, navigation));
+          navigation.navigate('Vaccination')
+
+        } else {
+          Alert.alert(response.data.message)
+          console.log('error')
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  };
+};
+
+export const bookVaccinationList = (pet_id, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+
+      "BookVaccinationListByPetId/BookVaccinationListByPetId.php";
+
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: `https://refuel.site/projects/socialzoo/API/BookVaccinationListByPetId/BookVaccinationListByPetId.php?pet_id=${pet_id}`,
+      headers: {
+        // ...data.getHeaders()
+      },
+      // data: data
+    };
+    return axios.request(config)
+      .then((response) => {
+        console.log(response.data, 'responseresponseresponse')
+        if (response.data.status == true) {
+          dispatch({
+            type: VACCINATION_LIST,
+            payload: response.data?.Output,
+          });
+          // dispatch(allMatingListing());
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          console.log('error')
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
   };
 };
 

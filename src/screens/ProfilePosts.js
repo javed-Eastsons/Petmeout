@@ -153,7 +153,7 @@ console.log(POSTS_BY_PETID,'POSTS_BY_PETIDPOSTS_BY_PETID')
                   />
                   <Text style={{ marginTop: 4, marginLeft: 2, fontSize: 11, color: '#000' }}>Photo/Video</Text>
                 </TouchableOpacity>
-                <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 105, height: 35, paddingTop: 5, padding: 5, borderRadius: 5, marginHorizontal: 4 }}>
+                {/* <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 105, height: 35, paddingTop: 5, padding: 5, borderRadius: 5, marginHorizontal: 4 }}>
                   <Image
                     source={require('../Assets/boy.png')}
                     style={{ width: 20, height: 20, marginTop: 3 }}
@@ -166,7 +166,7 @@ console.log(POSTS_BY_PETID,'POSTS_BY_PETIDPOSTS_BY_PETID')
                     style={{ width: 20, height: 20, marginTop: 3 }}
                   />
                   <Text style={{ marginTop: 4, marginLeft: 5, fontSize: 11, color: '#000' }}>Feeling/Activity</Text>
-                </View>
+                </View> */}
               </View>
             </View>
             {reversedData?.map((data, index) => (

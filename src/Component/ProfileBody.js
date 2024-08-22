@@ -31,7 +31,7 @@ export const ProfileBody = ({
   const [base64String, setBase64String] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false)
   const { LOGIN_DATA } = useSelector(state => state.PetmeOutReducer);
-
+console.log(post,'poostpost')
   const pickImageFromGallery = () => {
     let options = {
       mediaType: 'photo',

@@ -348,6 +348,7 @@ const RegisterPet = () => {
                                     itemTextStyle={styles.selectedTextStyle}
                                     iconStyle={styles.iconStyle}
                                     search
+                                    searchPlaceholder='Search...'
                                     data={CATEGORY_LIST}
                                     maxHeight={200}
                                     labelField="cat_name"
@@ -389,6 +390,8 @@ const RegisterPet = () => {
                                     iconStyle={styles.iconStyle}
                                     data={BREED_LIST}
                                     maxHeight={200}
+                                    search
+                                    searchPlaceholder='Search...'
                                     labelField="breed_name"
                                     valueField="breed_name"
                                     placeholder={!isFocus ? 'Select item' : '...'}

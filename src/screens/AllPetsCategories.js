@@ -71,7 +71,7 @@ const AllPetsCategories = ({ route }) => {
         { label: '8', value: '8' },
         { label: '9', value: '9' },
         { label: '10', value: '10' },
-      ];
+    ];
     return (
 
         <View style={{ backgroundColor: ALLPETS_CATEGORY == null || ALLPETS_CATEGORY?.length < 1 ? '#fff' : 'transparent', flex: 1 }}>
@@ -237,6 +237,8 @@ const AllPetsCategories = ({ route }) => {
                                 itemTextStyle={styles.selectedTextStyle}
                                 iconStyle={styles.iconStyle}
                                 data={BREED_LIST}
+                                search
+                                searchPlaceholder='Search...'
                                 maxHeight={200}
                                 labelField="breed_name"
                                 valueField="breed_name"
@@ -273,7 +275,7 @@ const AllPetsCategories = ({ route }) => {
                                 }}
 
                             />
-                           
+
                         </View>
 
                     </View>

@@ -13,7 +13,9 @@ import {
   POSTS_BY_PETID,
   POSTS_COMMENTS,
   LOGIN_PET,
-  PET_DETAILS
+  PET_DETAILS,
+  MATING_LIST,
+  VACCINATION_LIST,
 } from '../Actions/types';
 
 const initialstate = {
@@ -31,8 +33,9 @@ const initialstate = {
   POSTS_BY_PETID: [],
   POSTS_COMMENTS: [],
   LOGIN_PET: [],
-  PET_DETAILS:[]
-
+  PET_DETAILS: [],
+  MATING_LIST: [],
+  VACCINATION_LIST: [],
 };
 
 const PetmeOutReducer = (state = initialstate, action) => {
@@ -75,8 +78,13 @@ const PetmeOutReducer = (state = initialstate, action) => {
       return { ...state, POSTS_COMMENTS: action.payload };
     case LOGIN_PET:
       return { ...state, LOGIN_PET: action.payload };
-      case PET_DETAILS:
-        return { ...state, PET_DETAILS: action.payload };
+    case PET_DETAILS:
+      return { ...state, PET_DETAILS: action.payload };
+    case MATING_LIST:
+      return { ...state, MATING_LIST: action.payload };
+    case VACCINATION_LIST:
+      return { ...state, VACCINATION_LIST: action.payload };
+   
   }
 
   return state;

@@ -263,6 +263,7 @@ const CreateProfile = () => {
                                                             uri: item.image_path,
                                                         }}
                                                         style={styles.profileImg1}
+                                                        resizeMode='cover'
                                                     />
                                                 </View>
                                                 <Text style={{ fontSize: 14, color: '#000', textAlign: 'center', fontFamily: 'Poppins-Regular' }}>{item.pet_name}</Text>

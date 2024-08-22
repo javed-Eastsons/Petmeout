@@ -85,15 +85,18 @@ const Drawer = (props) => {
         source={image}
         style={styles.bgImage}
         resizeMode="cover">
-        <View style={{ padding: 10, alignSelf: 'center',paddingTop:20 }}>
+        <View style={{ padding: 10, alignSelf: 'center', paddingTop: 20 }}>
           <View>
-            <View style={{ borderWidth: 3, borderColor: '#fbd349', padding: 5, borderRadius: 10 }}>
+            <View style={{
+               borderRadius: 10, padding:5,
+            }}>
               {LOGIN_PET ? (
-                <TouchableOpacity onPress={() => { navigation.navigate('Profile', { petDetails: LOGIN_PET }) }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Profile', { petDetails: LOGIN_PET }) }}
+                >
                   <Image
                     source={{ uri: LOGIN_PET?.image_path }}
-                    resizeMode='contain'
-                    style={{ height: 100, width: 110, borderRadius: 10 }}
+                    resizeMode='cover'
+                    style={{ height: 100, width: 110, borderRadius: 10 ,}}
                   />
                 </TouchableOpacity>
 
@@ -180,8 +183,8 @@ const Drawer = (props) => {
                 style={[styles.screenName, { backgroundColor: isFocus == 'Categories' ? '#e5e5e5' : 'transparent' }]}
                 onPress={() => {
                   navigation.navigate('viewAllCategories')
-                    setIsFocus('Categories')
-                  
+                  setIsFocus('Categories')
+
                   // navigation.navigate('ClientInfo');
                 }}>
                 <Image

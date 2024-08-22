@@ -12,35 +12,34 @@ import { useDispatch } from 'react-redux';
 const Splash = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+ 
+  const checkToken=async()=>{
+    let token = await  AsyncStorage.getItem("token");
+    let loginDetails = await AsyncStorage.getItem("Login_Data");
 
-  const { width, height } = Dimensions.get('window');
-  const gotoSignInScreen = async () => {
-    // Alert.alert('hiii');
+    if (loginDetails) {
+      loginDetails = JSON.parse(loginDetails); // Parsing the string back into an object
+      console.log('ParsedLogin_Data:', loginDetails);
+    }
+  
+    console.log(loginDetails,'loginDataloginDataloginData')
+    console.log(token,'tokentokentokentokentoken')
 
+    if(token && loginDetails){
+      dispatch({
+        type: LOGIN_DATA,
+        payload: loginDetails,
+      });
+      navigation.navigate('Auth');
+    }else{
       navigation.navigate('Login');
-  };
 
-  // const checkToken=async()=>{
-  //   let token = await  AsyncStorage.getItem("token");
-  //   let Login_Details = await  AsyncStorage.getItem("Login_Details");
-  //   console.log(Login_Details,'loginDataloginDataloginData')
-  //   console.log(token,'tokentokentokentokentoken')
+    }
+  }
 
-  //   if(token){
-  //     dispatch({
-  //       type: LOGIN_DATA,
-  //       payload: Login_Details,
-  //     });
-  //     navigation.navigate('Auth');
-  //   }else{
-  //     navigation.navigate('Login');
-
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   checkToken()
-  // }, []);
+  useEffect(() => {
+    checkToken()
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#f3f8ee' }}>
@@ -61,9 +60,9 @@ const Splash = () => {
         />
       </View>
       
-          <TouchableOpacity style={{backgroundColor:'#335368',width:'50%',height:50,borderRadius:25,alignSelf:'center',marginTop:80}} onPress={gotoSignInScreen}>
+          {/* <TouchableOpacity style={{backgroundColor:'#335368',width:'50%',height:50,borderRadius:25,alignSelf:'center',marginTop:80}} onPress={gotoSignInScreen}>
             <Text style={{textAlign:'center',fontSize:15,marginTop:15,color:'#fff'}}>Continue</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
 
       {/* <LottieView

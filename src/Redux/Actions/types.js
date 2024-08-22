@@ -13,5 +13,7 @@ export const POSTS_BY_PETID = 'POSTS_BY_PETID';
 export const POSTS_COMMENTS= 'POSTS_COMMENTS';
 export const LOGIN_PET= 'LOGIN_PET';
 export const PET_DETAILS='PET_DETAILS';
+export const MATING_LIST='MATING_LIST';
+export const VACCINATION_LIST='VACCINATION_LIST';
 
 

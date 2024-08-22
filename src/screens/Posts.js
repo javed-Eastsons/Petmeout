@@ -18,6 +18,7 @@ import { Globals } from '../Config';
 import CreateProfile from './OwnerProfile';
 import LikeAnimation from './LikeAnimation ';
 import LottieView from 'lottie-react-native';
+import Video from 'react-native-video';
 
 const Posts = ({ route }) => {
 
@@ -53,6 +54,7 @@ const Posts = ({ route }) => {
     const [postItem, setPostItem] = useState([]);
     const petDetails = route?.params?.petDetails ? route?.params?.petDetails : PET_LIST ? PET_LIST[0] : null
 
+    console.log(LOGIN_DATA,'LOGIN_DATALOGIN_DATALOGIN_DATA')
     useEffect(() => {
         if (LOGIN_DATA?.No_of_pet == 0)
             navigation.navigate('HomeScreen')
@@ -103,7 +105,7 @@ const Posts = ({ route }) => {
     const pickImageFromGallery = () => {
         let options = {
             mediaType: 'photo',
-            quality: 1,
+            quality: 5,
         };
         launchImageLibrary(options, (response) => {
             if (response.didCancel) {
@@ -281,7 +283,7 @@ const Posts = ({ route }) => {
                         }}
                         style={styles.feedImg}
                     />
-
+    
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 7 }}>
                     <View style={{ flexDirection: 'row' }}>
@@ -404,7 +406,7 @@ const Posts = ({ route }) => {
                             />
                             <Text style={{ marginTop: 4, marginLeft: 2, fontSize: 11, color: '#000' }}>Photo/Video</Text>
                         </TouchableOpacity>
-                        <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 95, height: 35, paddingTop: 5, padding: 5, borderRadius: 5, marginHorizontal: 4 }}>
+                        {/* <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 95, height: 35, paddingTop: 5, padding: 5, borderRadius: 5, marginHorizontal: 4 }}>
                             <Image
                                 source={require('../Assets/boy.png')}
                                 style={{ width: 20, height: 20, marginTop: 3 }}
@@ -417,7 +419,7 @@ const Posts = ({ route }) => {
                                 style={{ width: 20, height: 20, marginTop: 3 }}
                             />
                             <Text style={{ marginTop: 4, marginLeft: 5, fontSize: 11, color: '#000' }}>Feeling/Activity</Text>
-                        </View>
+                        </View> */}
                     </View>
                 </View>
 

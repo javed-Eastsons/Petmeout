@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert,Image} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Image } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useDispatch, useSelector } from 'react-redux';
-import { breedList, categoryList } from '../Redux/Actions/Petmeout';
+import { bookVaccination, breedList, categoryList } from '../Redux/Actions/Petmeout';
 import { Loader } from '../Component/Loader';
 import DatePicker from 'react-native-date-picker';
+import { useNavigation } from '@react-navigation/native';
 
 const genderData = [
     {
@@ -24,15 +25,14 @@ const BookVaccination = () => {
         gender: '',
         category: '',
         breed: '',
-        vaccinationType: ''
+        vaccination_type: ''
     });
 
     const [addressDetails, setAddressDetails] = useState({
-        addressToVisit: '',
+        address: '',
         phone: '',
-        time: '',
         message: '',
-        dateTime: new Date()
+        vaccination_date: new Date()
     });
     const [isFocus, setIsFocus] = useState(false);
     const [categoryId, setCategoryId] = useState()
@@ -41,19 +41,58 @@ const BookVaccination = () => {
     const [loader, setLoader] = useState(false);
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
+    const [base64Image, setBase64Image] = useState(null)
+
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const { CATEGORY_LIST } = useSelector(state => state.PetmeOutReducer);
     const { BREED_LIST } = useSelector(state => state.PetmeOutReducer);
+    const { LOGIN_PET } = useSelector(state => state.PetmeOutReducer);
+
+    console.log(LOGIN_PET, 'LOGIN_PETLOGIN_PETLOGIN_PET')
+
+    function toBase64(url) {
+        return fetch(url)
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            }));
+    }
+
+
+    toBase64(LOGIN_PET?.image_path).then(base64 => {
+        // console.log(base64);
+        // If you only need the Base64 string (without the data:image/jpeg;base64, prefix):
+        const base64String = base64.split(',')[1];
+        setBase64Image(base64String)
+        // console.log(base64String,'6466466464646');
+    });
+
     const handleSubmit = () => {
         // Combine both personal and address details
-        const formData = {
+        const formData1 = {
             ...personalDetails,
-            ...addressDetails
+            ...addressDetails,
+            vaccination_date: addressDetails.vaccination_date.toISOString(),
+            pet_image: base64Image,
+            pet_id: LOGIN_PET?.pet_id
         };
-
+        const formData = new FormData();
+        Object.keys(formData1).forEach(key => {
+            formData.append(key, formData1[key]);
+        });
         // Implement form submission logic here
-        Alert.alert('Form Submitted', JSON.stringify(formData, null, 2));
+        // Alert.alert('Form Submitted', JSON.stringify(formData, null, 2));
+        setLoader(true);
+        dispatch(bookVaccination(formData, LOGIN_PET?.pet_id, navigation));
+        setTimeout(() => {
+            setLoader(false);
+        }, 2000);
+        console.log(formData, 'formDataformData')
     };
     useEffect(() => {
         setLoader(true);
@@ -70,7 +109,7 @@ const BookVaccination = () => {
         }, 2000);
     }, [categoryId]);
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
             <Loader flag={loader} />
             <Text style={styles.title}>Book Vaccination</Text>
 
@@ -116,6 +155,7 @@ const BookVaccination = () => {
                     itemTextStyle={styles.selectedTextStyle}
                     iconStyle={styles.iconStyle}
                     search
+                    searchPlaceholder='Search...'
                     data={CATEGORY_LIST}
                     maxHeight={200}
                     labelField="cat_name"
@@ -142,6 +182,8 @@ const BookVaccination = () => {
                     iconStyle={styles.iconStyle}
                     data={BREED_LIST}
                     maxHeight={200}
+                    search
+                    searchPlaceholder='Search...'
                     labelField="breed_name"
                     valueField="breed_name"
                     placeholder={!isFocus ? 'Select Breed' : '...'}
@@ -158,8 +200,8 @@ const BookVaccination = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Vaccination Type"
-                    value={personalDetails.vaccinationType}
-                    onChangeText={(text) => setPersonalDetails({ ...personalDetails, vaccinationType: text })}
+                    value={personalDetails.vaccination_type}
+                    onChangeText={(text) => setPersonalDetails({ ...personalDetails, vaccination_type: text })}
                 />
             </View>
 
@@ -168,8 +210,8 @@ const BookVaccination = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Address to Visit"
-                    value={addressDetails.addressToVisit}
-                    onChangeText={(text) => setAddressDetails({ ...addressDetails, addressToVisit: text })}
+                    value={addressDetails.address}
+                    onChangeText={(text) => setAddressDetails({ ...addressDetails, address: text })}
                 />
                 <TextInput
                     style={styles.input}
@@ -181,8 +223,8 @@ const BookVaccination = () => {
                 <TextInput
                     style={styles.input}
                     placeholder="Time with Day"
-                    value={addressDetails.dateTime.toLocaleString()}
-                    onChangeText={(text) => setAddressDetails({ ...addressDetails, time: text })}
+                    value={addressDetails.vaccination_date.toLocaleString()}
+                // onChangeText={(text) => setAddressDetails({ ...addressDetails, time: text })}
                 />
                 <View style={styles.calender}>
                     <TouchableOpacity onPress={() => setOpen(true)}>
@@ -206,7 +248,7 @@ const BookVaccination = () => {
                     onChangeText={onChangeYear}
                 /> */}
                 <TextInput
-                    style={[styles.input,{height:100}]}
+                    style={[styles.input, { height: 100 }]}
                     placeholder="Message"
                     value={addressDetails.message}
                     onChangeText={(text) => setAddressDetails({ ...addressDetails, message: text })}
@@ -214,12 +256,12 @@ const BookVaccination = () => {
                 <DatePicker
                     modal
                     open={open}
-                    date={addressDetails.dateTime}
+                    date={addressDetails.vaccination_date}
                     onConfirm={(selectedDate) => {
                         // setOpen(false);
                         // setDate(selectedDate);
                         // setYear(moment(selectedDate).format('DD/MM/YYYY'));
-                        setAddressDetails({ ...addressDetails, dateTime: selectedDate });
+                        setAddressDetails({ ...addressDetails, vaccination_date: selectedDate });
                         setOpen(false);
                     }}
                     onCancel={() => {
@@ -298,7 +340,7 @@ const styles = StyleSheet.create({
         color: 'gray'
     },
     calender: {
-        width: '10%', height: 40,position:'absolute',bottom:135,right:20
+        width: '10%', height: 40, position: 'absolute', bottom: 135, right: 20
 
     },
 });

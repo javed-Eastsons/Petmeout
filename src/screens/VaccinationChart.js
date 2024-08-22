@@ -64,6 +64,7 @@ const VaccinationChart = () => {
                     itemTextStyle={styles.selectedTextStyle}
                     iconStyle={styles.iconStyle}
                     search
+                    searchPlaceholder='Search...'
                     data={CATEGORY_LIST}
                     maxHeight={200}
                     labelField="cat_name"
@@ -89,6 +90,8 @@ const VaccinationChart = () => {
                     itemTextStyle={styles.selectedTextStyle}
                     iconStyle={styles.iconStyle}
                     data={BREED_LIST}
+                    search
+                    searchPlaceholder='Search...'
                     maxHeight={200}
                     labelField="breed_name"
                     valueField="breed_name"
@@ -102,7 +105,7 @@ const VaccinationChart = () => {
                     }}
 
                 />
-              
+
             </View>
 
             <TouchableOpacity

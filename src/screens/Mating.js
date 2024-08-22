@@ -1,71 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, Dimensions, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, Dimensions, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Dropdown } from 'react-native-element-dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { breedList, categoryList, petMatingRegister } from '../Redux/Actions/Petmeout';
+import { allMatingListing, breedList, categoryList, petMatingRegister, petMatingSorting } from '../Redux/Actions/Petmeout';
 import { Loader } from '../Component/Loader';
 import { launchImageLibrary } from 'react-native-image-picker';
 import LottieView from 'lottie-react-native';
+import { Globals } from '../Config';
 
 const { width } = Dimensions.get('window');
 
-const postsData = [
-    {
-        post_id: '10',
-        pet_name: 'Posco',
-        cat_name: 'Dog',
-        owner: 'ajay5@eastsons.com',
-        msg: 'Good morning',
-        post_img: 'https://refuel.site/projects/socialzoo/admin/upload/pet1721995626.jpeg',
-        likes: '2',
-        total_comments: '1',
-        Pet_City: 'Faridabad',
-        Age: '5',
-        gender: 'Male'
-    },
-    {
-        post_id: '19',
-        pet_name: 'Catty',
-        cat_name: 'Cat',
-        owner: 'ajay5@eastsons.com',
-        msg: 'Cattty perry!!!',
-        post_img: 'https://refuel.site/projects/socialzoo/admin/upload/pet1721738878.jpeg',
-        likes: '3',
-        total_comments: '0',
-        Pet_City: 'Faridabad',
-        Age: '6',
-        gender: 'Female'
-    },
-    {
-        "post_id": "18",
-        "pet_name": "Shaka",
-        "cat_name": "Dog",
-        "owner": "ajay5@eastsons.com",
-        "msg": "Hey everyone",
-        "post_img": "https://refuel.site/projects/socialzoo/admin/upload/post1722494053.jpeg",
-        "pet_image": "https://refuel.site/projects/socialzoo/admin/upload/pet1721889425.jpeg",
-        "likes": "3",
-        "total_comments": "14",
-        "petid": "341",
-        "sharepostid": "1",
-        "total_no_of_share": "1",
-        "newmsg": "",
-        "logpet": "",
-        "sharemsg": "Hello",
-        "logname": "",
-        "country": "",
-        "state": "",
-        "location": "",
-        "status": "0",
-        Age: '5',
-        gender: 'Male'
 
-    },
-    // Add more items here
-];
 const genderData = [
     {
         id: 1,
@@ -90,10 +38,12 @@ const Mating = () => {
     const [loader, setLoader] = useState(false);
     const [petName, setPetName] = useState(null)
     const [age, setAge] = useState(null)
-    const [msg, setMsg]=useState(null)
-
+    const [msg, setMsg] = useState(null)
+    const [allMatings, setAllMatings] = useState([])
     const { CATEGORY_LIST } = useSelector(state => state.PetmeOutReducer);
     const { BREED_LIST } = useSelector(state => state.PetmeOutReducer);
+    const { MATING_LIST } = useSelector(state => state.PetmeOutReducer);
+    // console.log(MATING_LIST.reverse(),'MATING_LISTMATING_LISTMATING_LIST')
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
         setImageBase64(null)
@@ -105,6 +55,13 @@ const Mating = () => {
     useEffect(() => {
         setLoader(true);
         dispatch(categoryList());
+        setTimeout(() => {
+            setLoader(false);
+        }, 2000);
+    }, []);
+    useEffect(() => {
+        setLoader(true);
+        dispatch(allMatingListing());
         setTimeout(() => {
             setLoader(false);
         }, 2000);
@@ -130,7 +87,7 @@ const Mating = () => {
                 const uri = response.assets[0].uri;
                 setImageUri(uri);
                 convertToBase64(uri)
-              
+
             }
         });
     };
@@ -148,18 +105,18 @@ const Mating = () => {
         }
     };
 
-  
+    // const reversedMating = MATING_LIST?.reverse()
     const imageName = imageUri?.split('/');
     const renderItem = ({ item }) => {
         return (
             <View style={styles.itemContainer}>
                 <Image
-                    source={{ uri: item.post_img }}
+                    source={{ uri: Globals?.categoriesImagePath + item.pet_image }}
                     style={styles.image}
                 />
                 <View style={styles.detailsContainer}>
-                    <Text style={styles.petName}>{item.pet_name}</Text>
-                    <Text style={styles.catName}>{item.Age} Years</Text>
+                    <Text style={styles.petName}>{item.petname}</Text>
+                    <Text style={styles.catName}>{item.age} Years</Text>
                     <Text style={styles.owner}>{item.gender}</Text>
                     {/* <Text style={styles.msg}>{item.msg}</Text> */}
                 </View>
@@ -170,21 +127,45 @@ const Mating = () => {
         );
     };
     const onSubmit = () => {
+
+        if (petName && age && categoryName && breedName && imageBase64 && gender) {
+            setLoader(true);
+            dispatch(petMatingRegister(petName, age, categoryName, breedName, msg, imageBase64, gender, navigation));
+
+            setModalVisible(false)
+            setPetName(null)
+            setAge(null)
+            setCategoryName(null)
+            setBreedName(null)
+            setMsg(null)
+            setImageBase64(null)
+            setImageUri(null)
+            setTimeout(() => {
+                setLoader(false);
+            }, 2000);
+        } else {
+            Alert.alert('Please Fill Required Fields!')
+        }
+
+
+    }
+    const onSortList = () => {
         setLoader(true);
-        dispatch(petMatingRegister(petName,age,categoryName,breedName,msg,imageBase64, navigation));
-        setModalVisible(false)
-        setPetName(null)
-        setAge(null)
+        dispatch(petMatingSorting(categoryName, breedName, gender, navigation));
+        setModalVisibleSort(false)
+
         setCategoryName(null)
         setBreedName(null)
-        setMsg(null)
-        setImageBase64(null)
-        setImageUri(null)
+        setGender(null)
         setTimeout(() => {
             setLoader(false);
         }, 2000);
     }
-
+    useEffect(() => {
+        const listData = [...MATING_LIST];
+        const reversedList = listData.reverse()
+        setAllMatings(reversedList);
+    }, [MATING_LIST]);
     return (
         <View style={{ backgroundColor: '#fff', flex: 1 }}>
             <Loader flag={loader} />
@@ -214,10 +195,11 @@ const Mating = () => {
                 </TouchableOpacity>
             </View>
             <FlatList
-                data={postsData}
+                data={allMatings}
                 renderItem={renderItem}
                 keyExtractor={item => item.post_id}
                 contentContainerStyle={styles.listContainer}
+                showsVerticalScrollIndicator={false}
             />
             <Modal isVisible={isModalVisible} style={styles.modal} animationOutTiming={700} backdropTransitionOutTiming={800}>
 
@@ -312,6 +294,7 @@ const Mating = () => {
                                 itemTextStyle={styles.selectedTextStyle}
                                 iconStyle={styles.iconStyle}
                                 search
+                                searchPlaceholder='Search...'
                                 data={CATEGORY_LIST}
                                 maxHeight={200}
                                 labelField="cat_name"
@@ -345,6 +328,8 @@ const Mating = () => {
                                 iconStyle={styles.iconStyle}
                                 data={BREED_LIST}
                                 maxHeight={200}
+                                search
+                                searchPlaceholder='Search...'
                                 labelField="breed_name"
                                 valueField="breed_name"
                                 placeholder={!isFocus ? 'Select item' : '...'}
@@ -409,6 +394,7 @@ const Mating = () => {
                             itemTextStyle={styles.selectedTextStyle}
                             iconStyle={styles.iconStyle}
                             search
+                            searchPlaceholder='Search...'
                             data={CATEGORY_LIST}
                             maxHeight={200}
                             labelField="cat_name"
@@ -439,6 +425,8 @@ const Mating = () => {
                             iconStyle={styles.iconStyle}
                             data={BREED_LIST}
                             maxHeight={200}
+                            search
+                            searchPlaceholder='Search...'
                             labelField="breed_name"
                             valueField="breed_name"
                             placeholder={!isFocus ? 'Select item' : '...'}
@@ -477,7 +465,7 @@ const Mating = () => {
 
                     </View>
 
-                    <TouchableOpacity style={[styles.btn, { height: 40, backgroundColor: '#fbd349', borderRadius: 5, marginTop: 15, width: '40%', alignSelf: 'flex-end', marginTop: 10 }]}>
+                    <TouchableOpacity onPress={onSortList} style={[styles.btn, { height: 40, backgroundColor: '#fbd349', borderRadius: 5, marginTop: 15, width: '40%', alignSelf: 'flex-end', marginTop: 10 }]}>
                         <Text style={{ color: '#fff', fontSize: 13, fontFamily: 'Poppins-SemiBold', marginTop: 10, textAlign: 'center' }}>Done</Text>
 
                     </TouchableOpacity>
@@ -509,24 +497,25 @@ const styles = StyleSheet.create({
         width: 90,
         height: 95,
         borderRadius: 8,
+        resizeMode: 'cover'
     },
     detailsContainer: {
         flex: 1,
         padding: 10,
     },
     petName: {
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: 'Poppins-SemiBold',
         marginBottom: 1,
     },
     catName: {
-        fontSize: 14,
+        fontSize: 12,
         color: '#666',
         // marginBottom: 5,
         fontFamily: 'Poppins-Regular'
     },
     owner: {
-        fontSize: 14,
+        fontSize: 12,
         color: '#888',
         fontFamily: 'Poppins-Regular'
     },
