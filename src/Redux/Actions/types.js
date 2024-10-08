@@ -15,5 +15,12 @@ export const LOGIN_PET= 'LOGIN_PET';
 export const PET_DETAILS='PET_DETAILS';
 export const MATING_LIST='MATING_LIST';
 export const VACCINATION_LIST='VACCINATION_LIST';
+export const CHARTS_FILES_LIST ="CHARTS_FILES_LIST";
+export const FRIENDS_REQUESTS ="FRIENDS_REQUESTS";
+export const FRIENDS_LISTS = "FRIENDS_LISTS";
+export const CHAT_DATA = "CHAT_DATA";
+export const CHAT_LISTING ="CHAT_LISTING";
+export const ADOPT_LIST ="ADOPT_LIST";
+
 
 

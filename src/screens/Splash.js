@@ -8,37 +8,76 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from "@react-native-community/async-storage";
 import { LOGIN_DATA } from '../Redux/Actions/types';
 import { useDispatch } from 'react-redux';
+import { requestUserPermission, setupForegroundNotifications, triggerLocalNotification } from '../utils/notificationService';
+import messaging from '@react-native-firebase/messaging';
 
 const Splash = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
- 
-  const checkToken=async()=>{
-    let token = await  AsyncStorage.getItem("token");
-    let loginDetails = await AsyncStorage.getItem("Login_Data");
 
+  const checkToken = async () => {
+    let token = await AsyncStorage.getItem("token");
+    let loginDetails = await AsyncStorage.getItem("Login_Data");
     if (loginDetails) {
       loginDetails = JSON.parse(loginDetails); // Parsing the string back into an object
       console.log('ParsedLogin_Data:', loginDetails);
     }
-  
-    console.log(loginDetails,'loginDataloginDataloginData')
-    console.log(token,'tokentokentokentokentoken')
 
-    if(token && loginDetails){
+    console.log(loginDetails, 'loginDataloginDataloginData')
+    console.log(token, 'tokentokentokentokentoken')
+
+    if (token && loginDetails) {
       dispatch({
         type: LOGIN_DATA,
         payload: loginDetails,
       });
       navigation.navigate('Auth');
-    }else{
+    } else {
       navigation.navigate('Login');
 
     }
   }
+  // const checkFCMToken = async () => {
+  //   const fcmToken = await messaging().getToken()
+  //   if (fcmToken) {
+  //     console.log(fcmToken,'fcmTokenfcmToken')
+  //     // Alert.alert(fcmToken)
+  //   }
+  // }
+  // useEffect(() => {
+  //   messaging().setBackgroundMessageHandler(async remoteMessage => {
+  //     console.log(remoteMessage, "setBackgroundMessageHandler")
+  //   })
+
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     console.log(remoteMessage, 'remoteMessageremoteMessage')
+  //   })
+  //   return unsubscribe;
+  // }, [])
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+  //     PushNotification.localNotification({
+  //       message: remoteMessage.notification.body,
+  //       title: remoteMessage.notification.title,
+  //       bigPictureUrl: remoteMessage.notification.android.imageUrl,
+  //       channelId: true,
+  //       vibrate: true,
+  //       vibrationPattern: [1000, 2000, 1000]
+  //     });
+  //   })
+  //   return unsubscribe;
+  // }, [])
+
 
   useEffect(() => {
     checkToken()
+  }, []);
+  useEffect(() => {
+    requestUserPermission();
+    // triggerLocalNotification();
+    // checkFCMToken()
+    setupForegroundNotifications()
+    // notificationListner();
   }, []);
 
   return (
@@ -59,8 +98,8 @@ const Splash = () => {
           autoPlay loop
         />
       </View>
-      
-          {/* <TouchableOpacity style={{backgroundColor:'#335368',width:'50%',height:50,borderRadius:25,alignSelf:'center',marginTop:80}} onPress={gotoSignInScreen}>
+
+      {/* <TouchableOpacity style={{backgroundColor:'#335368',width:'50%',height:50,borderRadius:25,alignSelf:'center',marginTop:80}} onPress={gotoSignInScreen}>
             <Text style={{textAlign:'center',fontSize:15,marginTop:15,color:'#fff'}}>Continue</Text>
           </TouchableOpacity> */}
 

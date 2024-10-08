@@ -511,8 +511,8 @@ const RegisterPet = () => {
                                     style={{ alignSelf: 'flex-start', padding: 5, color: '#000', fontFamily: 'Poppins-Regular' }}>
                                     Country*
                                 </Text>
-                                {
-                                    country &&
+                                {/* {
+                                    country && */}
                                     <Dropdown
                                         style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
                                         placeholderStyle={styles.placeholderStyle}
@@ -536,7 +536,7 @@ const RegisterPet = () => {
                                         }}
 
                                     />
-                                }
+                                {/* } */}
                                 {errors.countryName && <Text style={styles.error}>{errors.countryName}</Text>}
                             </View>
 

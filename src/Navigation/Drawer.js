@@ -40,8 +40,9 @@ const Drawer = (props) => {
   const [loader, setLoader] = useState(false);
   const { USER_DATA } = useSelector(state => state.PetmeOutReducer);
   const { LOGIN_PET } = useSelector(state => state.PetmeOutReducer);
+  const { LOGIN_DATA } = useSelector(state => state.PetmeOutReducer);
 
-  console.log(LOGIN_PET, 'LOGIN_PETLOGIN_PETLOGIN_PET')
+  console.log(LOGIN_DATA, 'LOGIN_DATALOGIN_DATALOGIN_DATA')
   const dispatch = useDispatch();
   useEffect(() => {
     setLoader(true);
@@ -52,7 +53,6 @@ const Drawer = (props) => {
   }, []);
 
 
-  const { LOGIN_DATA } = useSelector(state => state.PetmeOutReducer);
 
 
 
@@ -91,14 +91,13 @@ const Drawer = (props) => {
                borderRadius: 10, padding:5,
             }}>
               {LOGIN_PET ? (
-                <TouchableOpacity onPress={() => { navigation.navigate('Profile', { petDetails: LOGIN_PET }) }}
-                >
+                <View style={{alignSelf:'center'}}>
                   <Image
                     source={{ uri: LOGIN_PET?.image_path }}
                     resizeMode='cover'
                     style={{ height: 100, width: 110, borderRadius: 10 ,}}
                   />
-                </TouchableOpacity>
+                </View>
 
               ) : (
                 <Image
@@ -110,7 +109,7 @@ const Drawer = (props) => {
             </View>
 
 
-            <View style={{ marginLeft: 20 }}>
+            <View style={{ alignSelf:'center' }}>
               <Text
                 style={{
                   color: '#000',
@@ -123,7 +122,7 @@ const Drawer = (props) => {
 
             </View>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={{ flexDirection: 'row', marginLeft: 15 }}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={{ flexDirection: 'row',alignSelf:'center' }}>
             <Text style={{ fontFamily: 'Poppins-MediumItalic', color: '#000', marginTop: 2 }}>[Switch Pets</Text>
 
             {/* <LottieView
@@ -289,7 +288,7 @@ const Drawer = (props) => {
                 style={[styles.screenName, { backgroundColor: isFocus == 'Adaptation' ? '#e5e5e5' : 'transparent' }]}
                 onPress={() => {
                   setIsFocus('Adaptation')
-                  // navigation.navigate('FileCabinet');
+                  navigation.navigate('Adaptation');
                 }}>
                 {/* <Icon5
                   name="file1"

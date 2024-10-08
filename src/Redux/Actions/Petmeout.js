@@ -14,7 +14,12 @@ import {
   LOGIN_PET,
   PET_DETAILS,
   MATING_LIST,
-  VACCINATION_LIST
+  VACCINATION_LIST,
+  CHARTS_FILES_LIST,
+  FRIENDS_REQUESTS,
+  FRIENDS_LISTS,
+  CHAT_LISTING,
+  ADOPT_LIST
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
@@ -22,9 +27,10 @@ import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { logistical } from '../../utils';
 import { Globals } from '../../Config/index';
+import RNFS from 'react-native-fs';
 
 
-export const LoginUser = (email, pass, navigation) => {
+export const LoginUser = (email, pass, deviceToken, navigation) => {
   return (dispatch, getState) => {
     const url1 =
       Globals.baseUrl +
@@ -32,6 +38,8 @@ export const LoginUser = (email, pass, navigation) => {
     var formData = new FormData();
     formData.append('email', email);
     formData.append('password', pass);
+    formData.append('device_token', deviceToken);
+    formData.append('device_type', 'Android');
 
     console.log("FORMDATAAAAA", formData);
 
@@ -170,7 +178,7 @@ export const petDetailsbyId = (id, navigation) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/PetDetails/PetDetails.php',
+      url: 'https://devteam.in/projects/socialzoo/API/PetDetails/PetDetails.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -202,7 +210,50 @@ export const petDetailsbyId = (id, navigation) => {
       .catch((error) => console.log("LLLLLLLLL", error.message));
   };
 };
+export const GetPetById = (id, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/PetDetails/PetDetails.php";
+    var formData = new FormData();
+    formData.append('pet_id', id);
 
+    console.log("PetDetailsPetDetailsID", formData);
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://devteam.in/projects/socialzoo/API/PetDetails/PetDetails.php',
+      headers: {
+        // ...data.getHeaders()
+      },
+      data: formData
+    };
+
+
+    return axios.request(config)
+      .then((responseJson) => {
+        console.log(responseJson.data, 'petDetailspetDetailspetDetailspetDetails');
+
+        if (responseJson.data.status == true) {
+
+
+          dispatch({
+            type: PET_DETAILS,
+            payload: responseJson?.data.Output[0],
+          });
+          resolve(responseJson);
+        } else {
+          dispatch({
+            type: PET_DETAILS,
+            payload: null,
+          });
+          // Alert.alert('Something Went Wrong');
+        }
+      })
+      .catch((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
 export const countryList = () => {
   return (dispatch, getState) => {
     const url1 =
@@ -397,7 +448,9 @@ export const allPetsPostListing = (email, navigation) => {
         // "Authorization": authtoken,
       }),
 
-      body: formData,
+
+      body: email == null ? {} : formData,
+
     })
       .then((response) => response.json())
       .then(async (responseJson) => {
@@ -626,7 +679,7 @@ export const AllPetsListingByCategory = cat_name => {
             payload: responseJson?.all_Pets,
           });
 
-          resolve(responseJson);
+          // resolve(responseJson);
         } else {
           // Alert.alert('Something Went Wrong');
           dispatch({
@@ -640,7 +693,7 @@ export const AllPetsListingByCategory = cat_name => {
 };
 
 
-export const logout = (email,navigation) => {
+export const logout = (email, navigation) => {
   return async (dispatch) => {
     try {
       // Clear token and Login_Data from AsyncStorage
@@ -692,7 +745,7 @@ export const registerPet = (petName, gender, categoryName, breedName, color, wei
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/PetRegistration/PetRegistration.php',
+      url: 'https://devteam.in/projects/socialzoo/API/PetRegistration/PetRegistration.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -717,7 +770,7 @@ export const registerPet = (petName, gender, categoryName, breedName, color, wei
   };
 };
 
-export const petMatingRegister = (petName, age, categoryName, breedName, msg, imageBase64,gender, navigation) => {
+export const petMatingRegister = (id, age, categoryName, breedName, msg, imageBase64, gender, navigation) => {
   return (dispatch, getState) => {
     const url1 =
       Globals.baseUrl +
@@ -727,7 +780,7 @@ export const petMatingRegister = (petName, age, categoryName, breedName, msg, im
 
 
 
-    data.append('petname', petName);
+    data.append('pet_login_id', id);
     data.append('gender', gender);
     data.append('age', age);
     data.append('category', categoryName);
@@ -735,11 +788,11 @@ export const petMatingRegister = (petName, age, categoryName, breedName, msg, im
     data.append('message', msg);
     data.append('pet_image', imageBase64)
 
-    console.log(data, 'formDattttaaa')
+    // console.log(data, 'formDattttaaa')
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/PetMatingRegistration/PetMatingRegistration.php',
+      url: 'https://devteam.in/projects/socialzoo/API/PetMatingRegistration/PetMatingRegistration.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -772,7 +825,7 @@ export const deleteRegisterPet = (petId, email, navigation) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/DeletePet/DeletePet.php',
+      url: 'https://devteam.in/projects/socialzoo/API/DeletePet/DeletePet.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -801,7 +854,7 @@ export const deleteCategory = (catId, navigation) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/DeletePetCategory/DeletePetCategory.php',
+      url: 'https://devteam.in/projects/socialzoo/API/DeletePetCategory/DeletePetCategory.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -831,7 +884,7 @@ export const userDetails = (id) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/UserList/UserList.php',
+      url: 'https://devteam.in/projects/socialzoo/API/UserList/UserList.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -1018,53 +1071,99 @@ export const searchByDistance = (id, distance, category, breed, year, month, nav
   };
 };
 
-export const createPost = (id, name, cat_name, email, msg, image, navigation) => {
-  return (dispatch, getState) => {
-    const url1 =
-      Globals.baseUrl +
-      "/CreatePost/CreatePost.php";
-    var data = new FormData();
-    data.append('pet_id', id);
-    data.append('pet_name', name);
-    data.append('cat_name', cat_name);
-    data.append('email', email);
-    data.append('msg', msg);
-    data.append('post_img', image ? image : '');
+// export const createPost = (id, name, cat_name, email, msg, image, navigation) => {
+//   return (dispatch, getState) => {
+//     const url1 =
+//       Globals.baseUrl +
+//       "/CreatePost/CreatePost.php";
+//     var data = new FormData();
+//     const fs = require('fs');
 
-    console.log(data, 'dtttttttt')
-    let config = {
+//     data.append('pet_id', id);
+//     data.append('pet_name', name);
+//     data.append('cat_name', cat_name);
+//     data.append('email', email);
+//     data.append('msg', msg);
+//     data.append('post_img[]', fs.createReadStream(image));
+// // console.log(image,'imageimageimage')
+
+
+//     console.log(data, 'dtttttttt')
+//     let config = {
+//       method: 'post',
+//       maxBodyLength: Infinity,
+//       url: ` ${Globals.baseUrl}/CreatePost/CreatePost.php`,
+//       headers: new Headers({
+//         Accept: "application/json",
+//         "Content-Type": "multipart/form-data",
+//         // "Authorization": authtoken,
+//       }),
+//       data: data
+//     };
+
+//     axios.request(config)
+//       .then((response) => {
+//         console.log(JSON.stringify(response.data), 'hhh');
+//         Alert.alert(JSON.stringify(response.data?.message))
+//         dispatch(petsPostListingbyID(id, navigation));
+//         dispatch(allPetsPostListing(email, navigation));
+//         // dispatch(petDetailsbyId(id, navigation));
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//     // .catch ((error) => console.log("LLLLLLLLL", error.message));
+//   };
+// };
+
+export const createPost = (id, name, cat_name, email, msg, image, navigation) => {
+  return async (dispatch, getState) => {
+    const url1 = `${Globals.baseUrl}/CreatePost/CreatePost.php`;
+    const formData = new FormData();
+
+    formData.append('pet_id', id);
+    formData.append('pet_name', name);
+    formData.append('cat_name', cat_name);
+    formData.append('email', email);
+    formData.append('msg', msg);
+    const hasMp4 = image.some(fileUri => fileUri.endsWith('.mp4'));
+
+    image.forEach((imageUri, index) => {
+      formData.append('post_img[]', {
+        uri: imageUri,
+        name: hasMp4 ? `video_${index}.mp4` : `photo_${index}.jpg`, // Name of the file, can be customized
+        type: hasMp4 ? 'video/mp4' : 'image/jpeg' // MIME type of the file
+      });
+    });
+    console.log(formData, 'formDataformDataformData')
+    const config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: ` ${Globals.baseUrl}/CreatePost/CreatePost.php`,
-      headers: new Headers({
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
-        // "Authorization": authtoken,
-      }),
-      data: data
+      url: url1,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
     };
 
-    axios.request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data), 'hhh');
-        // Alert.alert(JSON.stringify(response.data?.message))
-        dispatch(petsPostListingbyID(id, navigation));
-        dispatch(allPetsPostListing(email, navigation));
-        dispatch(petDetailsbyId(id, navigation));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+    try {
+      const response = await axios.request(config);
+      console.log('Response data:', response.data);
+      Alert.alert(JSON.stringify(response.data?.message));
+      dispatch(petsPostListingbyID(id, navigation));
+      dispatch(allPetsPostListing(email, navigation));
+    } catch (error) {
+      console.log('Error posting data:', error);
+    }
   };
 };
-
 
 export const deletePost = (postId, petId, navigation) => {
   return (dispatch, getState) => {
     const url1 =
       Globals.baseUrl +
-      "/CreatePost/CreatePost.php";
+      "/DeletePost/DeletePost.php";
     var data = new FormData();
     data.append('post_id', postId);
 
@@ -1162,6 +1261,10 @@ export const allMatingListing = (email, navigation) => {
           });
           resolve(responseJson);
         } else {
+          dispatch({
+            type: MATING_LIST,
+            payload: null,
+          });
           // Alert.alert('Something Went Wrong');
         }
       })
@@ -1187,7 +1290,7 @@ export const petMatingSorting = (categoryName, breedName, gender, navigation) =>
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/SortPetMating/SortPetMating.php',
+      url: 'https://devteam.in/projects/socialzoo/API/SortPetMating/SortPetMating.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -1216,7 +1319,7 @@ export const petMatingSorting = (categoryName, breedName, gender, navigation) =>
   };
 };
 
-export const vaccinationSorting = (categoryName, age,navigation) => {
+export const vaccinationSorting = (categoryName, age, navigation) => {
   return (dispatch, getState) => {
     const url1 =
       Globals.baseUrl +
@@ -1234,7 +1337,7 @@ export const vaccinationSorting = (categoryName, age,navigation) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/SortBookVaccination/SortBookVaccination.php',
+      url: 'https://devteam.in/projects/socialzoo/API/SortBookVaccination/SortBookVaccination.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -1263,7 +1366,7 @@ export const vaccinationSorting = (categoryName, age,navigation) => {
   };
 };
 
-export const bookVaccination = (formdata,pet_id, navigation) => {
+export const bookVaccination = (formdata, pet_id, navigation) => {
   return (dispatch, getState) => {
     const url1 =
       Globals.baseUrl +
@@ -1274,7 +1377,7 @@ export const bookVaccination = (formdata,pet_id, navigation) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'https://refuel.site/projects/socialzoo/API/BookVaccination/BookVaccination.php',
+      url: 'https://devteam.in/projects/socialzoo/API/BookVaccination/BookVaccination.php',
       headers: {
         // ...data.getHeaders()
       },
@@ -1311,7 +1414,7 @@ export const bookVaccinationList = (pet_id, navigation) => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `https://refuel.site/projects/socialzoo/API/BookVaccinationListByPetId/BookVaccinationListByPetId.php?pet_id=${pet_id}`,
+      url: `https://devteam.in/projects/socialzoo/API/BookVaccinationListByPetId/BookVaccinationListByPetId.php?pet_id=${pet_id}`,
       headers: {
         // ...data.getHeaders()
       },
@@ -1339,5 +1442,465 @@ export const bookVaccinationList = (pet_id, navigation) => {
 
   };
 };
+
+
+export const chartFIlesList = (category, breed, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+
+      "SortVaccinationChartList/SortVaccinationChartList.php";
+    let data = new FormData();
+    data.append('category', category);
+    data.append('breed', breed);
+
+
+
+    console.log(data, 'formDattttaaa')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://devteam.in/projects/socialzoo/API/SortVaccinationChartList/SortVaccinationChartList.php',
+      headers: {
+        // ...data.getHeaders()
+      },
+      data: data
+    };
+    return axios.request(config)
+      .then((response) => {
+        console.log(response.data, 'responseresponseresponse')
+        if (response.data.status == true) {
+          dispatch({
+            type: CHARTS_FILES_LIST,
+            payload: response.data?.Output,
+          });
+          // dispatch(allMatingListing());
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          console.log('error')
+          dispatch({
+            type: CHARTS_FILES_LIST,
+            payload: null,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  };
+};
+
+export const addFriend = (senderId, receiverId, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/AddFriend/AddFriend.php";
+    var data = new FormData();
+    data.append('sender_id', senderId);
+    data.append('receiver_id', receiverId);
+
+    console.log(data, 'dtttttttt')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: ` ${Globals.baseUrl}/AddFriend/AddFriend.php`,
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+      data: data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data), 'hhh');
+        dispatch(friendRequestStatus(senderId, receiverId, 'Requested', navigation));
+        Alert.alert(JSON.stringify(response.data?.message))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const friendRequestList = (id, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/AddFriend/AddFriend.php";
+
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: ` ${Globals.baseUrl}/FriendRequestList/FriendRequestList.php?logged_in_id=${id}`,
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data), 'friendRequestttttttt');
+        if (response.data.status == true) {
+          dispatch({
+            type: FRIENDS_REQUESTS,
+            payload: response.data?.Output,
+          });
+          // dispatch(allMatingListing());
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          dispatch({
+            type: FRIENDS_REQUESTS,
+            payload: [],
+          });
+          console.log('error')
+        }
+        // Alert.alert(JSON.stringify(response.data?.message))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const friendRequestStatus = (sendId, receiveId, status, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/FriendRequestStatus/FriendRequestStatus.php";
+
+    let data = new FormData();
+    data.append('sender_id', sendId);
+    data.append('receiver_id', receiveId);
+    data.append('status', status);
+
+    console.log(data, 'datadata')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: ` ${Globals.baseUrl}/FriendRequestStatus/FriendRequestStatus.php`,
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+      data: data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data), 'friendRequestttttttt');
+        if (response.data.status == true) {
+          Alert.alert(response.data.message)
+          dispatch(friendRequestList(receiveId, navigation));
+          // dispatch(allMatingListing());
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          console.log('error')
+        }
+        // Alert.alert(JSON.stringify(response.data?.message))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const friendsLists = (id, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/FriendRequestAcceptStatusList/FriendRequestAcceptStatusList.php";
+
+    let data = new FormData();
+    data.append('receiver_id', id);
+
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: ` ${Globals.baseUrl}/FriendRequestAcceptStatusList/FriendRequestAcceptStatusList.php`,
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+      data: data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data), 'FriendRequestAcceptStatusListFriendRequestAcceptStatusList');
+        if (response.data.status == true) {
+          dispatch({
+            type: FRIENDS_LISTS,
+            payload: response.data?.Output,
+          });
+
+        } else {
+          console.log('error')
+        }
+        // Alert.alert(JSON.stringify(response.data?.message))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const sendChatMessage = (chatId, loginId, msg, navigation) => {
+  Alert.alert('Hii')
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/PetChat/PetChat.php";
+
+    let data = new FormData();
+    data.append('chat_with_user_id', chatId);
+    data.append('loggedIn_user_id', loginId);
+    data.append('msg', msg);
+
+
+    console.log(data, 'IIIIIIIIIII')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: ` ${Globals.baseUrl}/PetChat/PetChat.php`,
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+      data: data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data), 'PetChatPetChatPetChatPetChat');
+        if (response.data.status == true) {
+          Alert.alert(JSON.stringify(response.data?.message))
+
+
+        } else {
+          console.log('error')
+        }
+        // Alert.alert(JSON.stringify(response.data?.message))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const getChatMessages = (chatId, loginId, msg, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/PetChatListing/PetChatListing.php";
+
+    let data = new FormData();
+    data.append('chat_with_user_id', chatId);
+    data.append('logged_in_user_id', loginId);
+
+
+    console.log(data, 'IIIIIIIIIII')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: ` ${Globals.baseUrl}/PetChatListing/PetChatListing.php`,
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+      data: data
+    };
+
+    axios.request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data), 'PetChatListingPetChatListing');
+        if (response.data.status == true) {
+          dispatch({
+            type: CHAT_LISTING,
+            payload: response?.data?.Output,
+          });
+
+        } else {
+          console.log('error')
+          dispatch({
+            type: CHAT_LISTING,
+            payload: [],
+          });
+        }
+        // Alert.alert(JSON.stringify(response.data?.message))
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // .catch ((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+
+export const CreatePetAdoptation = (id, title, age, categoryName, breedName, msg, files, gender, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+
+      "PetRegistration/PetRegistration.php";
+    let data = new FormData();
+
+
+
+    data.append('pet_login_id', id);
+    data.append('title', title);
+    data.append('gender', gender);
+    data.append('age', age);
+    data.append('category', categoryName);
+    data.append('breed', breedName);
+    data.append('description', msg);
+    files.forEach((imageUri, index) => {
+      data.append('pet_image[]', {
+        uri: imageUri,
+        name: `photo_${index}.jpg`,
+        type: 'image/jpeg'
+      });
+    });
+
+    console.log(data, 'formDattttaaa')
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://devteam.in/projects/socialzoo/API/CreateAdoption/CreateAdoption.php',
+      headers: {
+        // ...data.getHeaders()
+      },
+      data: data
+    };
+    return axios.request(config)
+      .then((response) => {
+        console.log(response.data, 'responseresponseresponse')
+        if (response.data.status == true) {
+          Alert.alert(response.data.message)
+          // dispatch(petListing(email, navigation));
+          // navigation.goBack()
+
+        } else {
+          console.log('error')
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+  };
+};
+
+
+export const AdoptPetList = (id, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/AdoptionsListing/AdoptionsListing.php";
+
+    let data = new FormData();
+    data.append('logged_in_pet_id', id);
+
+
+    return fetch(url1, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+
+      body: data,
+    })
+      .then((response) => response.json())
+      .then(async (responseJson) => {
+        console.log("AdoptionsListingAdoptionsListing", responseJson);
+
+        if (responseJson.status == true) {
+
+
+          dispatch({
+            type: ADOPT_LIST,
+            payload: responseJson?.Output?.reverse(),
+          });
+          resolve(responseJson);
+        } else {
+          dispatch({
+            type: ADOPT_LIST,
+            payload: null,
+          });
+          // Alert.alert('Something Went Wrong');
+        }
+      })
+      .catch((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+
+export const AdoptListFilter = (category, navigation) => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/FilterByCategory/FilterByCategory.php";
+
+    let data = new FormData();
+    data.append('category', category);
+
+
+    return fetch(url1, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": authtoken,
+      }),
+
+      body: data,
+    })
+      .then((response) => response.json())
+      .then(async (responseJson) => {
+        console.log("FilterByCategoryFilterByCategory", responseJson);
+
+        if (responseJson.status == true) {
+
+
+          dispatch({
+            type: ADOPT_LIST,
+            payload: responseJson?.Output,
+          });
+          resolve(responseJson);
+        } else {
+          dispatch({
+            type: ADOPT_LIST,
+            payload: null,
+          });
+          // Alert.alert('Something Went Wrong');
+        }
+      })
+      .catch((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
 
 

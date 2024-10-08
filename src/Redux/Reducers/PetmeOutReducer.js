@@ -16,6 +16,12 @@ import {
   PET_DETAILS,
   MATING_LIST,
   VACCINATION_LIST,
+  CHARTS_FILES_LIST,
+  FRIENDS_REQUESTS,
+  FRIENDS_LISTS,
+  CHAT_DATA,
+  CHAT_LISTING,
+  ADOPT_LIST
 } from '../Actions/types';
 
 const initialstate = {
@@ -36,15 +42,21 @@ const initialstate = {
   PET_DETAILS: [],
   MATING_LIST: [],
   VACCINATION_LIST: [],
+  CHARTS_FILES_LIST: [],
+  FRIENDS_REQUESTS: [],
+  FRIENDS_LISTS: [],
+  CHAT_DATA: [],
+  CHAT_LISTING:[],
+  ADOPT_LIST:[]
 };
 
 const PetmeOutReducer = (state = initialstate, action) => {
+
   switch (action.type) {
 
     case LOGIN_DATA:
       return { ...state, LOGIN_DATA: action.payload };
     case PET_LIST:
-
       return { ...state, PET_LIST: action.payload };
     case COUNTRY_LIST:
 
@@ -84,7 +96,21 @@ const PetmeOutReducer = (state = initialstate, action) => {
       return { ...state, MATING_LIST: action.payload };
     case VACCINATION_LIST:
       return { ...state, VACCINATION_LIST: action.payload };
-   
+    case CHARTS_FILES_LIST:
+      return { ...state, CHARTS_FILES_LIST: action.payload };
+    case FRIENDS_REQUESTS:
+      return { ...state, FRIENDS_REQUESTS: action.payload };
+    case FRIENDS_LISTS:
+      return { ...state, FRIENDS_LISTS: action.payload };
+    case CHAT_DATA:
+
+      return { ...state, CHAT_DATA: action.payload };
+      case CHAT_LISTING:
+
+      return { ...state, CHAT_LISTING: action.payload };
+      case ADOPT_LIST:
+
+      return { ...state, ADOPT_LIST: action.payload };
   }
 
   return state;

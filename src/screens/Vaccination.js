@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, Alert,TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, Alert, TextInput ,RefreshControl} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { bookVaccinationList, categoryList, vaccinationSorting } from '../Redux/Actions/Petmeout';
 import { Loader } from '../Component/Loader';
@@ -17,6 +17,7 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import LottieView from 'lottie-react-native';
+import { Globals } from '../Config';
 const Vaccination = () => {
     // Static data for demonstration
     const navigation = useNavigation();
@@ -35,8 +36,17 @@ const Vaccination = () => {
     const [categoryId, setCategoryId] = useState()
     const [categoryName, setCategoryName] = useState(null)
     const [age, setAge] = useState(null)
- 
-    console.log(VACCINE_SORT_LIST,'VACCINE_SORT_LISTVACCINE_SORT_LIST')
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(bookVaccinationList(LOGIN_PET?.pet_id, navigation));
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000); // Time for refresh
+    };
+    // console.log(VACCINE_SORT_LIST, 'VACCINE_SORT_LISTVACCINE_SORT_LIST')
     const toggleModalDetails = (item) => {
         setListItem(item)
         setModalVisible(!isModalVisible);
@@ -73,7 +83,7 @@ const Vaccination = () => {
     }, [VACCINATION_LIST]);
     const onSortList = () => {
         setLoader(true);
-        dispatch(vaccinationSorting(categoryName, age,navigation));
+        dispatch(vaccinationSorting(categoryName, age, navigation));
         toggleModalSort()
 
         setCategoryName(null)
@@ -82,9 +92,17 @@ const Vaccination = () => {
             setLoader(false);
         }, 2000);
     }
+    // useEffect(() => {
+    //     if (isModalVisible) {
+    //         setTimeout(() => {
+    //             setModalVisible(false);
+    //             console.log('Forcibly closing modal');
+    //         }, 1000); // Force close after 3 seconds
+    //     }
+    // }, [isModalVisible]);
     const renderItem = ({ item }) => (
         <TouchableOpacity style={styles.card} onPress={() => toggleModalDetails(item)}>
-            <Image source={{ uri: 'https://refuel.site/projects/socialzoo/admin/upload/' + item.pet_image }} style={styles.petImage} />
+            <Image source={{ uri: Globals?.categoriesImagePath + item.pet_image }} style={styles.petImage} />
             <View style={styles.cardContent}>
                 <Text style={styles.petName}>{item.name}</Text>
                 <Text style={styles.petDetails}>{item.category}</Text>
@@ -147,21 +165,33 @@ const Vaccination = () => {
                 renderItem={renderItem}
                 keyExtractor={(item) => item.book_vaccination_id}
                 contentContainerStyle={styles.container}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }
             />
 
-            <Modal isVisible={isModalVisible} style={styles.modal} animationOutTiming={700} backdropTransitionOutTiming={800}>
+            <Modal isVisible={isModalVisible} style={styles.modal}
+                animationOutTiming={500} // Reduced timing
+                backdropTransitionOutTiming={500} // Reduced timing
+                onBackdropPress={() => setModalVisible(false)} // Close on backdrop press
+            >
                 <View style={styles.modalContentSort}>
-                    <TouchableOpacity title="Hide modal" onPress={() => setModalVisible(false)} style={{ position: 'absolute', right: 10, top: 20 }} >
+                    {/* <TouchableOpacity onPress={() => setModalVisible(false)} style={{ position: 'absolute', right: 10, top: 20 }} >
                         <Icon2 size={21} name='close' color='#000' />
-                    </TouchableOpacity>
-                    <View style={{ padding: 20 }}>
-                        <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 19, color: '#000' }}>{listItem?.name}</Text>
+                    </TouchableOpacity> */}
+                    <View style={{flexDirection:'row'}}>
+                        <Image source={{ uri: Globals?.categoriesImagePath + listItem?.pet_image }} style={{marginTop:10,width:90,height:90,borderRadius:50,marginLeft:10}} resizeMode='contain' />
+
+                        <View style={{ padding: 20 }}>
+                            <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 19, color: '#000' }}>{listItem?.name}</Text>
 
 
-                        <Text style={styles.petDetails1}>{listItem?.age} Yrs</Text>
-                        {/* <Text style={styles.petDetails}>{listItem?.category}</Text> */}
-                        <Text style={styles.petDetails1}>{listItem?.gender}</Text>
+                            <Text style={styles.petDetails1}>{listItem?.age} Yrs</Text>
+                            {/* <Text style={styles.petDetails}>{listItem?.category}</Text> */}
+                            <Text style={styles.petDetails1}>{listItem?.gender}</Text>
+                        </View>
                     </View>
+
 
                     <View style={styles.modalContentSort1}>
                         <View>
@@ -268,7 +298,7 @@ const Vaccination = () => {
                     </TouchableOpacity>
                 </View>
             </Modal>
-        </View>
+        </View >
 
     );
 };

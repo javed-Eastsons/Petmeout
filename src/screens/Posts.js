@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput, ScrollView, FlatList, TouchableOpacity, Button, Share } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, ScrollView, FlatList, TouchableOpacity, Button, Share, Dimensions,RefreshControl } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon1 from 'react-native-vector-icons/AntDesign';
@@ -18,15 +18,19 @@ import { Globals } from '../Config';
 import CreateProfile from './OwnerProfile';
 import LikeAnimation from './LikeAnimation ';
 import LottieView from 'lottie-react-native';
-import Video from 'react-native-video';
+import Video, { VideoRef } from 'react-native-video';
+import ImagePicker from 'react-native-image-crop-picker';
+import Carousel from 'react-native-reanimated-carousel';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+const screenWidth = Dimensions.get('window').width;
 
 const Posts = ({ route }) => {
 
-    console.log(route.params, 'routeeee')
+    // console.log(route.params, 'routeeee')
     const [showPostModal, setShowPostModal] = useState(false)
     const [showImageModal, setShowImageModal] = useState(false)
     const [imagePost, setPostImage] = useState(null)
-    const [base64File, setBase64File] = useState();
+    const [base64File, setBase64File] = useState([]);
     const [base64Image, setBase64Image] = useState()
     const [imageUri, setImageUri] = useState();
     const { LOGIN_DATA } = useSelector(state => state.PetmeOutReducer);
@@ -37,8 +41,8 @@ const Posts = ({ route }) => {
     const { LOGIN_PET } = useSelector(state => state.PetmeOutReducer);
     const [postLikesState, setPostLikesState] = useState({});
     const initialized = useRef(false); // Ref to track initialization
-
-    console.log(postLikesState, 'postLikesStatepostLikesState')
+    // console.log(postLikesState, 'postLikesStatepostLikesState')
+    // console.log(base64File, 'base64Filebase64File')
     const [allPosts, setAllPosts] = useState([])
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -52,15 +56,32 @@ const Posts = ({ route }) => {
     const [inputValues, setInputValues] = useState({});
     const [isModalVisible, setModalVisible] = useState(false);
     const [postItem, setPostItem] = useState([]);
+    const [files, setFiles] = useState([])
+    const [playingIndex, setPlayingIndex] = useState(null);
+
     const petDetails = route?.params?.petDetails ? route?.params?.petDetails : PET_LIST ? PET_LIST[0] : null
 
-    console.log(LOGIN_DATA,'LOGIN_DATALOGIN_DATALOGIN_DATA')
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(allPetsPostListing(null, navigation));
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000); // Time for refresh
+    };
     useEffect(() => {
         if (LOGIN_DATA?.No_of_pet == 0)
             navigation.navigate('HomeScreen')
     }, [])
-    console.log(petDetails, 'petDetailspetDetailspetDetails')
-    console.log(PET_LIST, 'PET_LISTPET_LISTPET_LIST')
+
+
+
+    // Refs for video players
+    const videoRefs = useRef([]);
+
+    // console.log(petDetails, 'petDetailspetDetailspetDetails')
+    console.log(files, 'filesfilesfilesfiles')
     const toggleModal = (item) => {
         setPostItem(item)
         setModalVisible(!isModalVisible);
@@ -71,7 +92,7 @@ const Posts = ({ route }) => {
             [id]: text,
         }));
     };
-    console.log(inputValues, 'inputValuesinputValuesinputValues')
+    // console.log(inputValues, 'inputValuesinputValuesinputValues')
 
     const openModal = (id) => {
         setShowPostModal(true)
@@ -114,24 +135,83 @@ const Posts = ({ route }) => {
                 console.log('ImagePicker Error: ', response.errorMessage);
             } else {
                 const uri = response.assets[0].uri;
+                console.log(uri, 'uriiiiiiiiii')
                 setImageUri(uri);
                 convertToBase64(uri)
             }
         });
     };
-    const convertToBase64 = async (uri) => {
-        try {
-            const response = await fetch(uri);
-            const blob = await response.blob();
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setBase64String(reader.result.split(',')[1]);
-            };
-            reader.readAsDataURL(blob);
-        } catch (error) {
-            console.log('Error converting image to base64:', error);
-        }
+    const selectImagesAndVideos = (type) => {
+        ImagePicker.openPicker({
+            multiple: true,
+            mediaType: 'any', // allows both images and videos to be selected
+            // cropping: 'Photo'
+        }).then(files => {
+            console.log(files, 'filesfilesfilesfiles');
+            setFiles(files)
+            // Handle the selected images and videos here
+            // Example: Display them in your app, upload to server, etc.
+        }).catch(error => {
+            console.error(error);
+        });
     };
+    const convertFilesToBase64 = async (files) => {
+
+        const base64Array = [];
+
+        for (const file of files) {
+            try {
+                console.log('Converting file:', file.path);
+                // const base64 = await convertToBase64(file.path);
+                if (file.path) {
+                    base64Array.push(file.path);
+                    // console.log('Base64 string added:', base64);
+                } else {
+                    console.log('Failed to convert file to Base64:', file.path);
+                }
+            } catch (error) {
+                console.log('Error in converting file to Base64:', error);
+            }
+        }
+        console.log(base64Array, 'base64Arraybase64Array')
+
+
+        return base64Array;
+    };
+    console.log(base64File, 'Final Base64 Array:');
+    const convertToBase64 = async (uri) => {
+        return new Promise((resolve, reject) => {
+            try {
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", uri, true);
+                xhr.responseType = "blob";
+                xhr.onload = function () {
+                    const reader = new FileReader();
+                    reader.onloadend = function () {
+                        resolve(reader.result.split(',')[1]);
+                    };
+                    reader.onerror = function (error) {
+                        reject("Error converting file to base64: " + error);
+                    };
+                    reader.readAsDataURL(xhr.response);
+                };
+                xhr.onerror = function () {
+                    reject("Error loading file");
+                };
+                xhr.send();
+            } catch (error) {
+                reject("Error converting file to base64: " + error);
+            }
+        });
+    };
+
+    useEffect(() => {
+        convertFilesToBase64(files).then((base64Array) => {
+            // console.log('Base64 Array:', base64Array);
+            setBase64File(base64Array)
+            // Do something with the base64Array, like updating state
+        });
+    }, [files])
 
     const openImageModal = (image) => {
         setPostImage(image)
@@ -141,17 +221,17 @@ const Posts = ({ route }) => {
     useEffect(() => {
 
         // if (initialized.current) {
-            // Initialize postLikesState based on LOGIN_PET?.pet_id and Pet_ids_to_like_post
-            const initialLikesState = {};
-            ALL_POSTS.forEach(post => {
-                const { post_id, Pet_ids_to_like_post } = post;
-                const isLiked = Pet_ids_to_like_post.some(pet => pet.pet_id === LOGIN_PET?.pet_id);
-                initialLikesState[post_id] = {
-                    isLike: isLiked,
-                    count: isLiked ? (post.likes ? parseInt(post.likes, 10) : 0) : 0
-                };
-            });
-            setPostLikesState(initialLikesState);
+        // Initialize postLikesState based on LOGIN_PET?.pet_id and Pet_ids_to_like_post
+        const initialLikesState = {};
+        ALL_POSTS.forEach(post => {
+            const { post_id, Pet_ids_to_like_post } = post;
+            const isLiked = Pet_ids_to_like_post.some(pet => pet.pet_id === LOGIN_PET?.pet_id);
+            initialLikesState[post_id] = {
+                isLike: isLiked,
+                count: isLiked ? (post.likes ? parseInt(post.likes, 10) : 0) : 0
+            };
+        });
+        setPostLikesState(initialLikesState);
         // }
     }, [ALL_POSTS, LOGIN_PET?.pet_id]);
 
@@ -190,7 +270,7 @@ const Posts = ({ route }) => {
     }, [postItem?.post_id]);
     const makePost = () => {
         setLoader(true);
-        dispatch(createPost(petDetails?.pet_id, petDetails?.pet_name, petDetails?.cat_name, LOGIN_DATA?.email, postContent, base64String, navigation));
+        dispatch(createPost(petDetails?.pet_id, petDetails?.pet_name, petDetails?.cat_name, LOGIN_DATA?.email, postContent, base64File, navigation));
         setShowPostModal(false)
         setPostContent('')
         setTimeout(() => {
@@ -217,12 +297,18 @@ const Posts = ({ route }) => {
         const reversePost = postData.reverse()
         setAllPosts(reversePost);
     }, [ALL_POSTS]);
+    
 
-    const onShare = async (post) => {
+    const onShare = async(post) => {
         try {
-            const result = await Share.share({
-                message: `Check out this post from ${post.pet_name}: ${Globals?.categoriesImagePath + post.post_img}`,
-            });
+                const result = await Share.share({
+                    title: 'Check out these images!',
+                    message: 'Sharing some images with you',
+                    urls:  post.post_img, // Array of local image URIs
+                    // message: `Check out this post from ${post.pet_name}: ${Globals?.categoriesImagePath +  post.post_img[0]?.post_medias}`,
+
+                });
+           
             dispatch(postShare(LOGIN_PET?.pet_id, post?.post_id, post?.msg, post?.owner, navigation));
 
             if (result.action === Share.sharedAction) {
@@ -252,6 +338,10 @@ const Posts = ({ route }) => {
     const renderItem = (item, index) => {
         const likeStatus = postLikesState[item.post_id]?.isLike;
         const likeCount = postLikesState[item.post_id]?.count || item.likes;
+
+        const maxImagesToShow = 3;
+        const extraImagesCount = item?.post_img?.length - maxImagesToShow;
+        console.log(item?.post_img?.length, 'extraImagesCountextraImagesCount')
         return (
             <View style={{ backgroundColor: '#fff', width: '100%', alignSelf: 'center', marginTop: 5, paddingVertical: 10 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -259,9 +349,10 @@ const Posts = ({ route }) => {
                         <TouchableOpacity
                             onPress={() => { gotoProfile(item?.petid) }}
                         >
+
                             <Image
                                 source={{
-                                    uri: item.pet_image,
+                                    uri: Globals?.categoriesImagePath + item.pet_image,
                                 }}
                                 style={styles.profileImg1}
                             />
@@ -276,15 +367,125 @@ const Posts = ({ route }) => {
                     <Icon name='dots-three-horizontal' size={20} color="gray" style={{ marginRight: 10 }} />
                 </View>
                 <Text style={styles.postText}>{item?.msg}</Text>
-                <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => openImageModal(item.post_img)}>
-                    <Image
+                <View >
+                    <View style={styles.containerI}>
+                        {
+                            item.post_img[0]?.post_medias?.endsWith('.mp4') ?
+                                <View>
+                                    <View
+                                        style={{
+                                            width: '97%',
+                                            height: '100%',
+                                            overflow: 'hidden', // Ensure the border radius is applied
+                                            borderRadius: 15, // Apply border radius to the container
+                                            backgroundColor: 'red',
+                                        }}
+                                    >
+                                        <Video
+                                            ref={ref => (videoRefs.current[0] = ref)}
+                                            source={{ uri: Globals?.categoriesImagePath + item.post_img[0]?.post_medias }}
+                                            style={item?.post_img?.length == 1 ? styles.leftImage1 : styles.leftImage}
+                                            controls={true}
+                                            resizeMode="cover"
+                                            repeat={true}
+                                            paused={false}
+                                        />
+                                    </View>
+                                </View>
+                                :
+
+                                <Image source={{ uri: Globals?.categoriesImagePath + item.post_img[0]?.post_medias }} style={item?.post_img?.length == 1 ? styles.leftImage1 : styles.leftImage} />
+                        }
+                        {/* Left Half - First Image */}
+
+
+                        {/* Right Half - Second and Third Images */}
+                        <View style={styles.rightColumn}>
+                            {
+                                item.post_img[1]?.post_medias?.endsWith('.mp4') ?
+                                    // <TouchableWithoutFeedback>
+                                    <View
+                                        style={{
+                                            width: '100%',
+                                            height: 90,
+                                            overflow: 'hidden', // Ensure the border radius is applied
+                                            borderRadius: 15, // Apply border radius to the container
+                                            backgroundColor: 'red',
+                                        }}
+                                    >
+                                        <Video
+                                           ref={ref => (videoRefs.current[1] = ref)}
+                                            source={{ uri: Globals?.categoriesImagePath + item.post_img[1]?.post_medias }}
+                                            style={styles.rightImage}
+                                            controls={true}
+                                            resizeMode="cover"
+                                            repeat={true}
+                                            paused={false}
+                                        />
+                                    </View>
+                                    // </TouchableWithoutFeedback>
+                                    :
+
+                                    <Image source={{ uri: Globals?.categoriesImagePath + item.post_img[1]?.post_medias }} style={styles.rightImage} />}
+
+
+
+                            <View style={styles.overlayContainer}>
+                                {
+                                    item.post_img[2]?.post_medias?.endsWith('.mp4') ?
+                                        <TouchableWithoutFeedback>
+                                            <View
+                                                style={{
+                                                    width: '100%',
+                                                    height: 90,
+                                                    overflow: 'hidden', // Ensure the border radius is applied
+                                                    borderRadius: 15, // Apply border radius to the container
+                                                    backgroundColor: 'red',
+                                                }}
+                                            >
+                                                <Video
+                                                    ref={ref => (videoRefs.current[2] = ref)}
+                                                    source={{ uri: Globals?.categoriesImagePath + item.post_img[2]?.post_medias }}
+                                                    style={styles.rightImage}
+                                                    controls={true}
+                                                    resizeMode="cover"
+                                                    repeat={true}
+                                                    paused={false}
+                                                />
+                                            </View>
+                                        </TouchableWithoutFeedback>
+                                        :
+
+                                        <Image source={{ uri: Globals?.categoriesImagePath + item.post_img[2]?.post_medias }} style={styles.rightImage} />}
+
+
+                                {extraImagesCount > 0 && (
+                                    <TouchableOpacity style={styles.overlay} onPress={() => openImageModal(item)}>
+                                        <Text style={styles.overlayText}>+{extraImagesCount}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            </View>
+                        </View>
+                    </View>
+                    {/* {
+                        item?.post_img.map((item1) =>
+                            <Image
+                                source={{
+                                    uri: Globals?.categoriesImagePath + item1?.post_medias,
+                                }}
+                                style={styles.feedImg}
+                            />
+
+                        )
+                    } */}
+                    {/* <Image
                         source={{
-                            uri: Globals?.categoriesImagePath + item.post_img,
+                            uri: Globals?.categoriesImagePath + item.post_img[0]?.post_medias,
                         }}
                         style={styles.feedImg}
-                    />
-    
-                </TouchableOpacity>
+                    /> */}
+
+                </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 7 }}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flexDirection: 'row', marginTop: 2 }}>
@@ -336,7 +537,7 @@ const Posts = ({ route }) => {
                                     />
                                     :
                                     <Image
-                                        source={require('../Assets/img/icons/likeBlank.png')}
+                                        source={require('../Assets/img/icons/like.png')}
                                         style={{ width: 21, height: 21, marginTop: 1 }}
                                     />
                             }
@@ -373,7 +574,9 @@ const Posts = ({ route }) => {
     return (
         <View>
             <Loader flag={loader} />
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}  refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }>
                 <View style={{ backgroundColor: '#fff', padding: 10, width: '100%', alignSelf: 'center' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 17, color: 'gray', fontFamily: 'Poppins-SemiBold' }}>Create Post</Text>
@@ -399,13 +602,14 @@ const Posts = ({ route }) => {
                     </View>
                     <View style={styles.part}></View>
                     <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity onPress={openModal} style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 110, height: 35, paddingTop: 5, padding: 5, borderRadius: 5 }}>
+                        <TouchableOpacity onPress={openModal} style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 100, height: 35, paddingTop: 5, padding: 5, borderRadius: 5 }}>
                             <Image
                                 source={require('../Assets/addPhoto.png')}
                                 style={{ width: 20, height: 20, marginTop: 3 }}
                             />
                             <Text style={{ marginTop: 4, marginLeft: 2, fontSize: 11, color: '#000' }}>Photo/Video</Text>
                         </TouchableOpacity>
+
                         {/* <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 95, height: 35, paddingTop: 5, padding: 5, borderRadius: 5, marginHorizontal: 4 }}>
                             <Image
                                 source={require('../Assets/boy.png')}
@@ -446,7 +650,7 @@ const Posts = ({ route }) => {
             >
                 <View style={styles.modalWrapper2}>
                     <View style={styles.modalWrapp1}>
-                        <View style={styles.content}>
+                        <View style={[styles.content, { width: '100%' }]}>
                             <View style={{ backgroundColor: '#fff', padding: 10, width: '95%', alignSelf: 'center', marginTop: 10 }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text style={{ fontSize: 17, color: 'gray', fontFamily: 'Poppins-SemiBold' }}>Create Post</Text>
@@ -484,15 +688,26 @@ const Posts = ({ route }) => {
                                 </View>
                                 <View style={styles.part}></View>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <TouchableOpacity onPress={pickImageFromGallery}>
-                                        <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 110, height: 35, paddingTop: 5, padding: 5, borderRadius: 5 }}>
+                                    <TouchableOpacity onPress={() => selectImagesAndVideos('Photo')}>
+                                        <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 100, height: 35, paddingTop: 5, padding: 5, borderRadius: 5, marginRight: 10 }}>
                                             <Image
                                                 source={require('../Assets/addPhoto.png')}
                                                 style={{ width: 20, height: 20, marginTop: 3 }}
                                             />
-                                            <Text style={{ marginTop: 4, marginLeft: 2, fontSize: 11, color: '#000' }}>Photo/Video</Text>
+                                            <Text style={{ marginTop: 4, marginLeft: 2, fontSize: 11, color: '#000', fontFamily: 'Poppins-Regular' }}>Photo/Video</Text>
                                         </View>
+
                                     </TouchableOpacity>
+                                    {/* <TouchableOpacity onPress={() => selectImagesAndVideos('Video')}>
+                                        <View style={{ flexDirection: 'row', backgroundColor: '#e5e5e5', width: 70, height: 35, paddingTop: 5, padding: 5, borderRadius: 5 }}>
+                                            <Image
+                                                source={require('../Assets/img/icons/addVideo.png')}
+                                                style={{ width: 20, height: 20, marginTop: 3 }}
+                                            />
+                                            <Text style={{ marginTop: 4, marginLeft: 2, fontSize: 11, color: '#000', fontFamily: 'Poppins-Regular' }}>Video</Text>
+                                        </View>
+
+                                    </TouchableOpacity> */}
                                     <View style={{ width: 95 }}>
                                     </View>
                                     <View style={{ width: 110, height: 35 }}>
@@ -616,16 +831,71 @@ const Posts = ({ route }) => {
                 <View style={styles.modalWrapperI}>
                     <View style={styles.modalWrappI}>
                         <TouchableOpacity onPress={() => setShowImageModal(false)} style={{ position: 'absolute', padding: 10, right: 2, zIndex: 1 }}>
-                            <Icon name='cross' size={25} color="black" />
+                            <Icon name='cross' size={25} color="white" />
                         </TouchableOpacity>
-                        <Image
+                        {/* <Image
                             source={{
                                 uri: Globals?.categoriesImagePath + imagePost,
                             }}
                             style={styles.feedImgFull}
-                        />
+                        /> */}
 
+                        <Carousel
+                            loop
+                            style={{ marginTop: hp(15), height: hp(60) }}
+                            width={screenWidth}
+                            height={screenWidth / 2}
+                            // autoPlay={true}
+                            data={imagePost?.post_img}
+                            scrollAnimationDuration={1000}
+                            onSnapToItem={(index) => console.log('current index:', index)}
+                            renderItem={({ index, item }) => (
+                                <View
+                                    style={{
+                                        // flex: 1,
+                                        // borderWidth: 1,
+                                        justifyContent: 'center',
+
+                                    }}
+                                >
+                                    {
+                                        item?.post_medias?.endsWith('.mp4') ?
+                                            <TouchableWithoutFeedback>
+                                                <View
+                                                    style={{
+                                                        width: '100%',
+                                                        height: hp(50),
+                                                        overflow: 'hidden', // Ensure the border radius is applied
+                                                        borderRadius: 15, // Apply border radius to the container
+                                                        backgroundColor: 'red',
+                                                        marginTop: hp(21)
+                                                    }}
+                                                >
+                                                    <Video
+                                                        source={{ uri: Globals?.categoriesImagePath + item.post_medias }}
+                                                        style={styles.feedVideo}
+                                                        controls={true}
+                                                        resizeMode="cover"
+                                                        paused={false} // Set this to true if you want the video to start playing only when the carousel item is in focus
+                                                        repeat={true}
+                                                    />
+                                                </View>
+                                            </TouchableWithoutFeedback>
+                                            :
+
+                                            <Image
+                                                source={{
+                                                    uri: Globals?.categoriesImagePath + item.post_medias,
+                                                }}
+                                                style={styles.feedImgFull}
+                                            />
+                                    }
+
+                                </View>
+                            )}
+                        />
                     </View>
+
                 </View>
             </Modal>
         </View>
@@ -652,6 +922,7 @@ const styles = StyleSheet.create({
         // marginTop: 30,
         // alignSelf: 'center',
         marginLeft: 5,
+        resizeMode: 'contain'
 
     },
     commentImg: {
@@ -663,8 +934,8 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     feedImg: {
-        width: '100%',
-        height: 400,
+        width: '50%',
+        height: 200,
         // marginTop: 30,
         alignSelf: 'center',
         // marginLeft: 10,
@@ -676,15 +947,24 @@ const styles = StyleSheet.create({
     },
     feedImgFull: {
         width: '100%',
-        height: 695,
+        height: hp(50),
         // marginTop: 30,
         alignSelf: 'center',
         // marginLeft: 10,
-        marginTop: 32,
+        marginTop: hp(21),
         resizeMode: 'cover',
-        borderRadius: 1,
+        borderRadius: 15,
         // marginBottom: 10
 
+    },
+    feedVideo: {
+        width: '100%',
+        height: hp(50),
+        // marginTop: 30,
+        // alignSelf: 'center',
+        // marginLeft: 10,
+        // marginTop: hp(22),
+        borderRadius: 15
     },
     part: {
         borderWidth: 0.5,
@@ -747,7 +1027,7 @@ const styles = StyleSheet.create({
     },
     modalWrappI: {
         height: hp(99), width: wp(100), position: 'absolute',
-        bottom: -18, backgroundColor: '#fff',
+        bottom: -18, backgroundColor: '#000',
         elevation: 50
     },
     modalWrapperI: {
@@ -776,5 +1056,53 @@ const styles = StyleSheet.create({
         // width: wp(30),
         alignSelf: 'flex-end',
         marginTop: 10
-    }
+    },
+    containerI: {
+        flexDirection: 'row',
+        width: '100%',
+        height: 200, // Adjust height as needed
+        padding: 5
+    },
+    leftImage: {
+        width: screenWidth / 2,
+        height: '100%',
+        borderRadius: 8,
+        marginRight: 5,
+        resizeMode: 'contain'
+    },
+    leftImage1: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 8,
+        marginRight: 5,
+        resizeMode: 'contain'
+    },
+    rightColumn: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    rightImage: {
+        width: screenWidth / 2 - 15, // Adjust width as needed
+        height: 90, // Adjust height as needed
+        marginBottom: 5,
+        resizeMode: 'cover',
+        borderRadius: 8
+    },
+    overlayContainer: {
+        position: 'relative',
+        width: '100%',
+        height: '48%',
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+    },
+    overlayText: {
+        color: '#fff',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
 })

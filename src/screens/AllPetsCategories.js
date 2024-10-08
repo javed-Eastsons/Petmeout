@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Alert, PanResponder, Animated, ScrollView, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Alert, PanResponder, Animated, ScrollView, TextInput,RefreshControl } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react';
 import { AllPetsListingByCategory, breedList, searchByDistance } from '../Redux/Actions/Petmeout';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,15 @@ const AllPetsCategories = ({ route }) => {
     const [loader, setLoader] = useState(false);
     const dispatch = useDispatch();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(AllPetsListingByCategory(route?.params?.categoryName));
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000); // Time for refresh
+    };
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
@@ -187,6 +195,9 @@ const AllPetsCategories = ({ route }) => {
                                                 </TouchableOpacity>
 
                                             )}
+                                            refreshControl={
+                                                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                                              }
                                         />
 
 

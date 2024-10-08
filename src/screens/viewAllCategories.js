@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, TextInput, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, TextInput, ScrollView, RefreshControl } from 'react-native'
 import React, { useState, useEffect, useCallback } from 'react';
 import { addCategory, categoryList, deleteCategory, editCategory } from '../Redux/Actions/Petmeout';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,15 @@ const viewAllCategories = () => {
     const [catId, setCatId] = useState()
     const [errors, setErrors] = useState({});
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(categoryList()); 
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000); // Time for refresh
+    };
     const toggleFilterModal = () => {
         setIsModalVisible(!isModalVisible);
     };
@@ -157,9 +165,9 @@ const viewAllCategories = () => {
         <View style={CATEGORY_LIST.length < 1 ? styles.containerNDF : styles.container} >
             <View style={{ alignSelf: 'center' }}>
                 <Text style={{ textAlign: 'center', fontSize: 20, fontFamily: 'Poppins-SemiBold', marginTop: 10, color: '#000', marginLeft: 40 }}>All Categories</Text>
-              
+
             </View>
-            
+
             {/* <Text style={{ color: '#000', fontSize: 16, textAlign: 'center', marginVertical: 20, fontFamily: 'Poppins-Regular' }}> Use a long press to Edit Or Delete {"\n"} Categories </Text> */}
 
             <ScrollView
@@ -198,7 +206,7 @@ const viewAllCategories = () => {
                                 keyExtractor={(item, index) => index}
                                 renderItem={({ item, index }) => (
                                     <TouchableOpacity
-                                        onPress={() => { navigation.navigate('AllPetsCategories', { categoryName: item?.cat_name ,categoryId: item?.cat_id}) }}
+                                        onPress={() => { navigation.navigate('AllPetsCategories', { categoryName: item?.cat_name, categoryId: item?.cat_id }) }}
                                         // onLongPress={() => { setIsVibrating(true) }}
                                         style={{ marginTop: 10 }}>
                                         {
@@ -257,6 +265,9 @@ const viewAllCategories = () => {
                                     </TouchableOpacity>
 
                                 )}
+                                refreshControl={
+                                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                                  }
                             />
                         </View>
                 }
@@ -430,7 +441,7 @@ const viewAllCategories = () => {
                 </View>
             </Modal>
 
-          
+
         </View>
     )
 }
@@ -440,7 +451,7 @@ export default viewAllCategories
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.screenBg
+        backgroundColor: '#fff'
     },
     containerNDF: {
         flex: 1,

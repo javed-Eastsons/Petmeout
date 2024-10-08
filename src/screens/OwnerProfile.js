@@ -1,6 +1,6 @@
 import {
     StyleSheet, Text, View, TouchableOpacity, Button, TextInput, ScrollView,
-    Image, ImageBackground, Alert, FlatList
+    Image, ImageBackground, Alert, FlatList,RefreshControl
 } from 'react-native'
 import React, { useState, useCallback, useEffect } from 'react'
 import { Dropdown } from 'react-native-element-dropdown';
@@ -33,8 +33,17 @@ const CreateProfile = () => {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    console.log(USER_DATA, 'USER_DATAUSER_DATA')
-    console.log(imageUri, 'imageUriimageUri')
+    // console.log(USER_DATA, 'USER_DATAUSER_DATA')
+    // console.log(imageUri, 'imageUriimageUri')
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(userDetails(LOGIN_DATA.user_id));
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000); // Time for refresh
+    };
     const genderData = [
         { id: 1, name: 'Male' },
         { id: 2, name: 'Female' }
@@ -119,10 +128,14 @@ const CreateProfile = () => {
     return (
         <View style={styles.container}>
             <Loader flag={loader} />
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View>
+            <ScrollView showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+                <View >
                     <TouchableOpacity onPress={pickImageFromGallery} style={{ marginVertical: 10, flexDirection: 'row', alignSelf: 'center' }}>
-                        <View style={{ borderWidth: 3, width: '34%', alignSelf: 'center', padding: 5, borderRadius: 70, borderColor: '#fbd349' }}>
+                        <View style={{ borderWidth: 3, width: '34%', alignSelf: 'center', padding: 5, borderRadius: 70, borderColor: '#4CAF50' }}>
                             {imageUri ?
                                 <Image source={{ uri: imageUri }} resizeMode='cover' style={styles.imageStyle} />
                                 :

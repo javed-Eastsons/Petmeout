@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "712546431108",
+    "project_id": "petmeout-aed4a",
+    "storage_bucket": "petmeout-aed4a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712546431108:android:ee88bb72c0a104b24d12d1",
+        "android_client_info": {
+          "package_name": "com.petmeout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712546431108-20lip2cfo0ffgiknqni8i6ntup9csgoh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petmeout",
+            "certificate_hash": "8fc0b5bf65df2f7ac9fe5cdf0ec044700fda63c2"
+          }
+        },
+        {
+          "client_id": "712546431108-tjsia8tbofhcblsj6f43gt6354nqk79a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLdwYc6SvSdoCT-MmbWk4py--rmhBmzGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712546431108-tjsia8tbofhcblsj6f43gt6354nqk79a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

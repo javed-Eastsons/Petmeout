@@ -1,22 +1,26 @@
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import { categoryList } from '../Redux/Actions/Petmeout';
+import { categoryList, friendsLists } from '../Redux/Actions/Petmeout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Globals } from '../Config/index';
+import { Loader } from '../Component/Loader';
 
-const profileFriends = () => {
+const profileFriends = ({route}) => {
     const navigation = useNavigation();
-    // const { CATEGORY_LIST } = useSelector(state => state.PetmeOutReducer);
+    const { FRIENDS_LISTS } = useSelector(state => state.PetmeOutReducer);
+    const { LOGIN_PET } = useSelector(state => state.PetmeOutReducer);
+    const { petDetails } = route?.params
     const [loader, setLoader] = useState(false);
     const dispatch = useDispatch();
-    // useEffect(() => {
-    //     setLoader(true);
-    //     dispatch(categoryList());
-    //     setTimeout(() => {
-    //         setLoader(false);
-    //     }, 2000);
-    // }, []);
+    console.log(FRIENDS_LISTS,'FRIENDS_LISTSFRIENDS_LISTSFRIENDS_LISTS')
+    useEffect(() => {
+        setLoader(true);
+        dispatch(friendsLists(petDetails?.pet_id,navigation));
+        setTimeout(() => {
+            setLoader(false);
+        }, 2000);
+    }, [petDetails]);
     const postInfo = [
         {
             postTitle: 'Petey Cruiser',
@@ -106,11 +110,12 @@ const profileFriends = () => {
 
     return (
         <View >
+            <Loader flag={loader}/>
             <View style={{ alignSelf: 'center', borderRadius: 10, width: '100%' }}>
                 <FlatList
                     // contentContainerStyle={{ paddingBottom: 200 }}
                     showsVerticalScrollIndicator={false}
-                    data={postInfo}
+                    data={FRIENDS_LISTS}
                     contentContainerStyle={{
                         alignSelf: 'center',
                         alignItems: 'center',
@@ -124,7 +129,7 @@ const profileFriends = () => {
                             //  onPress={() => { navigation.navigate('AllPetsCategories', { categoryName: item?.cat_name }) }}
                             style={{ marginTop: 10 }}>
                             <Image
-                                source={item.postImage}
+                                source={{uri:item?.image_path}}
                                 style={{
                                     height: 100, width: 100, marginLeft: 10, borderRadius: 10
                                 }}
@@ -141,7 +146,7 @@ const profileFriends = () => {
                                     marginTop: 7,
                                     fontFamily: 'Poppins-Regular'
                                 }}>
-                                {item?.postTitle}
+                                {item?.pet_name}
                             </Text>
                         </TouchableOpacity>
 

@@ -62,10 +62,19 @@ const CustomHeader = () => {
             // backgroundColor: 'green',
             width: wp(22),
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent:'flex-end',
             alignItems: 'center',
           }}>
-          <TouchableOpacity style={{marginLeft:30}} onPress={()=>{navigation.navigate('Cart')}}>
+             <TouchableOpacity style={{marginLeft:5}} onPress={()=>{navigation.navigate('Notification')}}>
+            <Icon
+
+              name="bell"
+              size={22}
+              
+              color="black"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={{marginLeft:10}} onPress={()=>{navigation.navigate('Cart')}}>
             <Icon
 
               name="shopping-cart"

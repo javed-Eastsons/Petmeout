@@ -51,6 +51,12 @@ import Mating from '../screens/Mating';
 import Vaccination from '../screens/Vaccination';
 import BookVaccination from '../screens/BookVaccination';
 import VaccinationChart from '../screens/VaccinationChart';
+import { MenuProvider } from 'react-native-popup-menu';
+import FriendsList from '../screens/FriendsList';
+import Adaptation from '../screens/Adaptation';
+import AdaptationDetails from '../screens/AdaptationDetails';
+import MatingDetails from '../screens/MatingDetails';
+import Chat from '../screens/Chat';
 enableScreens();
 
 // const SignStack = createStackNavigator();
@@ -124,12 +130,12 @@ function MyDrawer3({ navigation, route }) {
         name="Home"
         component={MainNavigation1}
       />
-      {/* <Drawer3.Screen
+      <Drawer3.Screen
         navigation={navigation}
-        name="Payments"
-        component={PaymentScreenStack}
+        name="Chat"
+        component={ChatScreenStack}
         
-      /> */}
+      />
       {/* <Drawer3.Screen
         navigation={navigation}
         name="MyInfo"
@@ -194,13 +200,13 @@ function MyTabBar({ state, descriptors, navigation }) {
         }
 
         if (label == 'ClientInfo') {
-          showlabel = 'Notify';
+          showlabel = 'Friends';
           // iconNm = require('../Assets/img/icons/group.png');
 
           {
             isFocused
-              ? (iconNm = require('../Assets/img/icons/bell-yellow.png'))
-              : (iconNm = require('../Assets/img/icons/bell-black.png'));
+              ? (iconNm = require('../Assets/img/icons/friends-yellow.png'))
+              : (iconNm = require('../Assets/img/icons/friends.png'));
           }
         }
 
@@ -306,7 +312,7 @@ function MyTabBar({ state, descriptors, navigation }) {
                 alignItems: 'center',
                 alignSelf: 'center',
                 // borderTopWidth: isFocused ? 2 : 0,
-                borderColor: '#fdd979',
+                borderColor: '#4CAF50',
                 borderBottomWidth: isFocused ? 2 : 0,
               }}>
               <Image source={iconNm} style={{ width: showlabel == "Posts" ? 21 : showlabel == "Notify" ? 25 : 22, height: showlabel == "Notify" ? 25 : 21 }} />
@@ -314,7 +320,7 @@ function MyTabBar({ state, descriptors, navigation }) {
               <Text
                 style={{
                   alignSelf: 'center',
-                  color: isFocused ? '#fdd979' : '#000',
+                  color: isFocused ? '#4CAF50' : '#000',
                   // borderBottomWidth: 2,
                   // borderBottomColor: isFocused ? Color.geen : Color.white,
                   // paddingBottom: 5,
@@ -358,7 +364,7 @@ function MainNavigation1() {
       />
       <Tab.Screen
         name="ClientInfo"
-        component={Notification}
+        component={FriendsList}
         options={{
           header: () => <CustomHeader />, // Include the custom header
         }}
@@ -486,7 +492,7 @@ function HomeScreenStack() {
           headerShown: false,
         }}
       />
-   
+
       <Stack.Screen
         name="ProductDetails"
         component={ProductDetails}
@@ -494,21 +500,28 @@ function HomeScreenStack() {
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Cart"
         component={Cart}
         options={{
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Mating"
         component={Mating}
         options={{
           headerShown: false,
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
+        name="MatingDetails"
+        component={MatingDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="Vaccination"
         component={Vaccination}
         options={{
@@ -516,13 +529,27 @@ function HomeScreenStack() {
         }}
       />
        <Stack.Screen
+        name="Adaptation"
+        component={Adaptation}
+        options={{
+          headerShown: false,
+        }}
+      />
+       <Stack.Screen
+        name="AdaptationDetails"
+        component={AdaptationDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="BookVaccination"
         component={BookVaccination}
         options={{
           headerShown: false,
         }}
       />
-         <Stack.Screen
+      <Stack.Screen
         name="VaccinationChart"
         component={VaccinationChart}
         options={{
@@ -598,32 +625,32 @@ function HomeScreenStack() {
   );
 }
 
-// const ClientStack = createStackNavigator();
+const ChatStack = createStackNavigator();
 
-// function ClientScreenStack() {
-//   return (
-//     <ClientStack.Navigator
-//     //  initialRouteName='AuthCheck'
-//     >
-//       <Stack.Screen
-//         name="ClientHome"
-//         component={ClientInfo}
-//         options={{
-//           headerShown: false,
-//         }}
-//       />
-//       <Stack.Screen
-//         name="ClientDetails"
-//         component={ClientDetails}
-//         options={{
-//           headerShown: false,
-//         }}
-//       />
+function ChatScreenStack() {
+  return (
+    <ChatStack.Navigator
+    //  initialRouteName='AuthCheck'
+    >
+      {/* <Stack.Screen
+        name="OwnerProfile"
+        component={OwnerProfile}
+        options={{
+          headerShown: false,
+        }}
+      /> */}
+      <Stack.Screen
+        name="Chat"
+        component={Chat}
+        options={{
+          headerShown: false,
+        }}
+      />
 
 
-//     </ClientStack.Navigator>
-//   );
-// }
+    </ChatStack.Navigator>
+  );
+}
 
 // const RequestStack = createStackNavigator();
 
@@ -712,14 +739,19 @@ function MainNavigation() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="home" component={SignInScreen} />
-          <Stack.Screen name="Auth" component={MyDrawer3} />
-          {/* <Stack.Screen name="home" component={MyDrawer2} /> */}
-        </Stack.Navigator>
+        <MenuProvider>
+
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="home" component={SignInScreen} />
+            <Stack.Screen name="Auth" component={MyDrawer3} />
+            {/* <Stack.Screen name="chat" component={ChatScreenStack} /> */}
+
+            {/* <Stack.Screen name="home" component={MyDrawer2} /> */}
+          </Stack.Navigator>
+        </MenuProvider>
       </NavigationContainer>
     </Provider>
   );

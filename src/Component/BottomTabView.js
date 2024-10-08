@@ -130,8 +130,8 @@ console.log(petDetails,'petDetailspetDetailspetDetails')
         },
       })}>
       <Tab.Screen name="Posts" component={ProfilePosts} initialParams={{ petDetails: petDetails }}/>
-      <Tab.Screen name="Video" component={profileGallery} />
-      <Tab.Screen name="Tags" component={profileFriends} />
+      <Tab.Screen name="Video" component={profileGallery} initialParams={{ petDetails: petDetails }}/>
+      <Tab.Screen name="Tags" component={profileFriends} initialParams={{ petDetails: petDetails }}/>
       <Tab.Screen name="About" component={About } initialParams={{ petDetails: petDetails }}/>
     </Tab.Navigator>
   );

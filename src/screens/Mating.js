@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, Dimensions, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, Dimensions, TouchableOpacity, TextInput, ScrollView, Alert ,RefreshControl} from 'react-native';
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -42,12 +42,26 @@ const Mating = () => {
     const [allMatings, setAllMatings] = useState([])
     const { CATEGORY_LIST } = useSelector(state => state.PetmeOutReducer);
     const { BREED_LIST } = useSelector(state => state.PetmeOutReducer);
-    const { MATING_LIST } = useSelector(state => state.PetmeOutReducer);
+    const { MATING_LIST,LOGIN_PET } = useSelector(state => state.PetmeOutReducer);
     // console.log(MATING_LIST.reverse(),'MATING_LISTMATING_LISTMATING_LIST')
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(allMatingListing());
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 2000); // Time for refresh
+    };
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
         setImageBase64(null)
         setImageUri(null)
+        setGender(null)
+        setAge(null)
+        setCategoryName(null)
+        setBreedName(null)
+        setMsg(null)
     };
     const toggleModalSort = () => {
         setModalVisibleSort(!isModalVisibleSort);
@@ -109,13 +123,14 @@ const Mating = () => {
     const imageName = imageUri?.split('/');
     const renderItem = ({ item }) => {
         return (
-            <View style={styles.itemContainer}>
+            <TouchableOpacity style={styles.itemContainer} onPress={()=>navigation.navigate('MatingDetails',{Mat :item})}>
                 <Image
                     source={{ uri: Globals?.categoriesImagePath + item.pet_image }}
                     style={styles.image}
                 />
                 <View style={styles.detailsContainer}>
-                    <Text style={styles.petName}>{item.petname}</Text>
+                    <Text style={styles.petName}>{item.category}</Text>
+                    <Text style={styles.catName}>{item.breed} Years</Text>
                     <Text style={styles.catName}>{item.age} Years</Text>
                     <Text style={styles.owner}>{item.gender}</Text>
                     {/* <Text style={styles.msg}>{item.msg}</Text> */}
@@ -123,14 +138,14 @@ const Mating = () => {
                 <TouchableOpacity style={styles.cornerOverlay} >
                     <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'Poppins-Regular' }}>Talk</Text>
                 </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
         );
     };
     const onSubmit = () => {
 
-        if (petName && age && categoryName && breedName && imageBase64 && gender) {
+        if ( age && categoryName && breedName && imageBase64 && gender) {
             setLoader(true);
-            dispatch(petMatingRegister(petName, age, categoryName, breedName, msg, imageBase64, gender, navigation));
+            dispatch(petMatingRegister(LOGIN_PET?.pet_id, age, categoryName, breedName, msg, imageBase64, gender, navigation));
 
             setModalVisible(false)
             setPetName(null)
@@ -191,7 +206,7 @@ const Mating = () => {
                     style={styles.button}
                     onPress={toggleModal}
                 >
-                    <Text style={styles.buttonText}>Request</Text>
+                    <Text style={styles.buttonText}>Add a Post</Text>
                 </TouchableOpacity>
             </View>
             <FlatList
@@ -200,11 +215,14 @@ const Mating = () => {
                 keyExtractor={item => item.post_id}
                 contentContainerStyle={styles.listContainer}
                 showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }
             />
             <Modal isVisible={isModalVisible} style={styles.modal} animationOutTiming={700} backdropTransitionOutTiming={800}>
 
                 <View style={styles.modalContent}>
-                    <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 19, color: '#000' }}>Mating Request:</Text>
+                    <Text style={{ fontFamily: 'Poppins-Bold', fontSize: 19, color: '#000' }}>Mating Required Details:</Text>
 
                     <TouchableOpacity title="Hide modal" onPress={toggleModal} style={{ position: 'absolute', right: 10, top: 20 }} >
                         <Icon size={20} name='close' color='#000' />
@@ -221,7 +239,7 @@ const Mating = () => {
                             )} */}
 
                         </View>
-                        <View>
+                        {/* <View>
                             <Text
                                 style={{ alignSelf: 'flex-start', padding: 5, color: '#000', fontFamily: 'Poppins-Regular' }}>
                                 Pet Name*
@@ -236,7 +254,7 @@ const Mating = () => {
                                 onChangeText={(text) => setPetName(text)}
                                 style={styles.input1}
                             />
-                        </View>
+                        </View> */}
 
                         <View style={{ marginBottom: 10 }}>
                             <Text
@@ -272,10 +290,10 @@ const Mating = () => {
                             </Text>
                             <TextInput
                                 autoCompleteType="email"
-                                keyboardType="email-address"
+                                keyboardType="numeric"
                                 underlineColorAndroid="transparent"
                                 textContentType="emailAddress"
-                                placeholder="Enter your age in year i.e  2"
+                                placeholder="Enter your age in year i.e  2 or 0.5"
                                 value={age}
                                 onChangeText={(text) => setAge(text)}
                                 style={styles.input1}
@@ -362,7 +380,7 @@ const Mating = () => {
                         </View>
 
 
-                        <TouchableOpacity onPress={onSubmit} style={[styles.btn, { height: 40, backgroundColor: '#fbd349', borderRadius: 5, marginTop: 10, width: '40%', alignSelf: 'flex-end', marginTop: 10 }]}>
+                        <TouchableOpacity onPress={onSubmit} style={[styles.btn, { height: 40, backgroundColor: '#8AB645', borderRadius: 5, marginTop: 10, width: '40%', alignSelf: 'flex-end', marginTop: 10 }]}>
                             <Text style={{ color: '#fff', fontSize: 13, fontFamily: 'Poppins-SemiBold', marginTop: 10, textAlign: 'center' }}>Submit</Text>
 
                         </TouchableOpacity>
@@ -495,7 +513,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 90,
-        height: 95,
+        height: 108,
         borderRadius: 8,
         resizeMode: 'cover'
     },

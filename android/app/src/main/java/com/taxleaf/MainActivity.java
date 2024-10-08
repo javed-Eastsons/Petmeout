@@ -1,4 +1,4 @@
-package com.petmeout;
+package com.petmeout1;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

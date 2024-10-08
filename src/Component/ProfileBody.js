@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import Modal from "react-native-modal";
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost } from '../Redux/Actions/Petmeout';
+import { addFriend, createPost } from '../Redux/Actions/Petmeout';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/Entypo';
 import { Loader } from '../Component/Loader';
+import { CHAT_DATA } from '../Redux/Actions/types';
 
 export const ProfileBody = ({
   name,
@@ -31,7 +32,10 @@ export const ProfileBody = ({
   const [base64String, setBase64String] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false)
   const { LOGIN_DATA } = useSelector(state => state.PetmeOutReducer);
-console.log(post,'poostpost')
+  const { LOGIN_PET } = useSelector(state => state.PetmeOutReducer);
+
+  console.log(petDetails, 'petDetailspetDetails@@')
+  console.log(LOGIN_PET, 'LOGIN_PETLOGIN_PETLOGIN_PET')
   const pickImageFromGallery = () => {
     let options = {
       mediaType: 'photo',
@@ -72,12 +76,33 @@ console.log(post,'poostpost')
       setLoader(false);
     }, 2000);
   }
+  const AddFriend = () => {
+    setLoader(true);
+    dispatch(addFriend(LOGIN_PET?.pet_id, petDetails?.pet_id, navigation));
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+  }
+
   const openModal = (id) => {
     setShowPostModal(true)
   }
+
+  const gotoChat = () => {
+
+    navigation.navigate('Chat')
+  }
+
+  useEffect(() => {
+    dispatch({
+      type: CHAT_DATA,
+      payload: petDetails,
+    });
+  }, [petDetails])
+
   return (
     <View>
-       <Loader flag={loader} />
+      <Loader flag={loader} />
       {/* {accountName ? (
         <View
           style={{
@@ -139,11 +164,13 @@ console.log(post,'poostpost')
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
+
           // paddingVertical: 20,
         }}>
         <View
           style={{
             alignItems: 'center',
+
           }}>
           <Image
             source={{
@@ -178,6 +205,30 @@ console.log(post,'poostpost')
           <Text style={{ color: '#000' }}>Friends</Text>
         </View>
       </View>
+      {
+        petDetails?.pet_id !== LOGIN_PET?.pet_id && petDetails?.owner !== LOGIN_PET?.owner ?
+          <View style={styles.container}>
+            {
+              petDetails?.status == "Accept" ?
+                <TouchableOpacity style={styles.messageButton} onPress={gotoChat}>
+                  <Text style={styles.messageButtonText}>Message</Text>
+                </TouchableOpacity>
+                :
+                <>
+                  <TouchableOpacity style={styles.addButton} onPress={AddFriend}>
+                    <Text style={styles.addButtonText}>{petDetails?.status == "Requested" ? 'Requested' : petDetails?.status == "Delete" ? 'Add Friend' : 'Add Friend'}</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.messageButton} onPress={() => navigation.navigate('Chat', { petDetails: petDetails })}>
+                    <Text style={styles.messageButtonText}>Message</Text>
+                  </TouchableOpacity>
+                </>
+            }
+          </View>
+          :
+          null
+      }
+
       <Modal
         //  backdropColor={'transparent'}
         backdropOpacity={0.5}
@@ -450,7 +501,7 @@ const styles = StyleSheet.create({
     height: hp(40), width: wp(95), position: 'absolute',
     bottom: 200, backgroundColor: '#fff',
     elevation: 100,
-    borderRadius:10
+    borderRadius: 10
   },
   modalWrapp2: {
     height: hp(90), width: wp(100), position: 'absolute',
@@ -483,5 +534,42 @@ const styles = StyleSheet.create({
     // width: wp(30),
     alignSelf: 'flex-end',
     marginTop: 10
-  }
+  },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 20,
+  },
+  addButton: {
+    flex: 1,
+    marginRight: 10,
+    backgroundColor: '#4CAF50',
+    paddingVertical: 7,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  messageButton: {
+    flex: 1,
+    marginLeft: 10,
+    backgroundColor: '#ffffff',
+    borderColor: '#4CAF50',
+    borderWidth: 1,
+    paddingVertical: 6,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  messageButtonText: {
+    color: '#4CAF50',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 })

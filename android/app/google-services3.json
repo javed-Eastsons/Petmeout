@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1099469237470",
+    "firebase_url": "https://mobile-9664f-default-rtdb.firebaseio.com",
+    "project_id": "mobile-9664f",
+    "storage_bucket": "mobile-9664f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099469237470:android:c54fbacaf69a49ca77e64f",
+        "android_client_info": {
+          "package_name": "com.petmeout1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099469237470-d0prdb7nionk6ihrpsckprs9qp74e3ag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcPnervVRE-KHrMDQQ8TfxwUs_Fybj3Tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099469237470-d0prdb7nionk6ihrpsckprs9qp74e3ag.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

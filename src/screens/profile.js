@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet,RefreshControl } from 'react-native';
 import { ProfileBody, ProfileButtons } from '../Component/ProfileBody';
 import Entypo from 'react-native-vector-icons/Entypo';
 import BottomTabView from '../Component/BottomTabView';
@@ -8,7 +8,7 @@ import { Loader } from '../Component/Loader';
 const Profile = ({ route, navigation }) => {
   const [petDetails, setPetDetails] = useState(route?.params?.petDetails || null);
   const [loader, setLoader] = useState(false);
-
+ 
   // Update petDetails when route.params changes
   useEffect(() => {
     setLoader(true)
@@ -23,7 +23,7 @@ const Profile = ({ route, navigation }) => {
   }, [route.params?.petDetails]);
 
   // Debugging to check the state
-  
+
   console.log('petDetailspetDetailspetDetails1111', petDetails)
   // Generate circles for the story highlights section
   const circles = [];

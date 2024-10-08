@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import { TextInput } from 'react-native-gesture-handler';
 import { TextInput } from "react-native-paper";
+import messaging from '@react-native-firebase/messaging';
 
 
 import {
@@ -22,6 +23,8 @@ import {
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Loader } from '../Component/Loader';
 import RadioButtonRN from 'radio-buttons-react-native';
+import FbLogin from '../Component/FbLogin';
+import GoogleLogin from '../Component/GoogleLogin';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -51,13 +54,16 @@ const Login = () => {
     },
 
   ];
-  const onLogin = () => {
+  const onLogin = async () => {
+    const fcmToken = await messaging().getToken()
+    console.log(fcmToken, 'fcmTokenfcmToken')
+
     if (validate()) {
       setLoader(true);
       if (email && pass) {
         // navigation.navigate('Auth');
 
-        dispatch(LoginUser(email, pass, navigation));
+        dispatch(LoginUser(email, pass, fcmToken, navigation));
         setEmail('')
         setPass('')
 
@@ -70,6 +76,9 @@ const Login = () => {
       }, 2000);
     }
   };
+
+
+
   const image = require('../Assets/images/BG7.jpg');
   return (
     <>
@@ -160,15 +169,11 @@ const Login = () => {
             </View>
             <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
           </View>
+          {/* <GoogleLogin/> */}
           <View style={styles.btn1}>
-            <View style={{ height: 40, backgroundColor: '#3b5998', marginBottom: 10, flexDirection: 'row', justifyContent: 'center', borderRadius: 20 }}>
-              <Image
-                source={require('../Assets/facebookIcon.png')}
-                style={[styles.iconsLogin, { marginTop: 10, marginRight: 5 }]}
-              />
-              <Text style={{ color: '#fff', fontSize: 14, marginTop: 10, textAlign: 'center', fontWeight: '500' }}>Login Via Facebook</Text>
 
-            </View>
+            <FbLogin />
+
             <View style={{ height: 40, backgroundColor: '#dd4b39', marginBottom: 10, flexDirection: 'row', justifyContent: 'center', borderRadius: 20 }}>
               <Image
                 source={require('../Assets/googleIcon.png')}
@@ -245,8 +250,8 @@ const styles = StyleSheet.create({
   },
   error: {
     color: 'red',
-    marginLeft:20,
-    fontFamily:'Poppins-Regular'
+    marginLeft: 20,
+    fontFamily: 'Poppins-Regular'
     // marginTop: 5,
   },
 });
