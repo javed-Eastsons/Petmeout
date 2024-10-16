@@ -21,6 +21,7 @@ export const FRIENDS_LISTS = "FRIENDS_LISTS";
 export const CHAT_DATA = "CHAT_DATA";
 export const CHAT_LISTING ="CHAT_LISTING";
 export const ADOPT_LIST ="ADOPT_LIST";
+export const PRODUCT_CATEGORIES ="PRODUCT_CATEGORIES";
 
 
 

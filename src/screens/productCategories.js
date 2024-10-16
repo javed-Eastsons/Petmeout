@@ -1,7 +1,7 @@
 
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, TextInput, ScrollView } from 'react-native'
 import React, { useState, useEffect, useCallback } from 'react';
-import { addCategory, categoryList, deleteCategory, editCategory } from '../Redux/Actions/Petmeout';
+import { addCategory, categoryList, deleteCategory, editCategory, getProductCategories } from '../Redux/Actions/Petmeout';
 import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Globals } from '../Config/index';
@@ -15,54 +15,30 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 import LottieView from 'lottie-react-native';
 import AnimatedRangeSlider from '../Component/RangeSlider/AnimatedRangeSlider';
+import { Loader } from '../Component/Loader';
 
 const productCategories = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const { CATEGORY_LIST } = useSelector(state => state.PetmeOutReducer);
     const [loader, setLoader] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
 
-    const data = [
-        {
-            "cat_id": "1",
-            "cat_name": "Pet Food",
-            "cat_image": require('../Assets/img/icons/petFood.png')
-        },
-        {
-            "cat_id": "2",
-            "cat_name": "Accessories",
-            "cat_image": require('../Assets/img/icons/petAccessories.png')
-        },
-        {
-            "cat_id": "3",
-            "cat_name": "Supplement",
-            "cat_image": require('../Assets/img/icons/petSupplements.png')
-        },
-        {
-            "cat_id": "4",
-            "cat_name": "Pet Beds",
-            "cat_image": require('../Assets/img/icons/petBed.png')
-        },
-        {
-            "cat_id": "5",
-            "cat_name": "Leashes",
-            "cat_image": require('../Assets/img/icons/petBelt.png')
-        },
-        {
-            "cat_id": "6",
-            "cat_name": "Cages",
-            "cat_image": require('../Assets/img/icons/petCages.png')
-        },
-        {
-            "cat_id": "7",
-            "cat_name": "Apparels",
-            "cat_image": require('../Assets/img/icons/petClothes.png')
-        },
+     const {PRODUCT_CATEGORIES} = useSelector(state=> state.PetmeOutReducer);
 
-    ]
+     console.log(PRODUCT_CATEGORIES,'PPPPPRPRPRPPR')
+
+     useEffect(() => {
+        setLoader(true)
+       dispatch(getProductCategories())
+       setTimeout(() => {
+        setLoader(false)
+       }, 2000);
+     }, [])
 
     return (
-        <View style={data.length < 1 ? styles.containerNDF : styles.container} >
+        <View style={PRODUCT_CATEGORIES?.length < 1 ? styles.containerNDF : styles.container} >
+            <Loader flag={loader}/>
             <View style={{ alignSelf: 'center' }}>
                 <Text style={{ textAlign: 'center', fontSize: 20, fontFamily: 'Poppins-SemiBold', marginTop: 10, color: '#000', marginLeft: 40 }}>Product Categories</Text>
 
@@ -75,7 +51,7 @@ const productCategories = () => {
                 showsHorizontalScrollIndicator={false}
             >
                 {
-                    data.length < 1 ?
+                    PRODUCT_CATEGORIES?.length < 1 ?
                         <View style={{ marginTop: 60, backgroundColor: '#fff' }}>
 
                             <LottieView
@@ -95,7 +71,7 @@ const productCategories = () => {
                         <View style={{ alignSelf: 'center', borderRadius: 10, width: '100%', marginTop: 20 }}>
                             <FlatList
                                 // contentContainerStyle={{ paddingBottom: 200 }}
-                                data={data}
+                                data={PRODUCT_CATEGORIES}
                                 contentContainerStyle={{
                                     alignSelf: 'center',
                                     alignItems: 'center',
@@ -105,6 +81,7 @@ const productCategories = () => {
                                 numColumns={3}
                                 keyExtractor={(item, index) => index}
                                 renderItem={({ item, index }) => (
+                                    <View style={{ backgroundColor:'#fff',padding:10}}>
                                     <TouchableOpacity
 
                                         onPress={() => {
@@ -112,30 +89,37 @@ const productCategories = () => {
                                             setSelectedIndex(index);
                                         }}
                                         style={{
-                                            marginTop: 10, height: 120, width: 113,
-                                            paddingTop:25,margin:3,borderRadius:5,
-                                            backgroundColor: selectedIndex === index ? '#fff2cf' : '#fff'
-                                        }}>
+                                            marginTop: 10,
+                                            elevation:10,
+                                            width: 140,
+                                            height:140,
+                                            padding:10,
+                                            margin:3,borderRadius:5,
+                                            backgroundColor: selectedIndex === index ? '#fff2cf' : '#fff',
+                                        }}
+                                        >
 
                                         <Image
-                                            source={item.cat_image}
+                                            source={{  uri :Globals?.ImagePathCAT + item.product_cat_image}}
                                             style={{
-                                                height: 40, width: 40,alignSelf: 'center'
+                                                height: hp(10), width: wp(20),alignSelf: 'center'
                                             }}
                                             resizeMode='cover'
                                         />
                                         <Text
                                             style={{
                                                 color: '#8b9088',
-                                                fontSize: 15,
+                                                fontSize: 13,
                                                 textAlign: 'center',
                                                 marginTop: 7,
-                                                fontFamily: 'Poppins-Regular'
+                                                fontFamily: 'Poppins-SemiBold',
+                                                width:120,
+                                                height:140
                                             }}>
-                                            {item?.cat_name}
+                                            {item?.product_cat_name}
                                         </Text>
                                     </TouchableOpacity>
-
+                                    </View>
                                 )}
                             />
                         </View>
@@ -152,7 +136,7 @@ export default productCategories
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Color.screenBg
+        backgroundColor: '#fff'
     },
     containerNDF: {
         flex: 1,

@@ -6,9 +6,10 @@ import {
     Animated,
     Image,
     Dimensions,
-    Text
+    Text,
+    Input
 } from 'react-native';
-import { likePost } from '../Redux/Actions/Petmeout';
+import { likePost, postComment } from '../Redux/Actions/Petmeout';
 import { Loader } from '../Component/Loader';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -67,15 +68,15 @@ const LikeAnimation = ({ data }) => {
 
 
         setLoader(true);
-       
 
-        dispatch(likePost(data?.petid, data?.post_id, isLike == true ? 1 : 0, data?.owner,data?.pet_name, navigation));
+
+        dispatch(likePost(data?.petid, data?.post_id, isLike == true ? 1 : 0, data?.owner, data?.pet_name, navigation));
         setTimeout(() => {
             setLoader(false);
         }, 2000);
+
     };
 
-    
 
     return (
         <View style={styles.container}>

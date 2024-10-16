@@ -21,7 +21,8 @@ import {
   FRIENDS_LISTS,
   CHAT_DATA,
   CHAT_LISTING,
-  ADOPT_LIST
+  ADOPT_LIST,
+  PRODUCT_CATEGORIES
 } from '../Actions/types';
 
 const initialstate = {
@@ -46,8 +47,9 @@ const initialstate = {
   FRIENDS_REQUESTS: [],
   FRIENDS_LISTS: [],
   CHAT_DATA: [],
-  CHAT_LISTING:[],
-  ADOPT_LIST:[]
+  CHAT_LISTING: [],
+  ADOPT_LIST: [],
+  PRODUCT_CATEGORIES: []
 };
 
 const PetmeOutReducer = (state = initialstate, action) => {
@@ -105,12 +107,15 @@ const PetmeOutReducer = (state = initialstate, action) => {
     case CHAT_DATA:
 
       return { ...state, CHAT_DATA: action.payload };
-      case CHAT_LISTING:
+    case CHAT_LISTING:
 
       return { ...state, CHAT_LISTING: action.payload };
-      case ADOPT_LIST:
+    case ADOPT_LIST:
 
       return { ...state, ADOPT_LIST: action.payload };
+
+    case PRODUCT_CATEGORIES:
+      return { ...state, PRODUCT_CATEGORIES: action.payload };
   }
 
   return state;

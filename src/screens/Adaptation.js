@@ -84,7 +84,7 @@ const Adaptation = () => {
         for (const file of files) {
             try {
                 console.log('Converting file:', file.path);
-                // const base64 = await convertToBase64(file.path);
+                // const base64 = await convertToBase64(file.path);s
                 if (file.path) {
                     base64Array.push(file.path);
                     // console.log('Base64 string added:', base64);
@@ -151,6 +151,7 @@ const Adaptation = () => {
             setLoader(false);
         }, 2000);
     }, [LOGIN_PET?.pet_id]);
+    
 
     useEffect(() => {
         setLoader(true);

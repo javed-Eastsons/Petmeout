@@ -19,7 +19,8 @@ import {
   FRIENDS_REQUESTS,
   FRIENDS_LISTS,
   CHAT_LISTING,
-  ADOPT_LIST
+  ADOPT_LIST,
+  PRODUCT_CATEGORIES
 } from './types';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios, * as others from 'axios';
@@ -1896,6 +1897,41 @@ export const AdoptListFilter = (category, navigation) => {
             payload: null,
           });
           // Alert.alert('Something Went Wrong');
+        }
+      })
+      .catch((error) => console.log("LLLLLLLLL", error.message));
+  };
+};
+
+export const getProductCategories = () => {
+  return (dispatch, getState) => {
+    const url1 =
+      Globals.baseUrl +
+      "/ProductCategory/ProductCategory.php";
+
+
+
+    return fetch(url1, {
+      method: "GET",
+      headers: {}
+    })
+      .then((response) => response.json())
+      .then(async (responseJson) => {
+        console.log("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", responseJson);
+
+        if (responseJson.status == true) {
+
+          console.log(responseJson, 'ProductCategoryProductCategory');
+
+          
+          dispatch({
+            type: PRODUCT_CATEGORIES,
+            payload: responseJson?.Output,
+          });
+
+          resolve(responseJson);
+        } else {
+          Alert.alert('Something Went Wrong');
         }
       })
       .catch((error) => console.log("LLLLLLLLL", error.message));

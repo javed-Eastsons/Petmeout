@@ -1,6 +1,6 @@
 import {
     StyleSheet, Text, View, TouchableOpacity, Button, TextInput, ScrollView,
-    Image, ImageBackground, Alert, FlatList,RefreshControl
+    Image, ImageBackground, Alert, FlatList, RefreshControl
 } from 'react-native'
 import React, { useState, useCallback, useEffect } from 'react'
 import { Dropdown } from 'react-native-element-dropdown';
@@ -14,6 +14,7 @@ import { petListing, updateUserProfile, userDetails } from '../Redux/Actions/Pet
 import { Loader } from '../Component/Loader';
 import { useNavigation } from '@react-navigation/native';
 import { Globals } from '../Config';
+import LikeAnimation from './LikeAnimation ';
 
 const CreateProfile = () => {
     const [base64File, setBase64File] = useState();
@@ -129,15 +130,15 @@ const CreateProfile = () => {
         <View style={styles.container}>
             <Loader flag={loader} />
             <ScrollView showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
             >
                 <View >
                     <TouchableOpacity onPress={pickImageFromGallery} style={{ marginVertical: 10, flexDirection: 'row', alignSelf: 'center' }}>
                         <View style={{ borderWidth: 3, width: '34%', alignSelf: 'center', padding: 5, borderRadius: 70, borderColor: '#4CAF50' }}>
                             {imageUri ?
-                                <Image source={{ uri: imageUri }} resizeMode='cover' style={styles.imageStyle} />
+                                <Image source={{ uri: imageUri } } resizeMode='cover' style={styles.imageStyle} />
                                 :
                                 <Image source={require("../Assets/profileImg.png")} resizeMode='cover' style={styles.imageStyle} />
                             }
@@ -146,7 +147,7 @@ const CreateProfile = () => {
                             isEdit == false ?
                                 <TouchableOpacity onPress={() => {
                                     setIsEdit(true)
-                                   
+
                                 }}>
                                     <Image source={require("../Assets/img/icons/edit.png")} style={{ width: 20, height: 20 }} />
 
@@ -163,7 +164,6 @@ const CreateProfile = () => {
 
                     </TouchableOpacity>
                     <Text style={styles.headerText}>Owner</Text>
-
                     <View style={styles.formContainer}>
                         <View>
                             <Text style={styles.labelText}>UserName</Text>
@@ -289,7 +289,9 @@ const CreateProfile = () => {
                         }
                     </View>
                 </View>
+                <LikeAnimation/>
             </ScrollView>
+           
         </View>
     );
 }
