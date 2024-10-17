@@ -43,7 +43,6 @@ const productCategories = () => {
                 <Text style={{ textAlign: 'center', fontSize: 20, fontFamily: 'Poppins-SemiBold', marginTop: 10, color: '#000', marginLeft: 40 }}>Product Categories</Text>
 
             </View>
-
             {/* <Text style={{ color: '#000', fontSize: 16, textAlign: 'center', marginVertical: 20, fontFamily: 'Poppins-Regular' }}> Use a long press to Edit Or Delete {"\n"} Categories </Text> */}
 
             <ScrollView
